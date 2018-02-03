@@ -1,0 +1,113 @@
+#!/bin/bash
+#
+# description: b3na init script
+#
+### BEGIN INIT INFO
+# Provides:          b3na
+# Required-Start:    $local_fs $network
+# Required-Stop:     $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: b3na daemon
+# Description:       b3na daemon
+# Start the service b3na
+### END INIT INFO
+
+RUNAS=b3na      # we'll need proper permissions 
+INITSAY="all bena services have been initialized"
+ENDSAY="Stopping all bena services"
+HOMEDIR=/opt/b3na
+
+BOTTLEPIDNAME=b3naBottle
+BOTTLEPIDFILE=/var/run/$BOTTLEPIDNAME
+
+start() {
+    echo "Starting b3na services: "
+    ### Create the lock file ###
+    touch /var/lock/b3na
+    echo
+
+    ### fetch any updates ###
+    git -C $HOMEDIR pull
+
+    ### Start the daemon ###
+    echo "Starting b3na daemon"
+    python $HOMEDIR/daemon/b3nadaemon.py start > $HOMEDIR/log/init.log &
+
+    ### Initialize resftul interface ###
+    if [ -f /var/run/$BOTTLEPIDNAME ] && kill -0 $(cat /var/run/$BOTTLEPIDNAME);
+    then
+    echo 'Restful interface already running' >&2
+    else
+    echo "Initializing restful interface" >&2
+    local CMD="python $HOMEDIR/run/b3naBottle.py > $HOMEDIR/log/init.log & echo \$!"
+    su -c "$CMD" $RUNAS > "$BOTTLEPIDFILE"
+    echo "Restful interface started" >&2
+    fi
+
+    echo "Speaking init greeting"
+    pico2wave -w "$HOMEDIR/soundbites/init.wav" "$INITSAY"
+    mplayer -ao alsa:device=default -really-quiet -noconsolecontrols "$HOMEDIR/soundbites/init.wav"
+}
+# Restart the service b3na
+stop() {
+    echo "Stopping b3na services: "
+    
+    echo "Speaking end greeting"
+    pico2wave -w "$HOMEDIR/soundbites/end.wav" "$ENDSAY"
+    mplayer -ao alsa:device=default -really-quiet -noconsolecontrols "$HOMEDIR/soundbites/end.wav"    
+
+    ### Stop the daemon ###
+    echo "Starting b3na daemon"
+    python $HOMEDIR/daemon/b3nadaemon.py stop > $HOMEDIR/log/init.log &
+    
+    # stop python bottle server
+    if [ ! -f "$BOTTLEPIDFILE" ] || ! kill -0 $(cat "$BOTTLEPIDFILE");
+    then
+    echo "Restful interface is not running" >&2
+    else
+    echo "Stopping restful interface..." >&2
+    kill -15 $(cat "$BOTTLEPIDFILE") && rm -f "$BOTTLEPIDFILE"
+    echo "Restful interface stopped"
+    fi
+
+    ### Now, delete the lock file ###
+    rm /var/lock/b3na
+    echo
+}
+status() {
+    echo "Checking B3na services"
+    if [ -z "`ps axf | grep b3nadaemon.py | grep -v grep`" ];
+    then
+       echo "B3na Daemon is dead"
+    else
+       echo "B3na Daemon is running"
+    fi
+    if [ -z "`ps axf | grep b3naBottle.py | grep -v grep`" ];
+    then
+       echo "B3na Restful Interface is dead"
+    else
+       echo "B3na Restful Interface is running"
+    fi
+}
+### main logic ###
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        status b3na
+        ;;
+  restart|reload|condrestart)
+        stop
+        start
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|restart|reload|status}"
+        exit 1
+esac
+exit 0
+
