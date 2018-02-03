@@ -126,7 +126,7 @@ echo "creating log directory"
 mkdir $APPDIR/log
 
 echo "set up restart script"
-chmod a+x kick-b3na
+chmod a+x $APPDIR/run/kick-b3na.sh
 ln -s $APPDIR/run/kick-b3na.sh /usr/bin/kick-b3na
 
 # set up logrotate
