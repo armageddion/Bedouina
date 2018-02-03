@@ -89,48 +89,48 @@ class Speaker:
 
 	# speaking happens heare
 	def speak(self,string):
-	"""
-		Description:
-			This function convertrs a given <string> into mp3 using voicerss
-			and then plays it back
-	"""
-	logger.info("Speaking "+str(string))
+		"""
+			Description:
+				This function convertrs a given <string> into mp3 using voicerss
+				and then plays it back
+		"""
+		logger.info("Speaking "+str(string))
 
-	try:
-		voice = third_party.speech({
-			'key': apikey,
-			'hl': 'en-gb',
-			'src': string,
-			'r': '0',
-			'c': 'mp3',
-			'f': '44khz_16bit_stereo',
-			'ssml': 'false',
-			'b64': 'false'
-		})
-	except Exception, e:
-		logger.error("Failed to get TTS sound file")
-		logger.error("Traceback: "+str(e))
-
-	try:
-		outfile = open(os.path.join(CURRENT_PATH,'../tmp/audio.mp3'),"w")
-		outfile.write(voice['response'])
-		outfile.close()
-	except Exception, e:
-		logger.error("Failed to write sound file to temporary directory")
-		logger.error("Traceback: "+str(e))
-
-	try:			
-		os.system('mplayer -really-quiet -noconsolecontrols '+os.path.join(CURRENT_PATH,'../tmp/audio.mp3')) 	# old alfr3d on RPI2
-	except Exception, e:
-		logger.error("Failed to play the sound file using mplayer")
-		logger.error("Traceback: "+str(e))
-		logger.info("Trying another one")
 		try:
-			os.system('omxplayer -o local '+os.path.join(CURRENT_PATH,'../tmp/audio.mp3'))			# RPI3
+			voice = third_party.speech({
+				'key': apikey,
+				'hl': 'en-gb',
+				'src': string,
+				'r': '0',
+				'c': 'mp3',
+				'f': '44khz_16bit_stereo',
+				'ssml': 'false',
+				'b64': 'false'
+			})
 		except Exception, e:
-			logger.error("Failed to play the sound file using omxplayer")
+			logger.error("Failed to get TTS sound file")
 			logger.error("Traceback: "+str(e))
-			logger.info("Trying another one")	
+
+		try:
+			outfile = open(os.path.join(CURRENT_PATH,'../tmp/audio.mp3'),"w")
+			outfile.write(voice['response'])
+			outfile.close()
+		except Exception, e:
+			logger.error("Failed to write sound file to temporary directory")
+			logger.error("Traceback: "+str(e))
+
+		try:			
+			os.system('mplayer -really-quiet -noconsolecontrols '+os.path.join(CURRENT_PATH,'../tmp/audio.mp3')) 	# old alfr3d on RPI2
+		except Exception, e:
+			logger.error("Failed to play the sound file using mplayer")
+			logger.error("Traceback: "+str(e))
+			logger.info("Trying another one")
+			try:
+				os.system('omxplayer -o local '+os.path.join(CURRENT_PATH,'../tmp/audio.mp3'))			# RPI3
+			except Exception, e:
+				logger.error("Failed to play the sound file using omxplayer")
+				logger.error("Traceback: "+str(e))
+				logger.info("Trying another one")	
 
 	def processQueue(self):
 		while True:
