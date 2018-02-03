@@ -8,18 +8,24 @@ else
 	exit 1
 fi
 
-CONFIGFILE = /opt/b3na/conf
 APPDIR = /opt/b3na
+CONFIGFILE = $APPDIR/conf
 
 # install dependencies
 ./dependencies.sh
 
 # create app directory
 if [ ! -d $APPDIR ]; then
+	echo "app directory doesn't exist yet"
 	mkdir $APPDIR
+else
+	echo "appdirectory already exists. deleting it."
+	rm -rf $APPDIR
 fi
 
+
 # clone a fresh copy
+echo "cloning a fresh copy"
 git clone https://github.com/armageddion/b3na.git > $APPDIR
 
 # generate api key config file
