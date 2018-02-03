@@ -16,7 +16,10 @@ CONFIGFILE=$APPDIR/conf
 
 # create app directory
 if [ -d $APPDIR ]; then
-	echo "appdirectory already exists. deleting it."
+	echo "appdirectory already exists."
+	echo "backing up your configs to current dir"
+	cp -R $APPDIR/conf/ .
+	echo "deleting old copy of app"
 	rm -rf $APPDIR
 fi
 
