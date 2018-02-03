@@ -8,8 +8,8 @@ else
 	exit 1
 fi
 
-APPDIR = /opt/b3na
-CONFIGFILE = $APPDIR/conf
+APPDIR=/opt/b3na
+CONFIGFILE=$APPDIR/conf
 
 # install dependencies
 ./dependencies.sh
