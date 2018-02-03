@@ -49,6 +49,6 @@ echo "installing mplayer"
 sudo apt install -y mplayer
 
 echo "installing pico2wave"
-sudo apt install -y pico2wave
+sudo apt install -y libttspico-utils
 
 echo "done with the dependencies"
