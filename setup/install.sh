@@ -9,7 +9,7 @@ else
 fi
 
 APPDIR=/opt/b3na
-CONFIGFILE=$APPDIR/conf
+CONFIGFILE=$APPDIR/conf/apikeys.conf
 
 # install dependencies
 ./dependencies.sh
