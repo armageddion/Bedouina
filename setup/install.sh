@@ -15,14 +15,10 @@ CONFIGFILE=$APPDIR/conf
 ./dependencies.sh
 
 # create app directory
-if [ ! -d $APPDIR ]; then
-	echo "app directory doesn't exist yet"
-	mkdir $APPDIR
-else
+if [ -d $APPDIR ]; then
 	echo "appdirectory already exists. deleting it."
 	rm -rf $APPDIR
 fi
-
 
 # clone a fresh copy
 echo "cloning a fresh copy"
