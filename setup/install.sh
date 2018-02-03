@@ -14,6 +14,10 @@ CONFIGFILE=$APPDIR/conf/apikeys.conf
 # install dependencies
 ./dependencies.sh
 
+echo "creating user b3na"
+useradd -M -U -G audio,sudo,dialout b3na
+su - b3na
+
 # create app directory
 if [ -d $APPDIR ]; then
 	echo "appdirectory already exists."
