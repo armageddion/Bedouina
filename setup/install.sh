@@ -15,8 +15,12 @@ CONFIGFILE=$APPDIR/conf/apikeys.conf
 ./dependencies.sh
 
 echo "creating user b3na"
-useradd -M -U -G audio,sudo,dialout b3na
-su - b3na
+getent passwd b3na > /dev/null 2&>1
+if [ $? -eq 0 ]; then
+	echo "b3na user already exists"
+else
+	useradd -M -U -G audio,sudo,dialout b3na
+fi
 
 # create app directory
 if [ -d $APPDIR ]; then
@@ -145,3 +149,5 @@ echo "	copytruncate" 		>> /etc/logrotate.d/b3na
 echo "	dateext" 			>> /etc/logrotate.d/b3na
 echo "	ifempty" 			>> /etc/logrotate.d/b3na
 echo "}" 					>> /etc/logrotate.d/b3na
+
+chown -R b3na:b3na $APPDIR
