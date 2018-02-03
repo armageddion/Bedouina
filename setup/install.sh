@@ -21,11 +21,15 @@ if [ -d $APPDIR ]; then
 	cp -R $APPDIR/conf/ .
 	echo "deleting old copy of app"
 	rm -rf $APPDIR
+else
+	echo "it seems that the app is already installed in $APPDIR"
+	echo "aboring..."
+	exit 1
 fi
 
 # clone a fresh copy
 echo "cloning a fresh copy"
-git clone https://github.com/armageddion/b3na.git > $APPDIR
+git clone https://github.com/armageddion/b3na.git $APPDIR
 
 # generate api key config file
 echo "[API KEY]" > $CONFIGFILE
