@@ -45,4 +45,10 @@ sudo pip install pychromecast
 echo "installing git"
 sudo apt-get install git-all
 
+echo "installing mplayer"
+sudo apt install -y mplayer
+
+echo "installing pico2wave"
+sudo apt install -y pico2wave
+
 echo "done with the dependencies"

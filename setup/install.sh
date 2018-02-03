@@ -122,6 +122,9 @@ chmod a+x ../startup/b3na
 cp ../startup/b3na /etc/init.d/
 update-rc.d b3na defaults
 
+echo "creating log directory"
+mkdir $APPDIR/log
+
 # set up logrotate
 echo "setting up logrotate"
 echo "$APPDIR/log/*.log {" 	> /etc/logrotate.d/b3na
