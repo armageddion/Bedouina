@@ -125,6 +125,9 @@ update-rc.d b3na defaults
 echo "creating log directory"
 mkdir $APPDIR/log
 
+echo "set up restart script"
+ln -s $APPDIR/run/kick-b3na.sh /usr/bin/kick-b3na
+
 # set up logrotate
 echo "setting up logrotate"
 echo "$APPDIR/log/*.log {" 	> /etc/logrotate.d/b3na
