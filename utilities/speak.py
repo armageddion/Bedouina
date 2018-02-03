@@ -38,7 +38,7 @@ import socket									# needed to get hostname
 from random import randint						# used for random number generator
 from threading import Thread
 from time import strftime, localtime, time, sleep
-from gmail import getUnreadCount
+
 
 # import my own utilities
 sys.path.append(os.path.join(os.path.join(os.getcwd(),os.path.dirname(__file__)),"../"))
