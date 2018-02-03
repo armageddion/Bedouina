@@ -9,6 +9,9 @@ sudo apt install -y python-pip
 echo "installing pymongo"
 sudo pip install pymongo
 
+# echo "installing firebase"
+# sudo pip install python-firebase
+
 echo "installing pyserial"
 sudo pip install pyserial
 

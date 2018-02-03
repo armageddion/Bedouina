@@ -50,8 +50,10 @@ CURRENT_PATH = os.path.dirname(__file__)
 
 # import my own utilities
 sys.path.append(os.path.join(os.path.join(os.getcwd(),os.path.dirname(__file__)),"../"))
-# import utilities
+import utilities
 # import reporting
+
+masterSpeaker = utilities.Speaker()
 
 # set up daemon things
 os.system('sudo mkdir -p /var/run/alfr3ddaemon')
@@ -168,7 +170,8 @@ def init_daemon():
 		Description:
 			initialize alfr3d services 
 	"""
-	logger.info("Initializing systems check")	
+	logger.info("Initializing systems check")
+	masterSpeaker.speakString("Initializing systems check")
 
 	faults = 0
 	
@@ -183,11 +186,10 @@ if __name__ == "__main__":
 			faults = init_daemon()
 			logger.info("B3na Daemon starting...")
 			if faults != 0:
-				utilities.speakString("Some faults were detected but system started successfully")
-				utilities.speakString("Total number of faults is "+str(faults))
+				masterSpeaker.speakString("Some faults were detected but system started successfully")
+				masterSpeaker.speakString("Total number of faults is "+str(faults))
 			else:
-				utilities.speakString("All systems are up and operational")
-			morningRoutine()
+				masterSpeaker.speakString("All systems are up and operational")
 			daemon.start()
 		elif 'stop' == sys.argv[1]:
 			logger.info("B3na Daemon stopping...")			
