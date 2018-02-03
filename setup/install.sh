@@ -22,96 +22,99 @@ if [ -d $APPDIR ]; then
 	echo "deleting old copy of app"
 	rm -rf $APPDIR
 	echo "cloning a fresh copy"
-fi
-
-git clone https://github.com/armageddion/b3na.git $APPDIR
-mkdir $APPDIR/conf
-
-# generate api key config file
-echo "[API KEY]" > $CONFIGFILE
-# prompt users for API keys
-echo "please enter your API key for dbip. go and get one from https://db-ip.com/api/free"
-read dbip
-if [[ -z $dbip ]]; then
-	# user didn't provide an API key
-	echo "dbip: <n/a>" >> $CONFIGFILE
+	git clone https://github.com/armageddion/b3na.git $APPDIR
+	echo "restoring your old configs"
+	mv conf/ $APPDIR/
 else
-	echo "dbip: $dbip" >> $CONFIGFILE
-fi
+	git clone https://github.com/armageddion/b3na.git $APPDIR
+	mkdir $APPDIR/conf
 
-echo "please enter your API key for openWeather. go and get one from https://home.openweathermap.org/users/sign_up"
-read openWeather
-if [[ -z $openWeather ]]; then
-	# user didn't provide an API key
-	echo "openWeather: <n/a>" >> $CONFIGFILE
-else
-	echo "openWeather: $openWeather" >> $CONFIGFILE	
-fi
-
-echo "please enter your API key for voicerss. go and get one from http://www.voicerss.org/registration.aspx"
-read voicerss
-if [[ -z $voicerss ]]; then
-	# user didn't provide an API key
-	echo "voicerss: <n/a>" >> $CONFIGFILE
-else
-	echo "voicerss: $voicerss" >> $CONFIGFILE
-fi
-
-echo "please enter your API key for ifttt. go and get one from https://ifttt.com"
-read ifttt
-if [[ -z $ifttt ]]; then
-	# user didn't provide an API key
-	echo "ifttt_hook:: <n/a>" >> $CONFIGFILE
-else
-	echo "ifttt_hook:: $ifttt" >> $CONFIGFILE
-fi
-
-echo "please enter your API key for pushbullet. go and get one from https://www.pushbullet.com/"
-read pushbullet
-if [[ -z $pushbullet ]]; then
-	# user didn't provide an API key
-	echo "pushbullet: <n/a>" >> $CONFIGFILE
-else
-	echo "pushbullet: $pushbullet" >> $CONFIGFILE
-fi
-
-# break up the conf file
-echo "" >> $CONFIGFILE
-echo "[HUE dev]" >> $CONFIGFILE
-echo "if you have a Phillips Hue, please enter your Hue bridge MAC address"
-read huemac
-if [[ -z $huemac ]]; then
-	# user didn't provide an API key
-	echo "<n/a>" >> $CONFIGFILE
-else
-	echo "please enter your hue developer token"
-	read huetoken
-	if [[ -z $huetoken ]]; then
+	# generate api key config file
+	echo "[API KEY]" > $CONFIGFILE
+	# prompt users for API keys
+	echo "please enter your API key for dbip. go and get one from https://db-ip.com/api/free"
+	read dbip
+	if [ -z $dbip ]; then
 		# user didn't provide an API key
-		echo "$huemac: <n/a>" >> $CONFIGFILE	
+		echo "dbip: <n/a>" >> $CONFIGFILE
 	else
-		echo "$huemac: $huetoken" >> $ CONFIGFILE
+		echo "dbip: $dbip" >> $CONFIGFILE
 	fi
+
+	echo "please enter your API key for openWeather. go and get one from https://home.openweathermap.org/users/sign_up"
+	read openWeather
+	if [ -z $openWeather ]; then
+		# user didn't provide an API key
+		echo "openWeather: <n/a>" >> $CONFIGFILE
+	else
+		echo "openWeather: $openWeather" >> $CONFIGFILE	
+	fi
+
+	echo "please enter your API key for voicerss. go and get one from http://www.voicerss.org/registration.aspx"
+	read voicerss
+	if [ -z $voicerss ]; then
+		# user didn't provide an API key
+		echo "voicerss: <n/a>" >> $CONFIGFILE
+	else
+		echo "voicerss: $voicerss" >> $CONFIGFILE
+	fi
+
+	echo "please enter your API key for ifttt. go and get one from https://ifttt.com"
+	read ifttt
+	if [ -z $ifttt ]; then
+		# user didn't provide an API key
+		echo "ifttt_hook: <n/a>" >> $CONFIGFILE
+	else
+		echo "ifttt_hook: $ifttt" >> $CONFIGFILE
+	fi
+
+	echo "please enter your API key for pushbullet. go and get one from https://www.pushbullet.com/"
+	read pushbullet
+	if [ -z $pushbullet ]; then
+		# user didn't provide an API key
+		echo "pushbullet: <n/a>" >> $CONFIGFILE
+	else
+		echo "pushbullet: $pushbullet" >> $CONFIGFILE
+	fi
+
+	# break up the conf file
+	echo "" >> $CONFIGFILE
+	echo "[HUE dev]" >> $CONFIGFILE
+	echo "if you have a Phillips Hue, please enter your Hue bridge MAC address"
+	read huemac
+	if [ -z $huemac ]; then
+		# user didn't provide an API key
+		echo "<n/a>" >> $CONFIGFILE
+	else
+		echo "please enter your hue developer token"
+		read huetoken
+		if [ -z $huetoken ]; then
+			# user didn't provide an API key
+			echo "$huemac: <n/a>" >> $CONFIGFILE	
+		else
+			echo "$huemac: $huetoken" >> $ CONFIGFILE
+		fi
+	fi
+
+	# break up the conf file
+	echo "" >> $CONFIGFILE
+	echo "[Lifx]" >> $CONFIGFILE
+	echo "if you have any Lifx, please enter your Lifx token"
+	read lifx
+	if [ -z $lifx ]; then
+		# user didn't provide an API key
+		echo "token: <n/a>" >> $CONFIGFILE
+	else
+		echo "token: $lifx" >> $CONFIGFILE
+	fi
+
+	# TODO
+	echo "still need to configure access to database"
+	# mongo? firebase?
+
+	# TODO
+	echo "still need to setup client_secret.json files for gmail and calendar"	
 fi
-
-# break up the conf file
-echo "" >> $CONFIGFILE
-echo "[Lifx]" >> $CONFIGFILE
-echo "if you have any Lifx, please enter your Lifx token"
-read lifx
-if [[ -z $lifx ]]; then
-	# user didn't provide an API key
-	echo "token: <n/a>" >> $CONFIGFILE
-else
-	echo "token: $lifx" >> $CONFIGFILE
-fi
-
-# TODO
-echo "still need to configure access to database"
-# mongo? firebase?
-
-# TODO
-echo "still need to setup client_secret.json files for gmail and calendar"
 
 # set up the startup file
 echo "creating startup scripts"
