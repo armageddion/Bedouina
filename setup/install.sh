@@ -15,7 +15,7 @@ APPDIR = /opt/b3na
 ./dependencies.sh
 
 # create app directory
-if [ ! -d $APPDIR]; then
+if [ ! -d $APPDIR ]; then
 	mkdir $APPDIR
 fi
 
@@ -86,6 +86,7 @@ else
 		echo "$huemac: <n/a>" >> $CONFIGFILE	
 	else
 		echo "$huemac: $huetoken" >> $ CONFIGFILE
+	fi
 fi
 
 # break up the conf file
