@@ -40,7 +40,7 @@ import requests
 import json
 import ConfigParser
 import bottle
-from bottle import route, run, template, request
+from bottle import route, run, template, request, response
 from pymongo import MongoClient
 
 # current path from which python is executed
