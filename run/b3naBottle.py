@@ -223,5 +223,5 @@ def lights():
 
 	return json.dumps(result)
 
-app.install(EnableCors)	
+app.install(EnableCors())	
 app.run(host=my_ip,port=8080)
