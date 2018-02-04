@@ -181,7 +181,7 @@ def lights():
 
 	result = {}
 
-	if len(request.query==0):
+	if len(request.query)==0:
 		result['status']="ERROR"
 		result['details']="you didn't provide any args... "
 	else:
