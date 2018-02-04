@@ -10,6 +10,6 @@ var myFirebaseRef = new Firebase("https://alfr3d.firebaseio.com/");
 get_users();
 
 function get_users() {
-	fetch("http://10.0.0.69:8001/cors")
+	fetch("http://10.0.0.230:8080/whosthere")
 		.then(response => {console.log(response)});
 }

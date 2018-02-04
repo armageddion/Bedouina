@@ -100,7 +100,7 @@ def index(name):
 	logger.info("Received request:/hello/"+name)
 	return template('<b>Hello {{name}}</b>!', name=name)
 
-@route('/whosthere')
+@app.route('/whosthere', method=['OPTIONS','GET'])
 def whosthere():
 	logger.info("Received a 'whosthere' requet")
 
