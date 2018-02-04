@@ -54,4 +54,7 @@ sudo apt install -y mplayer
 echo "installing pico2wave"
 sudo apt install -y libttspico-utils
 
+echo "installing apache"
+sudo apt install apache2
+
 echo "done with the dependencies"

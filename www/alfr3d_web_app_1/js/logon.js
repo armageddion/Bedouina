@@ -33,7 +33,7 @@ function deny() {
 	console.log("DENIED")
 	var den = document.getElementById('pass_wd');
 	console.log(den);
-	den.style.background = "url('../img/SVG/index_password_bad.svg')";
+	den.style.backgroundImage = "url('../img/SVG/index_password_bad.svg')";
 	den.value = '';
 
 };
@@ -53,7 +53,7 @@ function userExistsCallback(user_id, exists) {
 	if (exists) {
 		var den = document.getElementById('pass_wd');
 		console.log(den);
-		den.style.background = "url('../img/SVG/index_password_good.svg')";		
+		den.style.backgroundImage = "url('../img/SVG/index_password_good.svg')";		
 		welcome(user_id);
  	} else {
  		// Create user

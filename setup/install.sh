@@ -151,3 +151,9 @@ echo "	ifempty" 			>> /etc/logrotate.d/b3na
 echo "}" 					>> /etc/logrotate.d/b3na
 
 chown -R b3na:b3na $APPDIR
+
+echo "creating www dir"
+ln -s $APPDIR/www/ /var/www/b3na
+
+echo "copying apache config"
+# TODO... configure apache
