@@ -188,7 +188,7 @@ input{
 }
 
 .window1 {
-	max-width:1440px;
+	max-width:220px;
 	display: inline-block;
 	vertical-align: top;
 	margin-right:auto;
@@ -207,7 +207,13 @@ input{
 	top:0;
 	left:0;
 	width:188px;
-	height:212px;					            
+	height:212px;
+
+	-webkit-animation: fadein 3s; /* Safari, Chrome and Opera > 12.1 */
+	   -moz-animation: fadein 3s; /* Firefox < 16 */
+		-ms-animation: fadein 3s; /* Internet Explorer */
+		 -o-animation: fadein 3s; /* Opera < 12.1 */
+			animation: fadein 3s;						            
 }
 
 .window_title {

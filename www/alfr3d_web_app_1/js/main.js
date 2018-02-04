@@ -10,8 +10,6 @@ var myFirebaseRef = new Firebase("https://alfr3d.firebaseio.com/");
 get_users();
 
 function get_users() {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "http:www.littl31.com:8080/whosthere", false ); // false for synchronous request
-    xmlHttp.send( null );
-    console.log(xmlHttp.responseText);
+	fetch("http://10.0.0.69:8001/cors")
+		.then(response => {console.log(response)});
 }

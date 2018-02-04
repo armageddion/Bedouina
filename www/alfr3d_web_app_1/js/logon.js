@@ -85,6 +85,13 @@ function userExistsCallback(user_id, exists) {
 		ret = '';
 		ret_counter = 0;
 
+		// move logo to upper right
+		console.log("Shifting the logo")
+		document.getElementById('logo').style.animation = "logo_shift 4s";
+		document.getElementById('logo').style.right = "10%";
+		document.getElementById('logo').style.top = "10%";		
+
+		console.log("Writing URL")
 		write();
 
 		function write() {
@@ -113,21 +120,18 @@ var randInt = function(a, b) {
 	return ~~(Math.random() * (b - a) + a);
 };
 
-function drawUI() {
-	console.log("Hiding login forms")
-	document.getElementById('section').style.display = 'none';
-	
-	// move logo to upper right
-	console.log("Shifting the logo")
-	document.getElementById('logo').style.animation = "logo_shift 4s";
-	document.getElementById('logo').style.right = "10%";
-	document.getElementById('logo').style.top = "10%";	
-	
-	// add element for window1
+function drawUI() {		
 	console.log("Loading UI elements")
+
+	console.log("Hiding login forms")
+	document.getElementById('section').style.animation = 'fadeout 3s';	
+	document.getElementById('section').style.display = 'none';	
+
+	// add element for window1
 	var win1div = document.createElement("div");
 	win1div.setAttribute("id", "window1");
 	win1div.setAttribute("class", "window1");
+	win1div.style.animation = "fadein 3s";
 	
 	var win1p = document.createElement("p");
 	win1p.setAttribute("class", "window_title");
