@@ -63,8 +63,8 @@ os.system('sudo mkdir -p /var/run/alfr3ddaemon')
 config = ConfigParser.RawConfigParser()
 config.read(os.path.join(CURRENT_PATH,'../conf/apikeys.conf'))
 # get main DB credentials
-db_user = config.get("B3na  DB", "user")
-db_pass = config.get("B3na  DB", "password")
+db_user = config.get("Alfr3d_DB", "user")
+db_pass = config.get("Alfr3d_DB", "password")
 
 # gmail unread count
 unread_Count = 0

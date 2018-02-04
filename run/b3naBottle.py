@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-	This is the main B3na daemon running most standard services
+	This is the main B3na restful API interfact
 """
 # Copyright (c) 2010-2018 LiTtl3.1 Industries (LiTtl3.1).
 # All rights reserved.
@@ -36,7 +36,7 @@ import time
 import os										# used to allow execution of system level commands
 import sys
 import socket
-import requests	
+import json
 import ConfigParser
 from bottle import route, run, template
 from pymongo import MongoClient
@@ -60,8 +60,8 @@ logger.addHandler(handler)
 config = ConfigParser.RawConfigParser()
 config.read(os.path.join(os.path.dirname(__file__),'../conf/apikeys.conf'))
 # get main DB credentials
-db_user = config.get("B3na DB", "user")
-db_pass = config.get("B3na DB", "password")
+db_user = config.get("Alfr3d_DB", "user")
+db_pass = config.get("Alfr3d_DB", "password")
 
 # get our own IP
 try:
@@ -80,5 +80,35 @@ except Exception, e:
 def index(name):
 	logger.info("Received request:/hello/"+name)
 	return template('<b>Hello {{name}}</b>!', name=name)
+
+@route('/whosthere')
+def whosthere():
+	logger.info("Received a 'whosthere' requet")
+
+	client = MongoClient('mongodb://ec2-52-89-213-104.us-west-2.compute.amazonaws.com:27017/')
+	client.Alfr3d_DB.authenticate(db_user,db_pass)
+	db = client['Alfr3d_DB']
+	usersCollection = db['users']
+
+	count = 0
+	users = []
+
+	# cycle through all users
+	#for user in usersCollection.find():
+	for user in usersCollection.find({"$and":[
+											{"state":'online'},
+											{"location.name":socket.gethostname()}
+										]}):
+			count +=1
+			users.append(user['name'])
+
+	result = {}
+	result['location'] = socket.gethostname()
+	if count > 0:
+		 result['users']=[]
+		for i in range(len(users)):
+			result['users'][i].append(users[i])
+
+	return json.dumps(result)
 
 run(host=my_ip,port=8080)
