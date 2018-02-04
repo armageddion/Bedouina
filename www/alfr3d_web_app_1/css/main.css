@@ -1,0 +1,156 @@
+*{box-sizing:border-box}
+
+@font-face {
+  font-family: ocr-a-std;
+  src: url("../fonts/a3.otf") format("opentype");
+}
+
+html{
+  position:relative;
+  height:100%
+}
+
+body{
+  font-family:ocr-a-std;
+  color:#33b5e5;
+  margin:0;
+  background:#000;
+  background-image:url(../img/Alfr3d-UI-background.png);
+  background-position: center center;
+  background-repeat: no-repeat
+}
+
+.alfr3d_url {
+	position: relative;
+	margin-top: 5px;
+	margin-left: 5px;
+}
+
+.logo {
+	position:absolute;		
+	margin-top: 5px;
+	margin-right: 5px;
+	top:0%;
+	right:0%;
+	max-height: 100px;
+	max-width: 100px;
+}
+
+.window {
+	margin: auto;
+	border: 3px solid red;
+	position: relative;
+	width: 50%;
+}
+
+.1top_left {
+	position: absolute;
+	
+} 
+.1top_edge {
+	position: absolute;
+}
+.1top_right {
+	position: absolute;
+	margin-right: 5px;
+	right: 0%;
+	max-height: 100px;
+	max-width: 100px;	
+}
+.1left_wall {
+	position: absolute;
+	left: 0%;
+}
+.1center {
+	position: absolute;
+	border: 3ps solid red;
+	background: #00FD0D;
+}
+.1right_wall {
+	position: absolute;
+	right: 0%;
+}
+
+footer{
+  position:absolute;
+  text-align:center;
+  color:#33b5e5;
+  width:100%;
+  bottom:0
+}
+
+@media screen and (max-width: 320px) {
+  h1 { font-size: 18px;}
+	
+	.alfr3d_url {
+		font-size: 10px;
+	}
+	.logo {
+		width: 60px;
+	}	
+	.window1 {
+		width: 100px;
+	}
+	.window2 {
+		width: 250px;
+	}
+	.window3 {
+		width: 50px;
+		position: relative;
+	}	
+	.window4 {
+		width: 50px;
+		position: relative;
+	}		
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+  h1 { font-size: 24px;}
+
+	.alfr3d_url {
+		font-size: 12px;
+	}
+	.logo {
+		width: 80px;
+	}	
+	.window1 {
+		width: 200px;
+	}	
+	.window2 {
+		width: 300px;
+	}	
+	.window3 {
+		width: 100px;
+		position: relative;
+	}
+	.window4 {
+		width: 200px;
+		position: relative;
+	}	
+}
+
+@media (min-width: 768px) and (max-width: 1440px) {
+  h1 { font-size: 32px;}
+
+	.alfr3d_url {
+		font-size: 16px;
+	}
+	.logo {
+		width: 80px;
+	}	
+	.window1 {
+		width: 300px;
+	}
+	.window2 {
+		width: 500px;
+		position: relative;
+	}		
+	.window3 {
+		width: 150px;
+		position: relative;
+	}
+	.window4 {
+		width: 300px;
+		position: relative;
+	}
+}

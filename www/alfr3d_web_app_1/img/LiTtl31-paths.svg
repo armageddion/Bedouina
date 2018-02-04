@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="logo" snap-logo="">
+  <desc>Created with Snap</desc>
+  <defs>
+    <mask id="maskSij0tz4ad2x">
+      <circle cx="150" cy="150" r="57.29577951308232" fill="#ffffff" />
+    </mask>
+  </defs>
+  <g mask="url('#maskSij0tz4ad2x')">
+    <circle cx="150" cy="150" r="4" fill="#ffa500" style="fill-opacity: 1;" />
+    <circle cx="150" cy="150" r="18" fill="#ffa500" style="fill-opacity: 0.2;" />
+    <circle cx="150" cy="150" r="32.62676333383855" fill="rgba(0,0,0,0)" stroke="#ffa500" transform="matrix(0.0872,-0.9962,0.9962,0.0872,-12.5026,286.3558)" style="stroke-width: 48.9401px; stroke-dasharray: 17.0833px, 187.917px;" />
+    <circle cx="150" cy="150" r="32.62676333383855" fill="rgba(0,0,0,0)" stroke="#ffa500" transform="matrix(0.9848,-0.1736,0.1736,0.9848,-23.7684,28.3261)" style="stroke-width: 48.9401px; stroke-dasharray: 12.8125px, 192.188px;" />
+    <circle cx="150" cy="150" r="57.29577951308232" fill="rgba(0,0,0,0)" stroke="#ffa500" transform="matrix(-0.4067,0.9135,-0.9135,-0.4067,348.0423,73.9787)" style="stroke-width: 77.3493px; stroke-dasharray: 22px, 338px;" />
+    <circle cx="150" cy="150" r="57.29577951308232" fill="rgba(0,0,0,0)" stroke="#ffa500" transform="matrix(-0.8387,0.5446,-0.5446,-0.8387,357.4964,194.1047)" style="stroke-width: 77.3493px; stroke-dasharray: 22px, 338px;" />
+    <circle cx="150" cy="150" r="32.62676333383855" fill="rgba(0,0,0,0)" stroke="rgba(0,0,0,0)" />
+    <circle cx="150" cy="150" r="14.32394487827058" fill="rgba(0,0,0,0)" stroke="#ffa500" transform="matrix(0.0872,-0.9962,0.9962,0.0872,-12.5026,286.3558)" style="stroke-width: 12px; stroke-dasharray: 21.7031px, 338.297px;" />
+    <circle cx="150" cy="150" r="57.29577951308232" fill="rgba(0,0,0,0)" stroke="#ffa500" transform="matrix(-0.342,-0.9397,0.9397,-0.342,60.3491,342.2569)" style="stroke-width: 57.2958px; stroke-dasharray: 20px, 340px;" />
+    <circle cx="150" cy="150" r="57.29577951308232" fill="rgba(0,0,0,0)" stroke="#ffa500" transform="matrix(-0.8572,-0.515,0.515,-0.8572,201.3194,355.8308)" style="stroke-width: 57.2958px; stroke-dasharray: 12px, 348px;" />
+    <circle cx="150" cy="150" r="57.29577951308232" fill="rgba(0,0,0,0)" stroke="#ffa500" transform="matrix(-0.6561,-0.7547,0.7547,-0.6561,135.2024,361.6153)" style="stroke-width: 57.2958px; stroke-dasharray: 12px, 348px;" />
+    <circle cx="150" cy="150" r="33.64788975654116" fill="rgba(0,0,0,0)" stroke="#ffa500" transform="matrix(-0.1132,-0.9936,0.9936,-0.1132,17.9447,316.0163)" style="stroke-width: 10px; stroke-dasharray: 10px, 350px;" />
+    <circle cx="150" cy="150" r="24.64788975654116" fill="rgba(0,0,0,0)" stroke="#ffa500" transform="matrix(0.0872,-0.9962,0.9962,0.0872,-12.5026,286.3558)" style="stroke-width: 2px; stroke-dasharray: 36px, 324px;" />
+    <circle cx="150" cy="150" r="57.29577951308232" fill="rgba(0,0,0,0)" stroke="#ffa500" transform="matrix(0.9848,-0.1736,0.1736,0.9848,-23.7684,28.3261)" style="stroke-width: 40px; stroke-dasharray: 134px, 266px;" />
+    <circle cx="150" cy="150" r="57.29577951308232" fill="rgba(0,0,0,0)" stroke="rgba(0,0,0,0)" />
+    <circle cx="150" cy="150" r="57.29577951308232" fill="rgba(0,0,0,0)" stroke="rgba(0,0,0,0)" />
+    <circle cx="150" cy="150" r="22.91831180523293" fill="rgba(0,0,0,0)" stroke="#ffa500" transform="matrix(-0.4067,0.9135,-0.9135,-0.4067,348.0423,73.9787)" style="stroke-width: 2px; stroke-dasharray: 16.5px, 343.5px;" />
+    <circle cx="150" cy="150" r="32.74044543604704" fill="rgba(0,0,0,0)" stroke="#ffa500" transform="matrix(-0.4067,0.9135,-0.9135,-0.4067,348.0423,73.9787)" style="stroke-width: 10px; stroke-dasharray: 24.75px, 335.25px;" />
+    <circle cx="150" cy="150" r="57.29577951308232" fill="rgba(0,0,0,0)" stroke="rgba(0,0,0,0)" />
+    <circle cx="150" cy="150" r="57.29577951308232" fill="rgba(0,0,0,0)" stroke="rgba(0,0,0,0)" />
+    <circle cx="150" cy="150" r="42.97183463481174" fill="rgba(0,0,0,0)" stroke="#ffa500" transform="matrix(-0.7713,-0.6364,0.6364,-0.7713,170.235,361.1647)" style="stroke-width: 4px; stroke-dasharray: 8.5px, 351.5px;" />
+  </g>
+</svg>
