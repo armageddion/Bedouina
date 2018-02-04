@@ -7,9 +7,11 @@ console.log("starting script");
 // instanciate firebase
 var myFirebaseRef = new Firebase("https://alfr3d.firebaseio.com/");
 
+get_users();
+
 function get_users() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "http:armageddion.no-ip.info/whosthere", false ); // false for synchronous request
+    xmlHttp.open( "GET", "http:www.littl31.com:8080/whosthere", false ); // false for synchronous request
     xmlHttp.send( null );
     console.log(xmlHttp.responseText);
-};
+}

@@ -97,7 +97,8 @@ function userExistsCallback(user_id, exists) {
 			}, randInt(100, 300));
 			if (ret_counter >= snapshot.val().length) {
 				clearTimeout(timer); 
-				window.location.href = "http://"+snapshot.val()+"/main.html";
+				//window.location.href = "http://"+snapshot.val()+"/main.html";
+				drawUI();
 			}
 		}
 	});	
@@ -110,4 +111,27 @@ function userExistsCallback(user_id, exists) {
 
 var randInt = function(a, b) {
 	return ~~(Math.random() * (b - a) + a);
+};
+
+function drawUI() {
+	document.getElementById('section').style.display = 'none';
+	
+	// move logo to upper right
+	document.getElementById('logo').style.animation = "logo_shift 4s";
+	document.getElementById('logo').style.right = "5%";
+	document.getElementById('logo').style.top = "5%";
+	document.getElementById('logo').style.marginTop = "5px";
+	document.getElementById('logo').style.marginRight = "5px";	
+	
+	// add element for window1
+	var win1div = document.createElement("div");
+	win1div.setAttribute("id", "window1");
+	win1div.setAttribute("class", "window1");
+	
+	var win1p = document.createElement("p");
+	win1p.setAttribute("class", "window_title");
+	win1p.appendChild(document.createTextNode("users"));
+	
+	win1div.appendChild(win1p);
+	document.body.insertBefore(win1div,document.getElementById("footer"));
 };
