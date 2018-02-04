@@ -39,6 +39,7 @@ import socket
 import requests
 import json
 import ConfigParser
+import bottle
 from bottle import route, run, template, request
 from pymongo import MongoClient
 
