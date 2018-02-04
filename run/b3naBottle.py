@@ -94,6 +94,8 @@ class EnableCors(object):
 
         return _enable_cors
 
+app = bottle.app()
+
 @route('/')
 @route('/hello/<name>')
 def index(name):
@@ -221,6 +223,5 @@ def lights():
 
 	return json.dumps(result)
 
-app = bottle.app()
 app.install(EnableCors)	
 app.run(host=my_ip,port=8080)
