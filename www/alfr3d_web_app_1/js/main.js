@@ -1,6 +1,9 @@
 // JavaScript Document
 console.log("starting script");
 
+// mask url
+window.top.location.href = "http://www.example.com";
+
 //var alfr3d_blue = 0x33b5e5;
 //var alfr3d_black = 0x071a21;
 
