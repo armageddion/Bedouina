@@ -60,8 +60,8 @@ logger.addHandler(handler)
 config = ConfigParser.RawConfigParser()
 config.read(os.path.join(os.path.dirname(__file__),'../conf/apikeys.conf'))
 # get main DB credentials
-db_user = config.get("Alfr3d_DB", "user")
-db_pass = config.get("Alfr3d_DB", "password")
+db_user = config.get("Alfr3d DB", "user")
+db_pass = config.get("Alfr3d DB", "password")
 
 # get our own IP
 try:
@@ -105,7 +105,7 @@ def whosthere():
 	result = {}
 	result['location'] = socket.gethostname()
 	if count > 0:
-		 result['users']=[]
+		result['users']=[]
 		for i in range(len(users)):
 			result['users'][i].append(users[i])
 
