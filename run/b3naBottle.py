@@ -36,9 +36,10 @@ import time
 import os										# used to allow execution of system level commands
 import sys
 import socket
+import requests
 import json
 import ConfigParser
-from bottle import route, run, template
+from bottle import route, run, template, request
 from pymongo import MongoClient
 
 # current path from which python is executed
@@ -106,12 +107,100 @@ def whosthere():
 	result['location'] = socket.gethostname()
 	if count > 0:
 		result['users']=[]
-		print users 	# temp
 		for i in range(len(users)):
-			result['users'][i].append(users[i])
+			result['users'].append(users[i])
 	else:
 		result['users']=0
 
 	return json.dumps(result)
 
+@route('/make_coffee')
+def make_coffee():
+	# IFTTT https://maker.ifttt.com/use/cKPaEEmi5bh7AY_H16g3Ff
+	# https://maker.ifttt.com/trigger/make_coffee/with/key/cKPaEEmi5bh7AY_H16g3Ff
+
+	logger.info("Received a request to make coffee")
+
+	result = {}
+
+	secret = config.get("API KEY", "ifttt_hook")
+
+	coffe_request = requests.post("https://maker.ifttt.com/trigger/make_coffee/with/key/"+str(secret))
+	if coffe_request.status_code == 200:
+		logger.info("coffee is being made")		
+		result['status']="OK"
+	else:
+		logger.error("something went wrong... cannot make coffee")
+		result['status']="ERROR"
+		result['error code']=str(coffe_request.status_code)
+
+	return json.dumps(result)
+
+# http://b3na.littl31.com:8080/water_flowers
+# http://b3na.littl31.com:8080/water_flowers?timeout=200
+@route('/water_flowers')
+def water_flowers():
+	logger.info("Received request to water the flowers")
+	secret = config.get("API KEY", "ifttt_hook")
+
+	timeout = 30
+
+	try: 
+		timeout=int(request.query.timeout)
+	except:
+		logger.warn("Timeout not provided")
+
+	result = {}
+
+	flower_on_request = requests.post("https://maker.ifttt.com/trigger/water_flowers/with/key/"+str(secret))
+	if flower_on_request.status_code == 200:
+		logger.info("Successfully turned on the irrigation system")
+		result['status pump on']="OK"
+
+		time.sleep(timeout)
+		
+		flower_off_request = requests.post("https://maker.ifttt.com/trigger/water_flowers_end/with/key/"+str(secret))
+		if flower_off_request.status_code == 200:
+			logger.info("Successfully turned off the irrigation system")
+			result['status pump off']="OK"
+		else:
+			logger.error("Something went wrong. unable to turn off the irrigation system")
+			result['status pump off']="OK"
+			result['comment']="something went wrong... no bueno"
+	else:
+		logger.error("Something went wrong. unable to turn off the irrigation system")
+		result['status']="ERROR"
+		result['error code']=str(coffe_request.status_code)		
+
+	return json.dumps(result)
+
+# http://b3na.littl31.com:8080/lights?all=on
+@route('/lights')
+def lights():
+	logger.info("Received request to command the lights: "+str(request.query_string))
+
+	result = {}
+
+	if len(request.query==0):
+		result['status']="ERROR"
+		result['details']="you didn't provide any args... "
+	else:
+		if request.query.all == on:
+			logger.info("Processing command")
+			utilities.lightingOn()				# TODO: need to return a value for proper processing
+			result['status']="OK"
+			result['details']='processing request to turn the lights off'
+		elif request.query.all == off:
+			logger.info("Processing command")
+			utilities.lightingOff()				# TODO: need to return a value for proper processing
+			result['status']="OK"
+			result['details']='processing request to turn the lights on'
+		else:
+			logger.warn("Received request to command the lights: "+str(request.query_string))
+			logger.warn("But I dont know how to process it yet")
+			result['status']="ERROR"
+			result['details']='i dont know how to process that request yet'
+
+	return json.dumps(result)
+	
 run(host=my_ip,port=8080)
