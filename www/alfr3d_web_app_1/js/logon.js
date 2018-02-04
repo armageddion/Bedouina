@@ -114,16 +114,17 @@ var randInt = function(a, b) {
 };
 
 function drawUI() {
+	console.log("Hiding login forms")
 	document.getElementById('section').style.display = 'none';
 	
 	// move logo to upper right
+	console.log("Shifting the logo")
 	document.getElementById('logo').style.animation = "logo_shift 4s";
-	document.getElementById('logo').style.right = "5%";
-	document.getElementById('logo').style.top = "5%";
-	document.getElementById('logo').style.marginTop = "5px";
-	document.getElementById('logo').style.marginRight = "5px";	
+	document.getElementById('logo').style.right = "10%";
+	document.getElementById('logo').style.top = "10%";	
 	
 	// add element for window1
+	console.log("Loading UI elements")
 	var win1div = document.createElement("div");
 	win1div.setAttribute("id", "window1");
 	win1div.setAttribute("class", "window1");
