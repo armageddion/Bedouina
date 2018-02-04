@@ -399,70 +399,40 @@ ANIMATION STUFF
 
 @keyframes logo_shift {
 	0%		{ top: 10%; right: 50%;
-				-webkit-transform:translate(-50%,-50%);
-					-ms-transform:translate(-50%,-50%);
-						transform:translate(-50%,-50%);
 			}
 	100%	{ top: 10%; right: 10%;
-				-webkit-transform:translate(-50%,-50%);
-					-ms-transform:translate(-50%,-50%);
-						transform:translate(-50%,-50%);
 			}
 }
 
 /* Firefox < 16 */
 @-moz-keyframes logo_shift {
 	0%		{ top: 10%; right: 50%;
-				-webkit-transform:translate(-50%,-50%);
-					-ms-transform:translate(-50%,-50%);
-						transform:translate(-50%,-50%);
 			}
 	100%	{ top: 10%; right: 10%;
-				-webkit-transform:translate(-50%,-50%);
-					-ms-transform:translate(-50%,-50%);
-						transform:translate(-50%,-50%);
 			}
 }
 
 /* Safari, Chrome and Opera > 12.1 */
 @-webkit-keyframes logo_shift {
 	0%		{ top: 10%; right: 50%;
-				-webkit-transform:translate(-50%,-50%);
-					-ms-transform:translate(-50%,-50%);
-						transform:translate(-50%,-50%);
 			}
 	100%	{ top: 10%; right: 10%;
-				-webkit-transform:translate(-50%,-50%);
-					-ms-transform:translate(-50%,-50%);
-						transform:translate(-50%,-50%);
 			}
 }
 
 /* Internet Explorer */
 @-ms-keyframes logo_shift {
 	0%		{ top: 10%; right: 50%;
-				-webkit-transform:translate(-50%,-50%);
-					-ms-transform:translate(-50%,-50%);
-						transform:translate(-50%,-50%);
 			}
 	100%	{ top: 10%; right: 10%;
-				-webkit-transform:translate(-50%,-50%);
-					-ms-transform:translate(-50%,-50%);
-						transform:translate(-50%,-50%);
 			}
 }
 
 /* Opera < 12.1 */
 @-o-keyframes logo_shift {
 	0%		{ top: 10%; right: 50%;
-				-webkit-transform:translate(-50%,-50%);
-					-ms-transform:translate(-50%,-50%);
-						transform:translate(-50%,-50%);
 			}
 	100%	{ top: 10%; right: 10%;
-				-webkit-transform:translate(-50%,-50%);
-					-ms-transform:translate(-50%,-50%);
-						transform:translate(-50%,-50%);
 			}
 }
 
