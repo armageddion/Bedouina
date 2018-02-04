@@ -185,12 +185,12 @@ def lights():
 		result['status']="ERROR"
 		result['details']="you didn't provide any args... "
 	else:
-		if request.query.all == on:
+		if request.query.all == "on":
 			logger.info("Processing command")
 			utilities.lightingOn()				# TODO: need to return a value for proper processing
 			result['status']="OK"
 			result['details']='processing request to turn the lights off'
-		elif request.query.all == off:
+		elif request.query.all == "off":
 			logger.info("Processing command")
 			utilities.lightingOff()				# TODO: need to return a value for proper processing
 			result['status']="OK"
