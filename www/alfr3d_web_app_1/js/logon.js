@@ -33,9 +33,11 @@ function deny() {
 	console.log("DENIED")
 	var den = document.getElementById('pass_wd');
 	console.log(den);
-	den.style.backgroundImage = "url('../img/SVG/index_password_bad.svg')";
-	den.value = '';
-
+	den.value = '';	
+	
+	//den.style.backgroundImage = "url('../img/SVG/index_password_bad.svg')";
+	var changeimg = document.head.appendChild(document.createElement("style"));
+	changeimg.innerHTML = ".input:nth-child(2):before {background-image: url('../img/SVG/index_password_bad.svg');}";
 };
 
 // Tests to see if /users/<userId> has any data. 
@@ -51,9 +53,8 @@ function login(user_id) {
 
 function userExistsCallback(user_id, exists) {
 	if (exists) {
-		var den = document.getElementById('pass_wd');
-		console.log(den);
-		den.style.backgroundImage = "url('../img/SVG/index_password_good.svg')";		
+		var changeimg = document.head.appendChild(document.createElement("style"));
+		changeimg.innerHTML = ".input:nth-child(2):before {background-image: url('../img/SVG/index_password_good.svg');}";		
 		welcome(user_id);
  	} else {
  		// Create user

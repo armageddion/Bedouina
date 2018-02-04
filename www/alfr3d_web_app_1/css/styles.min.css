@@ -163,7 +163,7 @@ input{
 	outline:0
 }
 
-.input:nth-child(1)::before{
+.input:nth-child(1):before{
 	background-image: url(../img/SVG/index_username.svg);
 	background-repeat: no-repeat;
 	position:absolute;
