@@ -1,0 +1,21 @@
+<svg width="234" height="75" viewBox="0 0 234 75" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>window2_cbl</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-2297 1538)">
+<clipPath id="clip-0" clip-rule="evenodd">
+<path d="M 2297 -1538L 2531 -1538L 2531 -1463L 2297 -1463L 2297 -1538Z" fill="#FFFFFF"/>
+</clipPath>
+<g id="window2_cbl" clip-path="url(#clip-0)">
+<g id="crs1">
+<g id="align-grid">
+</g>
+<g id="Vector">
+<use xlink:href="#path0_fill" transform="matrix(-1 -1.22465e-16 -1.22465e-16 1 2368 -1526)" fill="#33B5E5"/>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" d="M 51 22L 51 4L 55 0L 55 38L 41 52L 4 52L 0 48L 25 48L 43 30L 43 12L 47 8L 47 26L 51 22Z"/>
+</defs>
+</svg>

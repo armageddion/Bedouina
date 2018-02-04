@@ -1,7 +1,7 @@
 console.log("loading logon.js");
 
 // mask url
-window.top.location.href = "http://www.example.com";
+//window.top.location.href = "http://www.example.com";
 
 /***************************************
  *				LOGIN STUFF 

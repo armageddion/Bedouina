@@ -1,0 +1,80 @@
+<svg width="188" height="212" viewBox="0 0 188 212" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Component</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-2262 -1362)">
+<g id="Component">
+<g id="Vector 2.3">
+<use xlink:href="#path0_fill" transform="matrix(1 0 0 -1 2281 1559)" fill="#043547" fill-opacity="0.5"/>
+<mask id="mask0_outline_out">
+<rect id="mask0_outline_inv" fill="white" x="-1" y="-1" width="158" height="181" transform="matrix(1 0 0 -1 2281 1559)"/>
+<use xlink:href="#path0_fill" fill="black" transform="matrix(1 0 0 -1 2281 1559)"/>
+</mask>
+<g mask="url(#mask0_outline_out)">
+<use xlink:href="#path1_stroke_2x" transform="matrix(1 0 0 -1 2281 1559)" fill="#0F7094"/>
+</g>
+</g>
+<g id="Union">
+<use xlink:href="#path2_fill" transform="matrix(-1 0 0 1 2416 1415)" fill="#043547" fill-opacity="0.5"/>
+<mask id="mask1_outline_out">
+<rect id="mask1_outline_inv" fill="white" x="-1" y="-1" width="140" height="125" transform="matrix(-1 0 0 1 2416 1415)"/>
+<use xlink:href="#path2_fill" fill="black" transform="matrix(-1 0 0 1 2416 1415)"/>
+</mask>
+<g mask="url(#mask1_outline_out)">
+<use xlink:href="#path3_stroke_2x" transform="matrix(-1 0 0 1 2416 1415)" fill="#0F7094"/>
+</g>
+</g>
+<g id="flexline para fat">
+<g id="Rectangle">
+<use xlink:href="#path4_fill" transform="matrix(-1 -6.95242e-17 -2.1883e-16 1 2282 1556.5)" fill="#33B5E5"/>
+</g>
+<g id="Rectangle">
+<use xlink:href="#path5_fill" transform="matrix(-1 -6.95242e-17 -2.1883e-16 1 2282 1493)" fill="#33B5E5"/>
+</g>
+<g id="Rectangle 2">
+<use xlink:href="#path6_fill" transform="matrix(1 0 0 -1 2274 1557)" fill="#33B5E5"/>
+</g>
+</g>
+<g id="cf2">
+<g id="align-grid">
+</g>
+<g id="Vector 2.4">
+<use xlink:href="#path7_fill" transform="matrix(-1.07188e-15 1 1 1.07188e-15 2301 1382)" fill="#043547" fill-opacity="0.5"/>
+<mask id="mask2_outline_out">
+<rect id="mask2_outline_inv" fill="white" x="-1" y="-1" width="28" height="72" transform="matrix(-1.07188e-15 1 1 1.07188e-15 2301 1382)"/>
+<use xlink:href="#path7_fill" fill="black" transform="matrix(-1.07188e-15 1 1 1.07188e-15 2301 1382)"/>
+</mask>
+<g mask="url(#mask2_outline_out)">
+<use xlink:href="#path8_stroke_2x" transform="matrix(-1.07188e-15 1 1 1.07188e-15 2301 1382)" fill="#0F7094"/>
+</g>
+</g>
+<g id="Vector">
+<use xlink:href="#path9_fill" transform="matrix(-6.12323e-17 -1 1 -6.12323e-17 2272 1503)" fill="#33B5E5"/>
+</g>
+</g>
+<g id="flexline para fat">
+<g id="Rectangle">
+<use xlink:href="#path4_fill" transform="matrix(-1.07872e-16 1 1 2.57178e-16 2432.5 1374)" fill="#33B5E5"/>
+</g>
+<g id="Rectangle">
+<use xlink:href="#path5_fill" transform="matrix(-1.07872e-16 1 1 2.57178e-16 2343 1374)" fill="#33B5E5"/>
+</g>
+<g id="Rectangle 2">
+<use xlink:href="#path10_fill" transform="matrix(3.83476e-17 -1 -1 -3.83476e-17 2433 1382)" fill="#33B5E5"/>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" d="M 145 170L 154 179L 0 179L 0 0L 113 0L 140 27L 140 102.5L 144 106.5L 145 170Z"/>
+<path id="path1_stroke_2x" d="M 154 179L 154 180L 156.414 180L 154.707 178.293L 154 179ZM 145 170L 144 170.016L 144.007 170.421L 144.293 170.707L 145 170ZM 144 106.5L 145 106.484L 144.993 106.079L 144.707 105.793L 144 106.5ZM 140 102.5L 139 102.5L 139 102.914L 139.293 103.207L 140 102.5ZM 0 0L 0 -1L -1 -1L -1 0L 0 0ZM 0 179L -1 179L -1 180L 0 180L 0 179ZM 140 27L 141 27L 141 26.5858L 140.707 26.2929L 140 27ZM 113 0L 113.707 -0.707107L 113.414 -1L 113 -1L 113 0ZM 154.707 178.293L 145.707 169.293L 144.293 170.707L 153.293 179.707L 154.707 178.293ZM 146 169.984L 145 106.484L 143 106.516L 144 170.016L 146 169.984ZM 144.707 105.793L 140.707 101.793L 139.293 103.207L 143.293 107.207L 144.707 105.793ZM -1 0L -1 179L 1 179L 1 0L -1 0ZM 0 180L 154 180L 154 178L 0 178L 0 180ZM 141 102.5L 141 27L 139 27L 139 102.5L 141 102.5ZM 113 -1L 0 -1L 0 1L 113 1L 113 -1ZM 140.707 26.2929L 113.707 -0.707107L 112.293 0.707107L 139.293 27.7071L 140.707 26.2929Z"/>
+<path id="path2_fill" d="M 0 9L 9 0L 109 0L 113 4L 138 4L 138 119L 93.5 119L 89.5 123L 9 123L 0 114L 0 9Z"/>
+<path id="path3_stroke_2x" d="M 9 0L 9 -1L 8.58579 -1L 8.29289 -0.707107L 9 0ZM 0 9L -0.707107 8.29289L -1 8.58579L -1 9L 0 9ZM 109 0L 109.707 -0.707107L 109.414 -1L 109 -1L 109 0ZM 113 4L 112.293 4.70711L 112.586 5L 113 5L 113 4ZM 138 4L 139 4L 139 3L 138 3L 138 4ZM 138 119L 138 120L 139 120L 139 119L 138 119ZM 93.5 119L 93.5 118L 93.0858 118L 92.7929 118.293L 93.5 119ZM 89.5 123L 89.5 124L 89.9142 124L 90.2071 123.707L 89.5 123ZM 9 123L 8.29289 123.707L 8.58579 124L 9 124L 9 123ZM 0 114L -1 114L -1 114.414L -0.707107 114.707L 0 114ZM 8.29289 -0.707107L -0.707107 8.29289L 0.707107 9.70711L 9.70711 0.707107L 8.29289 -0.707107ZM 109 -1L 9 -1L 9 1L 109 1L 109 -1ZM 113.707 3.29289L 109.707 -0.707107L 108.293 0.707107L 112.293 4.70711L 113.707 3.29289ZM 138 3L 113 3L 113 5L 138 5L 138 3ZM 138 118L 93.5 118L 93.5 120L 138 120L 138 118ZM 92.7929 118.293L 88.7929 122.293L 90.2071 123.707L 94.2071 119.707L 92.7929 118.293ZM 89.5 122L 9 122L 9 124L 89.5 124L 89.5 122ZM 9.70711 122.293L 0.707107 113.293L -0.707107 114.707L 8.29289 123.707L 9.70711 122.293ZM 1 114L 1 9L -1 9L -1 114L 1 114ZM 137 4L 137 119L 139 119L 139 4L 137 4Z"/>
+<path id="path4_fill" d="M 0 9.5L 8 17.5L 8 0L 0 0L 0 9.5Z"/>
+<path id="path5_fill" d="M 8 8L 0 0L 0 17L 8 17L 8 8Z"/>
+<path id="path6_fill" d="M 0 0L 8 0L 8 47L 0 47L 0 0Z"/>
+<path id="path7_fill" d="M 26 61L 17 70L 0 70L 0 0L 17 0L 22 5L 22 30.5L 26 34.5L 26 61Z"/>
+<path id="path8_stroke_2x" d="M 17 70L 17 71L 17.4142 71L 17.7071 70.7071L 17 70ZM 26 61L 26.7071 61.7071L 27 61.4142L 27 61L 26 61ZM 26 34.5L 27 34.5L 27 34.0858L 26.7071 33.7929L 26 34.5ZM 22 30.5L 21 30.5L 21 30.9142L 21.2929 31.2071L 22 30.5ZM 0 0L 0 -1L -1 -1L -1 0L 0 0ZM 0 70L -1 70L -1 71L 0 71L 0 70ZM 22 5L 23 5L 23 4.58579L 22.7071 4.29289L 22 5ZM 17 0L 17.7071 -0.707107L 17.4142 -1L 17 -1L 17 0ZM 17.7071 70.7071L 26.7071 61.7071L 25.2929 60.2929L 16.2929 69.2929L 17.7071 70.7071ZM 27 61L 27 34.5L 25 34.5L 25 61L 27 61ZM 26.7071 33.7929L 22.7071 29.7929L 21.2929 31.2071L 25.2929 35.2071L 26.7071 33.7929ZM -1 0L -1 70L 1 70L 1 0L -1 0ZM 0 71L 17 71L 17 69L 0 69L 0 71ZM 23 30.5L 23 5L 21 5L 21 30.5L 23 30.5ZM 22.7071 4.29289L 17.7071 -0.707107L 16.2929 0.707107L 21.2929 5.70711L 22.7071 4.29289ZM 17 -1L 0 -1L 0 1L 17 1L 17 -1Z"/>
+<path id="path9_fill" d="M 141 52L 129 64L 129 73L 121 81L 121 38L 117 34L 117 20L 111 14L 31 14L 27 10L 8 10L 0 2L 17 2L 19 0L 129 0L 141 12L 141 52Z"/>
+<path id="path10_fill" d="M 0 0L 8 0L 8 73L 0 73L 0 0Z"/>
+</defs>
+</svg>

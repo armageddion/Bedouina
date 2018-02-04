@@ -1,0 +1,37 @@
+<svg width="87" height="75" viewBox="0 0 87 75" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>window2_cbr</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-2531 1538)">
+<clipPath id="clip-0" clip-rule="evenodd">
+<path d="M 2531 -1538L 2618 -1538L 2618 -1463L 2531 -1463L 2531 -1538Z" fill="#FFFFFF"/>
+</clipPath>
+<g id="window2_cbr" clip-path="url(#clip-0)">
+<g id="crl2">
+<g id="align-grid">
+</g>
+<g id="Group 5">
+<g id="Group 4">
+<g id="Vector">
+<use xlink:href="#path0_fill" transform="matrix(6.12323e-17 1 -1 6.12323e-17 2615 -1521)" fill="#33B5E5"/>
+</g>
+<g id="Vector">
+<use xlink:href="#path1_fill" transform="matrix(6.12323e-17 1 -1 6.12323e-17 2615 -1538)" fill="#33B5E5"/>
+</g>
+<g id="Vector">
+<use xlink:href="#path2_fill" transform="matrix(6.12323e-17 1 -1 6.12323e-17 2615 -1512)" fill="#33B5E5"/>
+</g>
+<g id="Vector">
+<use xlink:href="#path3_fill" transform="matrix(6.12323e-17 1 -1 6.12323e-17 2615 -1503.2)" fill="#33B5E5"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" d="M 12 6L 6 0L 0 0L 6 6L 12 6Z"/>
+<path id="path1_fill" d="M 14 0L 20 6L 14 6L 11.9501 4L 4 4L 0 0L 14 0Z"/>
+<path id="path2_fill" d="M 12 6L 6.00012 0L 0 0L 6.00012 6L 12 6Z"/>
+<path id="path3_fill" d="M 34.2 56L 29.2 61L 29.2 80L 25.2 84L 25.2 25L 0 0L 10 0L 30.2 20L 30.2 35L 34.2 39L 34.2 56Z"/>
+</defs>
+</svg>
