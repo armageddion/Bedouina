@@ -123,6 +123,7 @@ def whosthere():
 			count +=1
 			users.append(user['name'])
 
+	response.headers['Content-type'] = 'application/json'
 	result = {}
 	result['location'] = socket.gethostname()
 	if count > 0:
