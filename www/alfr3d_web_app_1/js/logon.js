@@ -1,4 +1,5 @@
 console.log("loading logon.js");
+console.log(location.hostname);
 
 // mask url
 //window.top.location.href = "http://www.example.com";
@@ -98,7 +99,6 @@ function userExistsCallback(user_id, exists) {
 			var timer = setTimeout(function(){
 				ret+=snapshot.val().charAt(ret_counter);
 				ret_counter++;
-				console.log(ret);
 				document.getElementById('alfr3d_url').innerHTML = ret;			
 				write();
 			}, randInt(100, 300));
@@ -151,7 +151,7 @@ function drawUI() {
 };
 
 function fetch_user_data() {
-	fetch("http://localhost:8080/whosthere", {})
+	fetch("http://"+location.hostname+":8080/whosthere", {})
 		.then(response => response.json())
 		.then(data => {
 			console.log("data received:")
