@@ -96,8 +96,8 @@ class EnableCors(object):
 
 app = bottle.app()
 
-@route('/')
-@route('/hello/<name>')
+@app.route('/')
+@app.route('/hello/<name>')
 def index(name):
 	logger.info("Received request:/hello/"+name)
 	return template('<b>Hello {{name}}</b>!', name=name)
@@ -135,7 +135,7 @@ def whosthere():
 
 	return json.dumps(result)
 
-@route('/make_coffee')
+@app.route('/make_coffee')
 def make_coffee():
 	# IFTTT https://maker.ifttt.com/use/cKPaEEmi5bh7AY_H16g3Ff
 	# https://maker.ifttt.com/trigger/make_coffee/with/key/cKPaEEmi5bh7AY_H16g3Ff
@@ -159,7 +159,7 @@ def make_coffee():
 
 # http://b3na.littl31.com:8080/water_flowers
 # http://b3na.littl31.com:8080/water_flowers?timeout=200
-@route('/water_flowers')
+@app.route('/water_flowers')
 def water_flowers():
 	logger.info("Received request to water the flowers")
 	secret = config.get("API KEY", "ifttt_hook")
@@ -196,7 +196,7 @@ def water_flowers():
 	return json.dumps(result)
 
 # http://b3na.littl31.com:8080/lights?all=on
-@route('/lights')
+@app.route('/lights')
 def lights():
 	logger.info("Received request to command the lights: "+str(request.query_string))
 
@@ -225,4 +225,4 @@ def lights():
 	return json.dumps(result)
 
 app.install(EnableCors())	
-app.run(host=my_ip,port=8080)
+app.run(host='0.0.0.0',port=8080)
