@@ -11,5 +11,6 @@ get_users();
 
 function get_users() {
 	fetch("http://10.0.0.230:8080/whosthere", {})
-		.then(response => {console.log(response.json())});
+		.then(response => response.json())
+		.then(data => {console.log(data)});
 }

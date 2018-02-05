@@ -136,7 +136,39 @@ function drawUI() {
 	var win1p = document.createElement("p");
 	win1p.setAttribute("class", "window_title");
 	win1p.appendChild(document.createTextNode("users"));
+
+	var win1p2 = document.createElement("p");
+	win1p2.setAttribute("id", "user_data");
+	win1p2.setAttribute("class", "window_data");
+	win1p2.appendChild(document.createTextNode("<user names>"));
 	
+
 	win1div.appendChild(win1p);
+	win1div.appendChild(win1p2);
 	document.body.insertBefore(win1div,document.getElementById("footer"));
+
+	fetch_user_data();
+};
+
+function fetch_user_data() {
+	fetch("http://localhost:8080/whosthere", {})
+		.then(response => response.json())
+		.then(data => {
+			console.log("data received:")
+			console.log(data)
+			if (data.users == 0) {
+				document.getElementById("user_data").innerHTML = "no users";
+			}
+			else {
+				content = ""
+				for (i=0; i<data.users.length; i++){
+					content = content + data.users[i]+"<br>"
+				}
+				document.getElementById("user_data").innerHTML = content;
+
+			}
+
+
+		});	
+
 };
