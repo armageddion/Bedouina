@@ -151,7 +151,7 @@ function drawUI() {
 };
 
 function fetch_user_data() {
-	fetch("http://"+location.hostname+":8080/whosthere", {})
+	fetch("http://www.littl31.com:8080/whosthere?host="+location.hostname, {})
 		.then(response => response.json())
 		.then(data => {
 			console.log("data received:")
