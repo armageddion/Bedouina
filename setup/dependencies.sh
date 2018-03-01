@@ -46,7 +46,7 @@ echo "installing pychromecast"
 sudo pip install pychromecast
 
 echo "installing git"
-sudo apt-get install git-all
+sudo apt install -y git-all
 
 echo "installing mplayer"
 sudo apt install -y mplayer
