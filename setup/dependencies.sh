@@ -1,7 +1,7 @@
 echo "installing dependencies for b3na"
 
 echo "isntalling python-dev"
-sudo apt install python-dev
+sudo apt install -y python-dev
 
 echo "installing pip"
 sudo apt install -y python-pip
@@ -55,6 +55,6 @@ echo "installing pico2wave"
 sudo apt install -y libttspico-utils
 
 echo "installing apache"
-sudo apt install apache2
+sudo apt install -y apache2
 
 echo "done with the dependencies"
