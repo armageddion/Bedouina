@@ -39,6 +39,22 @@ sudo pip install ConfigParser
 echo "installing psutil"
 sudo pip install psutil
 
+# trying flask framework for webapp
+echo "installing flask"
+sudo pip install flask
+
+echo "installing Flask-WTF to handle web forms in flask"
+sudo pip install flask-wtf
+
+echo "installing flask SQLAlchemy to handle ORMs for SQL DBs"
+sudo pip install flask-sqlalchemy
+
+echo "installing falsk-migrate to handle DB migrations"
+sudo pip install flask-migrate
+
+echo "installing flask-login extension"
+sudo pip install flask-login
+
 #echo "installing Spotipy"
 #sudo pip install spotipy
 
