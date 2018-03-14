@@ -5,4 +5,15 @@
     {% for post in posts %}
     	<div><p>{{ post.author.username }} says: <b>{{ post.status }}</b></p></div>
     {% endfor %}
+		<hr>
+		<h3>unknown devices:</h3>
+		{% for stranger in strangers %}
+			<div><p> device with IP {{ stranger.IP }} has MAC: {{ stranger.MAC }}
+			</p></div>
+		{% endfor %}
+		<h3>my devices:</h3>
+		{% for device in known_devs %}
+			<div><p> device with name {{ device.name }} has MAC: {{ device.MAC }}
+			</p></div>
+		{% endfor %}
 {% endblock %}

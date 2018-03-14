@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm
-from app.models import User
+from app.models import User, Device
 from werkzeug.urls import url_parse
 from datetime import datetime
 
@@ -27,7 +27,12 @@ def index():
 			'status':'doing cool stuff'
 		}
 	]
-	return render_template('index.html', title='Home', posts=posts)
+
+	strangers = Device.query.filter_by(name='unknown')
+
+	known_devs = Device.query.filter_by(user_id=current_user.id)
+
+	return render_template('index.html', title='Home', posts=posts, strangers=strangers, known_devs=known_devs)
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -77,7 +82,7 @@ def user(username):
 		{'author': user, 'body': 'Test post #1'},
 		{'author': user, 'body': 'Test post #2'}
 	]
-	return render_template('user.html', title=user.username, user=user, posts=posts)	
+	return render_template('user.html', title=user.username, user=user, posts=posts)
 
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
@@ -94,4 +99,4 @@ def edit_profile():
 		form.username.data = current_user.username
 		form.about_me.data = current_user.about_me
 	return render_template('edit_profile.html', title='Edit Profile',
-						   form=form)	
+						   form=form)
