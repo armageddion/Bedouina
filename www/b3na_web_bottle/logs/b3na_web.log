@@ -39,3 +39,70 @@ UndefinedError: 'device' is undefined
 2018-03-14 21:29:31,802 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
 2018-03-14 21:33:24,948 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
 2018-03-15 09:09:18,576 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:19:22,223 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:40:55,022 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:41:06,575 ERROR: Exception on /device/58:ef:68:99:4f:25 [GET] [in /usr/local/lib/python2.7/dist-packages/flask/app.py:1560]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/usr/local/lib/python2.7/dist-packages/flask_login/utils.py", line 261, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/routes.py", line 115, in edit_device
+    return render_template('edit_device.html', title='Edit Device', form=form, device=device, device_types=device_types)
+  File "/usr/local/lib/python2.7/dist-packages/flask/templating.py", line 133, in render_template
+    return _render(ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 869, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 830, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 804, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/usr/local/lib/python2.7/dist-packages/jinja2/loaders.py", line 125, in load
+    code = environment.compile(source, name, filename)
+  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 591, in compile
+    self.handle_exception(exc_info, source_hint=source_hint)
+  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 780, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/templates/edit_device.html", line 21, in template
+    {{% for type in device_types.type %}}
+TemplateSyntaxError: unexpected '%'
+2018-03-15 09:41:37,574 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:42:29,513 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:43:10,606 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:43:52,712 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:45:15,922 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:46:02,263 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:46:33,187 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:48:47,691 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:49:18,469 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:50:29,968 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:50:49,207 ERROR: Exception on /device/58:ef:68:99:4f:25 [POST] [in /usr/local/lib/python2.7/dist-packages/flask/app.py:1560]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/usr/local/lib/python2.7/dist-packages/flask_login/utils.py", line 261, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/routes.py", line 110, in edit_device
+    print form.types
+AttributeError: 'EditDeviceForm' object has no attribute 'types'
+2018-03-15 09:54:00,668 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:54:49,606 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:56:31,461 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 10:00:29,289 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 10:03:52,950 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]

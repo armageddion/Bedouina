@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, EditDeviceForm
-from app.models import User, Device
+from app.models import User, Device, DeviceTypes
 from werkzeug.urls import url_parse
 from datetime import datetime
 
@@ -104,10 +104,13 @@ def edit_profile():
 @login_required
 def edit_device(mac):
 	device = Device.query.filter_by(MAC=mac).first()
-	print device
+	device_types = DeviceTypes.query.all()
 	form = EditDeviceForm()
 	if form.validate_on_submit():
+		device.device_type=DeviceTypes.query.filter_by(type=request.form['types']).first().id
 		device.name=form.name.data
 		db.session.commit()
 		return redirect(url_for('index'))
-	return render_template('edit_device.html', title='Edit Device', form=form, device=device)
+	elif request.method == 'GET':
+		form.name.data = device.name
+	return render_template('edit_device.html', title='Edit Device', form=form, device=device, device_types=device_types)
