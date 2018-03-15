@@ -1,4 +1,4 @@
-2018-03-15 11:53:10,816 ERROR: Exception on /index [GET] [in c:\python27\lib\site-packages\flask\app.py:1560]
+2018-03-15 11:53:39,000 ERROR: Exception on /user/armageddion [GET] [in c:\python27\lib\site-packages\flask\app.py:1560]
 Traceback (most recent call last):
   File "c:\python27\lib\site-packages\flask\app.py", line 1982, in wsgi_app
     response = self.full_dispatch_request()
@@ -12,10 +12,22 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "c:\python27\lib\site-packages\flask_login\utils.py", line 261, in decorated_view
     return func(*args, **kwargs)
-  File "C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\routes.py", line 31, in index
-    devices = Device.query.all()
-  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2737, in all
-    return list(self)
+  File "C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\routes.py", line 84, in user
+    return render_template('user.html', title=user.username, user=user, posts=posts, devices=devices)
+  File "c:\python27\lib\site-packages\flask\templating.py", line 134, in render_template
+    context, ctx.app)
+  File "c:\python27\lib\site-packages\flask\templating.py", line 116, in _render
+    rv = template.render(context)
+  File "c:\python27\lib\site-packages\jinja2\environment.py", line 1008, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "c:\python27\lib\site-packages\jinja2\environment.py", line 780, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\templates\user.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\templates\base.html", line 30, in top-level template code
+    {% block content %}{% endblock %}
+  File "C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\templates\user.html", line 35, in block "content"
+    {% for device in devices %}
   File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2889, in __iter__
     return self._execute_and_instances(context)
   File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2912, in _execute_and_instances
@@ -40,8 +52,38 @@ Traceback (most recent call last):
     self.errorhandler(self, exc, value)
   File "c:\python27\lib\site-packages\MySQLdb\connections.py", line 36, in defaulterrorhandler
     raise errorclass, errorvalue
-OperationalError: (_mysql_exceptions.OperationalError) (1054, "Unknown column 'device.state_id' in 'field list'") [SQL: u'SELECT device.id AS device_id, device.name AS device_name, device.`IP` AS `device_IP`, device.`MAC` AS `device_MAC`, device.state_id AS device_state_id, device.last_online AS device_last_online, device.device_type AS device_device_type, device.user_id AS device_user_id, device.environment_id AS device_environment_id \nFROM device'] (Background on this error at: http://sqlalche.me/e/e3q8)
-2018-03-15 11:53:34,851 ERROR: Exception on /index [GET] [in c:\python27\lib\site-packages\flask\app.py:1560]
+OperationalError: (_mysql_exceptions.OperationalError) (1054, "Unknown column 'device.state_id' in 'field list'") [SQL: u'SELECT device.id AS device_id, device.name AS device_name, device.`IP` AS `device_IP`, device.`MAC` AS `device_MAC`, device.state_id AS device_state_id, device.last_online AS device_last_online, device.device_type AS device_device_type, device.user_id AS device_user_id, device.environment_id AS device_environment_id \nFROM device \nWHERE device.user_id = %s'] [parameters: (1L,)] (Background on this error at: http://sqlalche.me/e/e3q8)
+2018-03-15 11:53:51,072 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 11:53:55,381 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 11:53:58,680 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 12:28:36,141 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 12:29:26,313 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 15:59:12,776 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 15:59:18,026 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 15:59:36,247 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 16:00:12,757 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 16:00:19,858 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 16:15:58,042 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 16:16:05,407 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 17:51:03,247 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 17:53:01,795 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 17:53:23,217 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 17:53:46,667 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 17:54:21,132 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 17:55:07,095 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 18:04:34,127 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 18:10:38,025 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 18:13:35,563 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 18:13:44,549 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 18:13:48,970 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 18:13:52,634 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 18:14:34,516 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 18:16:25,494 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 18:20:09,296 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 18:22:49,940 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 18:27:46,243 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 18:34:40,654 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-15 18:34:44,584 ERROR: Exception on /edit_profile [GET] [in c:\python27\lib\site-packages\flask\app.py:1560]
 Traceback (most recent call last):
   File "c:\python27\lib\site-packages\flask\app.py", line 1982, in wsgi_app
     response = self.full_dispatch_request()
@@ -55,75 +97,6 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "c:\python27\lib\site-packages\flask_login\utils.py", line 261, in decorated_view
     return func(*args, **kwargs)
-  File "C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\routes.py", line 31, in index
-    devices = Device.query.all()
-  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2737, in all
-    return list(self)
-  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2889, in __iter__
-    return self._execute_and_instances(context)
-  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2912, in _execute_and_instances
-    result = conn.execute(querycontext.statement, self._params)
-  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 948, in execute
-    return meth(self, multiparams, params)
-  File "c:\python27\lib\site-packages\sqlalchemy\sql\elements.py", line 269, in _execute_on_connection
-    return connection._execute_clauseelement(self, multiparams, params)
-  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1060, in _execute_clauseelement
-    compiled_sql, distilled_params
-  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1200, in _execute_context
-    context)
-  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1413, in _handle_dbapi_exception
-    exc_info
-  File "c:\python27\lib\site-packages\sqlalchemy\util\compat.py", line 203, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb, cause=cause)
-  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1193, in _execute_context
-    context)
-  File "c:\python27\lib\site-packages\sqlalchemy\engine\default.py", line 507, in do_execute
-    cursor.execute(statement, parameters)
-  File "c:\python27\lib\site-packages\MySQLdb\cursors.py", line 205, in execute
-    self.errorhandler(self, exc, value)
-  File "c:\python27\lib\site-packages\MySQLdb\connections.py", line 36, in defaulterrorhandler
-    raise errorclass, errorvalue
-OperationalError: (_mysql_exceptions.OperationalError) (1054, "Unknown column 'device.state_id' in 'field list'") [SQL: u'SELECT device.id AS device_id, device.name AS device_name, device.`IP` AS `device_IP`, device.`MAC` AS `device_MAC`, device.state_id AS device_state_id, device.last_online AS device_last_online, device.device_type AS device_device_type, device.user_id AS device_user_id, device.environment_id AS device_environment_id \nFROM device'] (Background on this error at: http://sqlalche.me/e/e3q8)
-2018-03-15 11:53:38,427 ERROR: Exception on /index [GET] [in c:\python27\lib\site-packages\flask\app.py:1560]
-Traceback (most recent call last):
-  File "c:\python27\lib\site-packages\flask\app.py", line 1982, in wsgi_app
-    response = self.full_dispatch_request()
-  File "c:\python27\lib\site-packages\flask\app.py", line 1614, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "c:\python27\lib\site-packages\flask\app.py", line 1517, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "c:\python27\lib\site-packages\flask\app.py", line 1612, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "c:\python27\lib\site-packages\flask\app.py", line 1598, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "c:\python27\lib\site-packages\flask_login\utils.py", line 261, in decorated_view
-    return func(*args, **kwargs)
-  File "C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\routes.py", line 31, in index
-    devices = Device.query.all()
-  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2737, in all
-    return list(self)
-  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2889, in __iter__
-    return self._execute_and_instances(context)
-  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2912, in _execute_and_instances
-    result = conn.execute(querycontext.statement, self._params)
-  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 948, in execute
-    return meth(self, multiparams, params)
-  File "c:\python27\lib\site-packages\sqlalchemy\sql\elements.py", line 269, in _execute_on_connection
-    return connection._execute_clauseelement(self, multiparams, params)
-  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1060, in _execute_clauseelement
-    compiled_sql, distilled_params
-  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1200, in _execute_context
-    context)
-  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1413, in _handle_dbapi_exception
-    exc_info
-  File "c:\python27\lib\site-packages\sqlalchemy\util\compat.py", line 203, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb, cause=cause)
-  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1193, in _execute_context
-    context)
-  File "c:\python27\lib\site-packages\sqlalchemy\engine\default.py", line 507, in do_execute
-    cursor.execute(statement, parameters)
-  File "c:\python27\lib\site-packages\MySQLdb\cursors.py", line 205, in execute
-    self.errorhandler(self, exc, value)
-  File "c:\python27\lib\site-packages\MySQLdb\connections.py", line 36, in defaulterrorhandler
-    raise errorclass, errorvalue
-OperationalError: (_mysql_exceptions.OperationalError) (1054, "Unknown column 'device.state_id' in 'field list'") [SQL: u'SELECT device.id AS device_id, device.name AS device_name, device.`IP` AS `device_IP`, device.`MAC` AS `device_MAC`, device.state_id AS device_state_id, device.last_online AS device_last_online, device.device_type AS device_device_type, device.user_id AS device_user_id, device.environment_id AS device_environment_id \nFROM device'] (Background on this error at: http://sqlalche.me/e/e3q8)
+  File "C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\routes.py", line 99, in edit_profile
+    form.email.data = current.user.email
+NameError: global name 'current' is not defined

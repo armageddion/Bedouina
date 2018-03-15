@@ -114,46 +114,29 @@ def checkLANMembers():
 
 	# find who is online and
 	# update DB status and last_online time
-	import MySQLdb
-	db = MySQLdb.connect('10.0.0.69','alfr3d','alfr3d','alfr3d')
 	for member in netClientsMACs:
-		cursor = db.cursor()
-		cursor.execute("SELECT * from alfr3d.device WHERE MAC = \""+member+"\";")
-
-		data = cursor.fetchall()
-		exists = len(data)
+		device = Device()
+		exists = device.getDevice(member)
 
 		#if device exists in the DB update it
 		if exists:
 			logger.info("Updating device with MAC: "+member)
-			try:
-				cursor.execute("UPDATE device SET IP = \" "+netClients2[member]+"\" WHERE MAC = \""+member+"\";")
-				cursor.execute("UPDATE device SET last_online = \""+datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")+"\" WHERE MAC = \""+member+"\";")
-				db.commit()
-			except Exception, e:
-				logger.error("Failed to update the database")
-				logger.error("Traceback: "+str(e))
-				db.rollback()
-		#otherwise, create and add it.
+			device.IP = netClients2[member]
+			device.update()
+
+		#otherwise, create and add it. 
 		else:
 			logger.info("Creating a new DB entry for device with MAC: "+member)
-			try:
-				cursor.execute("INSERT INTO device(name, IP, MAC,  last_online) \
-								VALUES ('unknown', \""+netClients2[member]+"\", \""+member+"\",  \""+datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")+"\" )")
-				db.commit()
-			except Exception, e:
-				logger.error("Failed to update the database")
-				logger.error("Traceback: "+str(e))
-				db.rollback()
-
-	db.close()
+			device.IP = netClients2[member]
+			device.MAC = member
+			device.newDevice(member)	
 
 	# logger.info("Updating users")
 	# user = User()
 	# user.refreshAll()
-	# logger.info("Updating devices")
-	# device = Device()
-	# device.refreshAll()
+	logger.info("Updating devices")
+	device = Device()
+	device.refreshAll()
 
 	logger.info("Cleaning up temporary files")
 	os.system('rm -rf '+netclientsfile)

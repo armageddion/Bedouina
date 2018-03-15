@@ -40,7 +40,6 @@ import socket
 import schedule									# 3rd party lib used for alarm clock managment. 
 import datetime									
 import ConfigParser								# used to parse alfr3ddaemon.conf
-from pymongo import MongoClient					# database link 
 from threading import Thread
 from daemon import Daemon
 from random import randint						# used for random number generator

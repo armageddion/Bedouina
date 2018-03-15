@@ -12,9 +12,9 @@ class User(UserMixin, db.Model):
 	password_hash = db.Column(db.String(128))
 	about_me = db.Column(db.String(140))
 	last_online = db.Column(db.DateTime, index=True, default=datetime.utcnow)	
-	#state = db.Column(db.Integer, db.ForeignKey('states.id'))
+	state_id = db.Column(db.Integer, db.ForeignKey('states.id'))
 	#location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
-	user_type = db.Column(db.Integer, db.ForeignKey('user_types.id'))
+	user_type_id = db.Column(db.Integer, db.ForeignKey('user_types.id'))
 	environment_id = db.Column(db.Integer, db.ForeignKey('environment.id'))
 
 	# Note: relationship is referenced by the model class --> Post
@@ -38,6 +38,7 @@ class User(UserMixin, db.Model):
 class UserTypes(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	type = db.Column(db.String(16), index=True)
+	usr_type = db.relationship('User', backref='user_type', lazy='dynamic')
 
 class Post(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -71,6 +72,7 @@ class States(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	state = db.Column(db.String(10), default='offline', index=True, unique=True)
 	dev_state = db.relationship('Device', backref='state', lazy='dynamic')
+	usr_state = db.relationship('User', backref='state',lazy='dynamic')
 
 class Environment(db.Model):
 	id = db.Column(db.Integer, primary_key=True)

@@ -89,15 +89,17 @@ def edit_profile():
 	form = EditProfileForm(current_user.username)
 	if form.validate_on_submit():
 		current_user.username = form.username.data
+		current_user.email = form.email.data
 		current_user.about_me = form.about_me.data
 		db.session.commit()
 		flash('Your changes have been saved.')
 		return redirect(url_for('edit_profile'))
 	elif request.method == 'GET':
 		form.username.data = current_user.username
+		form.email.data = current_user.email
 		form.about_me.data = current_user.about_me
 	return render_template('edit_profile.html', title='Edit Profile',
-						   form=form)
+						   form=form, user=current_user)
 
 @app.route('/device/<mac>', methods=['GET', 'POST'])
 @login_required
@@ -108,7 +110,7 @@ def edit_device(mac):
 	environments = Environment.query.all()
 	form = EditDeviceForm()
 	if form.validate_on_submit():
-		device.device_type=DeviceTypes.query.filter_by(type=request.form['types']).first().id
+		device.device_type_id=DeviceTypes.query.filter_by(type=request.form['types']).first().id
 		device.user_id=User.query.filter_by(username=request.form['users']).first().id
 		device.name=form.name.data
 		db.session.commit()

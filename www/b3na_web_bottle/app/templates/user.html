@@ -11,6 +11,12 @@
 				{% if user == current_user %}
 				<p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
 				{% endif %}
+				<p>
+					User ID: {{ user.id }} <br>
+					User email: {{ user.email }} <br>
+					User State: {{ user.state}} <br>
+					User Type: {{ user.user_type.type }} <br>
+				</p>				
 			</td>
 		</tr>
 	</table>
@@ -37,9 +43,9 @@
 			<td>{{ device.name }}</td>
 			<td>{{ device.IP }}</td> 
 			<td>{{ device.MAC }}</td>
-			<td>{{ device.state }}</td>
-			<td>{{ device.device_type }}</td>
-			<td>{{ device.user_id }}</td>
+			<td>{{ device.state.state }}</td>
+			<td>{{ device.device_type.type }}</td>
+			<td>{{ device.user.username }}</td>
 			<td><a href="{{ url_for('edit_device', mac=device.MAC) }}">Edit</a></td>
 		</tr>
 		{% endfor %}
