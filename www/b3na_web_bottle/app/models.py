@@ -18,7 +18,8 @@ class User(UserMixin, db.Model):
 	environment_id = db.Column(db.Integer, db.ForeignKey('environment.id'))
 
 	# Note: relationship is referenced by the model class --> Post
-	posts = db.relationship('Post', backref='author', lazy='dynamic') 
+	posts = db.relationship('Post', backref='author', lazy='dynamic')
+	device = db.relationship('Device', backref='user', lazy='dynamic')
 
 	def __repr__(self):
 		return '<User {}>'.format(self.username)
@@ -55,23 +56,27 @@ class Device(db.Model):
 	name = db.Column(db.String(100), index=True)
 	IP = db.Column(db.String(24))
 	MAC = db.Column(db.String(24), unique=True)
-	state = db.Column(db.Integer, db.ForeignKey('states.id'))
+	state_id = db.Column(db.Integer, db.ForeignKey('states.id'))
 	last_online = db.Column(db.DateTime, default=datetime.utcnow, index=True)	
-	device_type = db.Column(db.Integer, db.ForeignKey('device_types.id'))
+	device_type_id = db.Column(db.Integer, db.ForeignKey('device_types.id'))
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 	environment_id = db.Column(db.Integer, db.ForeignKey('environment.id'))
 
 class DeviceTypes(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	type = db.Column(db.String(16), index=True, unique=True)
+	dev_type = db.relationship('Device', backref='device_type', lazy='dynamic')
 
 class States(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	state = db.Column(db.String(10), default='offline', index=True, unique=True)
+	dev_state = db.relationship('Device', backref='state', lazy='dynamic')
 
 class Environment(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(100), index=True)
+	dev_env = db.relationship('Device', backref='environment', lazy='dynamic')
+	usr_env = db.relationship('User', backref='environment', lazy='dynamic')
 
 class Location(db.Model):
 	id = db.Column(db.Integer, primary_key=True)

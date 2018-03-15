@@ -98,6 +98,17 @@ class MyDaemon(Daemon):
 			# OK Take a break 
 			time.sleep(10)
 
+			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+				Check online members
+			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+			try:
+				logger.info("Scanning network")
+				utilities.checkLANMembers()
+			except Exception, e:
+				logger.error("Failed to complete network scan")
+				utilities.speakError("I failed to complete the network scan")
+				logger.error("Traceback: "+str(e))				
+
 	def checkGmail(self):
 		"""
 			Description:
@@ -130,7 +141,7 @@ class MyDaemon(Daemon):
 		"""
 			Description:
 				is anyone at home?
-				it it after dark? 
+				is it after dark? 
 				turn the lights on or off as needed. 
 		"""	
 		logger.info("nightlight auto-check")

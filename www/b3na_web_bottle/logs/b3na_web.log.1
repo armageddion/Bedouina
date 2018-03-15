@@ -1,140 +1,129 @@
-2018-03-14 18:53:02,304 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
-2018-03-14 19:29:55,942 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
-2018-03-14 19:30:07,864 ERROR: Exception on /device/00:50:f1:80:00:00 [GET] [in /usr/local/lib/python2.7/dist-packages/flask/app.py:1560]
+2018-03-15 11:53:10,816 ERROR: Exception on /index [GET] [in c:\python27\lib\site-packages\flask\app.py:1560]
 Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1982, in wsgi_app
+  File "c:\python27\lib\site-packages\flask\app.py", line 1982, in wsgi_app
     response = self.full_dispatch_request()
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1614, in full_dispatch_request
+  File "c:\python27\lib\site-packages\flask\app.py", line 1614, in full_dispatch_request
     rv = self.handle_user_exception(e)
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1517, in handle_user_exception
+  File "c:\python27\lib\site-packages\flask\app.py", line 1517, in handle_user_exception
     reraise(exc_type, exc_value, tb)
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1612, in full_dispatch_request
+  File "c:\python27\lib\site-packages\flask\app.py", line 1612, in full_dispatch_request
     rv = self.dispatch_request()
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1598, in dispatch_request
+  File "c:\python27\lib\site-packages\flask\app.py", line 1598, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/usr/local/lib/python2.7/dist-packages/flask_login/utils.py", line 261, in decorated_view
+  File "c:\python27\lib\site-packages\flask_login\utils.py", line 261, in decorated_view
     return func(*args, **kwargs)
-  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/routes.py", line 106, in edit_device
-    form = EditDeviceForm(mac)
-NameError: global name 'EditDeviceForm' is not defined
-2018-03-14 19:31:01,482 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
-2018-03-14 19:31:11,144 ERROR: Exception on /device/00:50:f1:80:00:00 [GET] [in /usr/local/lib/python2.7/dist-packages/flask/app.py:1560]
+  File "C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\routes.py", line 31, in index
+    devices = Device.query.all()
+  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2737, in all
+    return list(self)
+  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2889, in __iter__
+    return self._execute_and_instances(context)
+  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2912, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 948, in execute
+    return meth(self, multiparams, params)
+  File "c:\python27\lib\site-packages\sqlalchemy\sql\elements.py", line 269, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1060, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1200, in _execute_context
+    context)
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1413, in _handle_dbapi_exception
+    exc_info
+  File "c:\python27\lib\site-packages\sqlalchemy\util\compat.py", line 203, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1193, in _execute_context
+    context)
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\default.py", line 507, in do_execute
+    cursor.execute(statement, parameters)
+  File "c:\python27\lib\site-packages\MySQLdb\cursors.py", line 205, in execute
+    self.errorhandler(self, exc, value)
+  File "c:\python27\lib\site-packages\MySQLdb\connections.py", line 36, in defaulterrorhandler
+    raise errorclass, errorvalue
+OperationalError: (_mysql_exceptions.OperationalError) (1054, "Unknown column 'device.state_id' in 'field list'") [SQL: u'SELECT device.id AS device_id, device.name AS device_name, device.`IP` AS `device_IP`, device.`MAC` AS `device_MAC`, device.state_id AS device_state_id, device.last_online AS device_last_online, device.device_type AS device_device_type, device.user_id AS device_user_id, device.environment_id AS device_environment_id \nFROM device'] (Background on this error at: http://sqlalche.me/e/e3q8)
+2018-03-15 11:53:34,851 ERROR: Exception on /index [GET] [in c:\python27\lib\site-packages\flask\app.py:1560]
 Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1982, in wsgi_app
+  File "c:\python27\lib\site-packages\flask\app.py", line 1982, in wsgi_app
     response = self.full_dispatch_request()
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1614, in full_dispatch_request
+  File "c:\python27\lib\site-packages\flask\app.py", line 1614, in full_dispatch_request
     rv = self.handle_user_exception(e)
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1517, in handle_user_exception
+  File "c:\python27\lib\site-packages\flask\app.py", line 1517, in handle_user_exception
     reraise(exc_type, exc_value, tb)
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1612, in full_dispatch_request
+  File "c:\python27\lib\site-packages\flask\app.py", line 1612, in full_dispatch_request
     rv = self.dispatch_request()
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1598, in dispatch_request
+  File "c:\python27\lib\site-packages\flask\app.py", line 1598, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/usr/local/lib/python2.7/dist-packages/flask_login/utils.py", line 261, in decorated_view
+  File "c:\python27\lib\site-packages\flask_login\utils.py", line 261, in decorated_view
     return func(*args, **kwargs)
-  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/routes.py", line 107, in edit_device
-    return render_template('edit_device.html', title='Edit Device', form=form)
-  File "/usr/local/lib/python2.7/dist-packages/flask/templating.py", line 134, in render_template
-    context, ctx.app)
-  File "/usr/local/lib/python2.7/dist-packages/flask/templating.py", line 116, in _render
-    rv = template.render(context)
-  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 1008, in render
-    return self.environment.handle_exception(exc_info, True)
-  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 780, in handle_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/templates/edit_device.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/templates/base.html", line 30, in top-level template code
-    {% block content %}{% endblock %}
-  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/templates/edit_device.html", line 15, in block "content"
-    {{ form.about_me.label }}<br>
-  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 430, in getattr
-    return getattr(obj, attribute)
-UndefinedError: 'app.forms.EditDeviceForm object' has no attribute 'about_me'
-2018-03-14 19:34:33,466 ERROR: Exception on /device/00:50:f1:80:00:00 [GET] [in /usr/local/lib/python2.7/dist-packages/flask/app.py:1560]
+  File "C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\routes.py", line 31, in index
+    devices = Device.query.all()
+  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2737, in all
+    return list(self)
+  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2889, in __iter__
+    return self._execute_and_instances(context)
+  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2912, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 948, in execute
+    return meth(self, multiparams, params)
+  File "c:\python27\lib\site-packages\sqlalchemy\sql\elements.py", line 269, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1060, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1200, in _execute_context
+    context)
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1413, in _handle_dbapi_exception
+    exc_info
+  File "c:\python27\lib\site-packages\sqlalchemy\util\compat.py", line 203, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1193, in _execute_context
+    context)
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\default.py", line 507, in do_execute
+    cursor.execute(statement, parameters)
+  File "c:\python27\lib\site-packages\MySQLdb\cursors.py", line 205, in execute
+    self.errorhandler(self, exc, value)
+  File "c:\python27\lib\site-packages\MySQLdb\connections.py", line 36, in defaulterrorhandler
+    raise errorclass, errorvalue
+OperationalError: (_mysql_exceptions.OperationalError) (1054, "Unknown column 'device.state_id' in 'field list'") [SQL: u'SELECT device.id AS device_id, device.name AS device_name, device.`IP` AS `device_IP`, device.`MAC` AS `device_MAC`, device.state_id AS device_state_id, device.last_online AS device_last_online, device.device_type AS device_device_type, device.user_id AS device_user_id, device.environment_id AS device_environment_id \nFROM device'] (Background on this error at: http://sqlalche.me/e/e3q8)
+2018-03-15 11:53:38,427 ERROR: Exception on /index [GET] [in c:\python27\lib\site-packages\flask\app.py:1560]
 Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1982, in wsgi_app
+  File "c:\python27\lib\site-packages\flask\app.py", line 1982, in wsgi_app
     response = self.full_dispatch_request()
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1614, in full_dispatch_request
+  File "c:\python27\lib\site-packages\flask\app.py", line 1614, in full_dispatch_request
     rv = self.handle_user_exception(e)
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1517, in handle_user_exception
+  File "c:\python27\lib\site-packages\flask\app.py", line 1517, in handle_user_exception
     reraise(exc_type, exc_value, tb)
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1612, in full_dispatch_request
+  File "c:\python27\lib\site-packages\flask\app.py", line 1612, in full_dispatch_request
     rv = self.dispatch_request()
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1598, in dispatch_request
+  File "c:\python27\lib\site-packages\flask\app.py", line 1598, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/usr/local/lib/python2.7/dist-packages/flask_login/utils.py", line 261, in decorated_view
+  File "c:\python27\lib\site-packages\flask_login\utils.py", line 261, in decorated_view
     return func(*args, **kwargs)
-  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/routes.py", line 107, in edit_device
-    form = EditDeviceForm(mac)
-  File "/usr/local/lib/python2.7/dist-packages/flask/templating.py", line 134, in render_template
-    context, ctx.app)
-  File "/usr/local/lib/python2.7/dist-packages/flask/templating.py", line 116, in _render
-    rv = template.render(context)
-  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 1008, in render
-    return self.environment.handle_exception(exc_info, True)
-  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 780, in handle_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/templates/edit_device.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/templates/base.html", line 30, in top-level template code
-    {% block content %}{% endblock %}
-  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/templates/edit_device.html", line 15, in block "content"
-    
-  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 430, in getattr
-    return getattr(obj, attribute)
-UndefinedError: 'app.forms.EditDeviceForm object' has no attribute 'about_me'
-2018-03-14 19:35:15,974 ERROR: Exception on /device/00:50:f1:80:00:00 [GET] [in /usr/local/lib/python2.7/dist-packages/flask/app.py:1560]
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1982, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1614, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1517, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1612, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1598, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/usr/local/lib/python2.7/dist-packages/flask_login/utils.py", line 261, in decorated_view
-    return func(*args, **kwargs)
-  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/routes.py", line 107, in edit_device
-    form = EditDeviceForm(mac)
-  File "/usr/local/lib/python2.7/dist-packages/flask/templating.py", line 134, in render_template
-    context, ctx.app)
-  File "/usr/local/lib/python2.7/dist-packages/flask/templating.py", line 116, in _render
-    rv = template.render(context)
-  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 1008, in render
-    return self.environment.handle_exception(exc_info, True)
-  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 780, in handle_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/templates/edit_device.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/templates/base.html", line 30, in top-level template code
-    {% block content %}{% endblock %}
-  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/templates/edit_device.html", line 15, in block "content"
-    
-  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 430, in getattr
-    return getattr(obj, attribute)
-UndefinedError: 'app.forms.EditDeviceForm object' has no attribute 'about_me'
-2018-03-14 19:50:07,859 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
-2018-03-14 19:50:47,676 ERROR: Exception on /device/00:50:f1:80:00:00 [GET] [in /usr/local/lib/python2.7/dist-packages/flask/app.py:1560]
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1982, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1614, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1517, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1612, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1598, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/usr/local/lib/python2.7/dist-packages/flask_login/utils.py", line 261, in decorated_view
-    return func(*args, **kwargs)
-  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/routes.py", line 108, in edit_device
-    return render_template('edit_device.html', title='Edit Device', form=form, device=devices)
-NameError: global name 'devices' is not defined
-2018-03-14 19:51:23,752 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
-2018-03-14 19:56:40,522 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
-2018-03-14 19:57:18,438 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+  File "C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\routes.py", line 31, in index
+    devices = Device.query.all()
+  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2737, in all
+    return list(self)
+  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2889, in __iter__
+    return self._execute_and_instances(context)
+  File "c:\python27\lib\site-packages\sqlalchemy\orm\query.py", line 2912, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 948, in execute
+    return meth(self, multiparams, params)
+  File "c:\python27\lib\site-packages\sqlalchemy\sql\elements.py", line 269, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1060, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1200, in _execute_context
+    context)
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1413, in _handle_dbapi_exception
+    exc_info
+  File "c:\python27\lib\site-packages\sqlalchemy\util\compat.py", line 203, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\base.py", line 1193, in _execute_context
+    context)
+  File "c:\python27\lib\site-packages\sqlalchemy\engine\default.py", line 507, in do_execute
+    cursor.execute(statement, parameters)
+  File "c:\python27\lib\site-packages\MySQLdb\cursors.py", line 205, in execute
+    self.errorhandler(self, exc, value)
+  File "c:\python27\lib\site-packages\MySQLdb\connections.py", line 36, in defaulterrorhandler
+    raise errorclass, errorvalue
+OperationalError: (_mysql_exceptions.OperationalError) (1054, "Unknown column 'device.state_id' in 'field list'") [SQL: u'SELECT device.id AS device_id, device.name AS device_name, device.`IP` AS `device_IP`, device.`MAC` AS `device_MAC`, device.state_id AS device_state_id, device.last_online AS device_last_online, device.device_type AS device_device_type, device.user_id AS device_user_id, device.environment_id AS device_environment_id \nFROM device'] (Background on this error at: http://sqlalche.me/e/e3q8)

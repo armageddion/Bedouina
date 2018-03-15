@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, EditDeviceForm
-from app.models import User, Device, DeviceTypes
+from app.models import User, Device, DeviceTypes, States, Environment
 from werkzeug.urls import url_parse
 from datetime import datetime
 
@@ -28,11 +28,9 @@ def index():
 		}
 	]
 
-	strangers = Device.query.filter_by(name='unknown')
+	devices = Device.query.all()
 
-	known_devs = Device.query.filter_by(user_id=current_user.id)
-
-	return render_template('index.html', title='Home', posts=posts, strangers=strangers, known_devs=known_devs)
+	return render_template('index.html', title='Home', posts=posts, devices=devices)
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -82,7 +80,8 @@ def user(username):
 		{'author': user, 'body': 'Test post #1'},
 		{'author': user, 'body': 'Test post #2'}
 	]
-	return render_template('user.html', title=user.username, user=user, posts=posts)
+	devices = Device.query.filter_by(user_id=user.id)
+	return render_template('user.html', title=user.username, user=user, posts=posts, devices=devices)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -105,12 +104,22 @@ def edit_profile():
 def edit_device(mac):
 	device = Device.query.filter_by(MAC=mac).first()
 	device_types = DeviceTypes.query.all()
+	users = User.query.all()
+	environments = Environment.query.all()
 	form = EditDeviceForm()
 	if form.validate_on_submit():
 		device.device_type=DeviceTypes.query.filter_by(type=request.form['types']).first().id
+		device.user_id=User.query.filter_by(username=request.form['users']).first().id
 		device.name=form.name.data
 		db.session.commit()
+		flash('Your changes have been saved.')
 		return redirect(url_for('index'))
 	elif request.method == 'GET':
 		form.name.data = device.name
-	return render_template('edit_device.html', title='Edit Device', form=form, device=device, device_types=device_types)
+	return render_template('edit_device.html', \
+							title='Edit Device', \
+							form=form, \
+							device=device, \
+							device_types=device_types, \
+							users=users, \
+							environments=environments)
