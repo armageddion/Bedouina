@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Edit Device</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name(size=32) }}<br>
+            {% for error in form.name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+					Device ID: {{ device.id }} <br>
+					Device IP: {{ device.IP }} <br>
+					Device MAC: {{ device.MAC }} <br>
+					Device state: {{ device.state }} <br>
+					Device Last seen: {{ device.last_online }} <br>
+					Device user: {{ device.user_id }} <br>
+					Device environemnt: {{ device.environment_id }} <br>
+				</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}

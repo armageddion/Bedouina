@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, EditDeviceForm
 from app.models import User, Device
 from werkzeug.urls import url_parse
 from datetime import datetime
@@ -84,7 +84,6 @@ def user(username):
 	]
 	return render_template('user.html', title=user.username, user=user, posts=posts)
 
-
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
@@ -100,3 +99,15 @@ def edit_profile():
 		form.about_me.data = current_user.about_me
 	return render_template('edit_profile.html', title='Edit Profile',
 						   form=form)
+
+@app.route('/device/<mac>', methods=['GET', 'POST'])
+@login_required
+def edit_device(mac):
+	device = Device.query.filter_by(MAC=mac).first()
+	print device
+	form = EditDeviceForm()
+	if form.validate_on_submit():
+		device.name=form.name.data
+		db.session.commit()
+		return redirect(url_for('index'))
+	return render_template('edit_device.html', title='Edit Device', form=form, device=device)

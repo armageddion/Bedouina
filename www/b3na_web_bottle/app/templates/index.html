@@ -8,12 +8,14 @@
 		<hr>
 		<h3>unknown devices:</h3>
 		{% for stranger in strangers %}
-			<div><p> device with IP {{ stranger.IP }} has MAC: {{ stranger.MAC }}
+			<div><p> unknown device with name {{ stranger.name }} device with ip {{ stranger.IP }} has MAC: {{ stranger.MAC }}
+				<a href="{{ url_for('edit_device', mac=stranger.MAC) }}">Edit</a>
 			</p></div>
 		{% endfor %}
 		<h3>my devices:</h3>
 		{% for device in known_devs %}
 			<div><p> device with name {{ device.name }} has MAC: {{ device.MAC }}
+				<a href="{{ url_for('edit_device', mac=device.MAC) }}">Edit</a>
 			</p></div>
 		{% endfor %}
 {% endblock %}

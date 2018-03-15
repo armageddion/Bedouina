@@ -1,0 +1,41 @@
+2018-03-14 19:58:57,814 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-14 20:00:09,937 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-14 20:00:13,289 ERROR: Exception on /index [GET] [in /usr/local/lib/python2.7/dist-packages/flask/app.py:1560]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/usr/local/lib/python2.7/dist-packages/flask_login/utils.py", line 261, in decorated_view
+    return func(*args, **kwargs)
+  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/routes.py", line 35, in index
+    return render_template('index.html', title='Home', posts=posts, strangers=strangers, known_devs=known_devs)
+  File "/usr/local/lib/python2.7/dist-packages/flask/templating.py", line 134, in render_template
+    context, ctx.app)
+  File "/usr/local/lib/python2.7/dist-packages/flask/templating.py", line 116, in _render
+    rv = template.render(context)
+  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 1008, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 780, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/templates/index.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/templates/base.html", line 30, in top-level template code
+    {% block content %}{% endblock %}
+  File "/home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/templates/index.html", line 12, in block "content"
+    <a href="{{ url_for('edit_device', mac=device.MAC) }}">Edit</a>
+  File "/usr/local/lib/python2.7/dist-packages/jinja2/environment.py", line 430, in getattr
+    return getattr(obj, attribute)
+UndefinedError: 'device' is undefined
+2018-03-14 20:00:40,143 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-14 21:21:55,157 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-14 21:23:17,617 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-14 21:29:31,802 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-14 21:33:24,948 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-15 09:09:18,576 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-	This is a utility for detecting clients on Alfr3d LAN and 
+	This is a utility for detecting clients on Alfr3d LAN and
 	storing new guests into the existing database
 """
 # Copyright (c) 2010-2018 LiTtl3.1 Industries (LiTtl3.1).
@@ -44,7 +44,7 @@ from time import strftime, localtime, time
 # current path from which python is executed
 CURRENT_PATH = os.path.dirname(__file__)
 
-# set up logging 
+# set up logging
 logger = logging.getLogger("NetworkLog")
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -56,10 +56,10 @@ logger.addHandler(handler)
 def checkLANMembers():
 	"""
 		Description:
-			This function checks who is on LAN 
+			This function checks who is on LAN
 	"""
 	logger.info("Checking localnet for online devices")
- 
+
 	# set up configuration and temporary files
 	# config file for daemon specific configs
 	configFile = (os.path.join(os.path.join(os.getcwd(),os.path.dirname(__file__)),'../conf/alfr3ddaemon.conf'))
@@ -89,7 +89,7 @@ def checkLANMembers():
 			if ret2[0] == ('192') and ret2[1] == ('168'):
 				print ret[0]
 				# parse MAC addresses from arp-scan run
-				netClientsMACs.append(ret[1])		
+				netClientsMACs.append(ret[1])
 				# parse IP addresses from arp-scan run
 				netClientsIPs.append(ret[0])
 	else:
@@ -98,12 +98,12 @@ def checkLANMembers():
 			ret2 = ret[0].split('.')
 			if ret2[0] == ('10') and ret2[1] == ('0'):
 				# parse MAC addresses from arp-scan run
-				netClientsMACs.append(ret[1])		
+				netClientsMACs.append(ret[1])
 				# parse IP addresses from arp-scan run
 				netClientsIPs.append(ret[0])
 			elif ret2[0] == ('192') and ret2[1] == ('168'):
 				# parse MAC addresses from arp-scan run
-				netClientsMACs.append(ret[1])		
+				netClientsMACs.append(ret[1])
 				# parse IP addresses from arp-scan run
 				netClientsIPs.append(ret[0])
 
@@ -112,38 +112,39 @@ def checkLANMembers():
 	for i in range(len(netClientsMACs)):
 		netClients2[netClientsMACs[i]] = netClientsIPs[i]
 
-	# find who is online and 
+	# find who is online and
 	# update DB status and last_online time
 	import MySQLdb
 	db = MySQLdb.connect('10.0.0.69','alfr3d','alfr3d','alfr3d')
 	for member in netClientsMACs:
 		cursor = db.cursor()
-		cursor.execute('SELECT * from alfr3d.device WHERE MAC = '+member+';')
+		cursor.execute("SELECT * from alfr3d.device WHERE MAC = \""+member+"\";")
 
-		exists = len(cursor.fetchall())
+		data = cursor.fetchall()
+		exists = len(data)
 
 		#if device exists in the DB update it
 		if exists:
-			logger.info("Updating device with MAC: "+member)		
+			logger.info("Updating device with MAC: "+member)
 			try:
-				cursor.execute('UPDATE device SET IP = '+netClients2[member]+' WHERE MAC = '+member+';')
-				cursor.execute('UPDATE device SET last_online = '+datetime.utcnow+' WHERE MAC = '+member+';')
+				cursor.execute("UPDATE device SET IP = \" "+netClients2[member]+"\" WHERE MAC = \""+member+"\";")
+				cursor.execute("UPDATE device SET last_online = \""+datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")+"\" WHERE MAC = \""+member+"\";")
 				db.commit()
 			except Exception, e:
-				logger.error("Failed to update the database")		
+				logger.error("Failed to update the database")
 				logger.error("Traceback: "+str(e))
 				db.rollback()
-		#otherwise, create and add it. 
+		#otherwise, create and add it.
 		else:
 			logger.info("Creating a new DB entry for device with MAC: "+member)
 			try:
-				cursor.execute("INSERT INTO device(name, IP, MAC, state, last_online) \
-								VALUES ('unknown', "+netClients2[member]+", "+member+", 'online', "+datetime.utcnow+" )")
+				cursor.execute("INSERT INTO device(name, IP, MAC,  last_online) \
+								VALUES ('unknown', \""+netClients2[member]+"\", \""+member+"\",  \""+datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")+"\" )")
 				db.commit()
 			except Exception, e:
-				logger.error("Failed to update the database")		
+				logger.error("Failed to update the database")
 				logger.error("Traceback: "+str(e))
-				db.rollback()			
+				db.rollback()
 
 	db.close()
 
@@ -152,7 +153,7 @@ def checkLANMembers():
 	# user.refreshAll()
 	# logger.info("Updating devices")
 	# device = Device()
-	# device.refreshAll()		
+	# device.refreshAll()
 
 	logger.info("Cleaning up temporary files")
 	os.system('rm -rf '+netclientsfile)
@@ -161,4 +162,4 @@ def checkLANMembers():
 
 # Main - only really used for testing
 if __name__ == '__main__':
-	checkLANMembers()		
+	checkLANMembers()
