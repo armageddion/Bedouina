@@ -34,9 +34,7 @@
 import logging
 import time
 import os										# used to allow execution of system level commands
-import re
 import sys
-import socket
 import schedule									# 3rd party lib used for alarm clock managment. 
 import datetime									
 import ConfigParser								# used to parse alfr3ddaemon.conf
@@ -62,8 +60,15 @@ os.system('sudo mkdir -p /var/run/alfr3ddaemon')
 config = ConfigParser.RawConfigParser()
 config.read(os.path.join(CURRENT_PATH,'../conf/apikeys.conf'))
 # get main DB credentials
-db_user = config.get("Alfr3d DB", "user")
-db_pass = config.get("Alfr3d DB", "password")
+DATABASE_URL 	= os.environ.get('DATABASE_URL') or '10.0.0.69'
+DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or 'alfr3d'
+DATABASE_USER 	= os.environ.get('DATABASE_USER') or 'alfr3d'
+DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or 'alfr3d'
+# DATABASE_URL 	= os.environ.get('DATABASE_URL') or config.get("Alfr3d_DB","database_url")
+# DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or config.get("Alfr3d_DB","database_name")
+# DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d_DB","database_user")
+# DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d_DB","database_pswd")
+
 
 # gmail unread count
 unread_Count = 0

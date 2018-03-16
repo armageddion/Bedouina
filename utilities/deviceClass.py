@@ -31,7 +31,6 @@
 
 import os
 import logging
-import socket
 import ConfigParser
 import MySQLdb
 from datetime import datetime, timedelta
