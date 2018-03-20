@@ -55,7 +55,7 @@ handler = logging.FileHandler(os.path.join(CURRENT_PATH,"../log/total.log"))
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-def checkLANMembers(speaker):
+def checkLANMembers(speaker=None):
 	"""
 		Description:
 			This function checks who is on LAN
@@ -87,7 +87,6 @@ def checkLANMembers(speaker):
 			ret = line.split('\t')
 			ret2 = ret[0].split('.')
 			if ret2[0] == ('192') and ret2[1] == ('168'):
-				print ret[0]
 				# parse MAC addresses from arp-scan run
 				netClientsMACs.append(ret[1])
 				# parse IP addresses from arp-scan run
@@ -124,12 +123,12 @@ def checkLANMembers(speaker):
 			device.IP = netClients2[member]
 			device.update()
 
-		#otherwise, create and add it. 
+		#otherwise, create and add it.
 		else:
 			logger.info("Creating a new DB entry for device with MAC: "+member)
 			device.IP = netClients2[member]
 			device.MAC = member
-			device.newDevice(member)	
+			device.newDevice(member)
 
 	# logger.info("Updating users")
 	user = User()

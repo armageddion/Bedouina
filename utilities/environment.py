@@ -32,6 +32,7 @@
 
 import ConfigParser
 import os
+import re
 import sys
 import socket
 import urllib
@@ -44,7 +45,7 @@ from time import strftime, localtime
 # current path from which python is executed
 CURRENT_PATH = os.path.dirname(__file__)
 
-# set up logging 
+# set up logging
 logger = logging.getLogger("EnvironmentLog")
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -55,20 +56,17 @@ logger.addHandler(handler)
 config = ConfigParser.RawConfigParser()
 config.read(os.path.join(os.path.dirname(__file__),'../conf/apikeys.conf'))
 # get main DB credentials
-DATABASE_URL 	= os.environ.get('DATABASE_URL') or '10.0.0.69'
-DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or 'alfr3d'
-DATABASE_USER 	= os.environ.get('DATABASE_USER') or 'alfr3d'
-DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or 'alfr3d'
-# DATABASE_URL 	= os.environ.get('DATABASE_URL') or config.get("Alfr3d_DB","database_url")
-# DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or config.get("Alfr3d_DB","database_name")
-# DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d_DB","database_user")
-# DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d_DB","database_pswd")
+DATABASE_URL 	= os.environ.get('DATABASE_URL') or config.get("Alfr3d DB","database_url")
+DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or config.get("Alfr3d DB","database_name")
+DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d DB","database_user")
+DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d DB","database_pswd")
 
-def checkLocation(speaker):
+def checkLocation(method="freegeoip", speaker=None):
+#def checkLocation(method="dbip", speaker=None):
 	"""
 		Check location based on IP
 	"""
-	logger.info("Creating a new device")
+	logger.info("Checking environment info")
 	# get latest DB environment info
 	# Initialize the database
 	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
@@ -93,16 +91,16 @@ def checkLocation(speaker):
 			logger.warning("Failed to find environment configuration for this host")
 			logger.info("Creating environment configuration for this host")
 			try:
-				cursor.execute("INSERT INTO environment(name ) \
-				VALUES (\""+socket.gethostname()+"\";")
+				cursor.execute("INSERT INTO environment (name) \
+				VALUES (\""+socket.gethostname()+"\");")
 				db.commit()
 				logger.info("new engironment created")
 			except Exception, e:
 				logger.error("Failed to add new environment to DB")
-				logger.error("Traceback "+str(e))	
+				logger.error("Traceback "+str(e))
 				db.rollback()
 				db.close()
-				return False			
+				return False
 	except Exception, e:
 		logger.error("Environment check failed")
 		logger.error("Traceback "+str(e))
@@ -127,68 +125,113 @@ def checkLocation(speaker):
 			logger.error("Traceback "+str(e))
 	finally:
 		if not myipv6 and not myipv4:
-			return
+			return [False, 0, 0]
 
 	# get API key for db-ip.com
 	apikey = config.get("API KEY", "dbip")
-
-	# get my geo info
-	if myipv6:
-		url6 = "http://api.db-ip.com/addrinfo?addr="+myipv6+"&api_key="+apikey
-	elif myipv4:
-		url4 = "http://api.db-ip.com/addrinfo?addr="+myipv4+"&api_key="+apikey
 
 	country_new = country
 	state_new = state
 	city_new = city
 	ip_new = ip
+	lat_new = 'n/a'
+	long_new = 'n/a'
 
-	logger.info("Getting my location")
-	try:
-		# try to get our info based on IPV4
-		info4 = json.loads(urllib.urlopen(url4).read().decode('utf-8'))
+	if method == 'dbip':
+		# get API key for db-ip.com
+		apikey = config.get("API KEY", "dbip")
 
-		if info4['city']:
-			country_new = info4['country']
-			state_new = info4['stateprov']
-			city_new = info4['city']
-			ip_new = info4['address']
+		# get my geo info
+		if myipv6:
+			url6 = "http://api.db-ip.com/addrinfo?addr="+myipv6+"&api_key="+apikey
+		elif myipv4:
+			url4 = "http://api.db-ip.com/addrinfo?addr="+myipv4+"&api_key="+apikey
 
-		# if that fails, try the IPV6 way
-		else:
-			info6 = json.loads(urllib.urlopen(url6).read().decode('utf-8'))
-			if info6['country']:
-				country_new = info6['country']
-				state_new = info6['stateprov']
-				city_new = info6['city']
-				ip_new = info6['address']		
+		logger.info("Getting my location")
+		try:
+			# try to get our info based on IPV4
+			info4 = json.loads(urllib.urlopen(url4).read().decode('utf-8'))
 
-			else: 
-				raise Exception("Unable to get geo info based on IP")
+			if info4['city']:
+				country_new = info4['country']
+				state_new = info4['stateprov']
+				city_new = info4['city']
+				ip_new = info4['address']
 
-	except Exception, e:
-			logger.error("Error getting my location:"+e)
-			sys.exit(1)
+			# if that fails, try the IPV6 way
+			else:
+				info6 = json.loads(urllib.urlopen(url6).read().decode('utf-8'))
+				if info6['country']:
+					country_new = info6['country']
+					state_new = info6['stateprov']
+					city_new = info6['city']
+					ip_new = info6['address']
+
+				else:
+					raise Exception("Unable to get geo info based on IP")
+
+		except Exception, e:
+				logger.error("Error getting my location:"+e)
+				return [False, 0, 0]
+
+	elif method == "freegeoip":
+		if myipv4:
+			url4 = "http://freegeoip.net/json/"+myipv4
+
+			try:
+				# try to get our info based on IPV4
+				info4 = json.loads(urllib.urlopen(url4).read().decode('utf-8'))
+				print info4
+				if info4['city']:
+					country_new = info4['country_name']
+					#state_new = info4['stateprov_name']
+					city_new = info4['city']
+					ip_new = info4['ip']
+					lat_new = info4['latitude']
+					long_new = info4['longitude']
+
+				else:
+					raise Exception("Unable to get geo info based on IP")
+
+			except Exception, e:
+				logger.error("Error getting my location:"+str(e))
+				return [False, 0, 0]
+
+	else:
+		logger.warning("Unable to obtain geo info - invalid method specified")
+		return [False, 0, 0]
+
+	# by this point we got our geo info
+	# just gotta clean it up because sometimes we get garbage in the city name
+	city_new = re.sub('[^A-Za-z]+',"",city_new)
+
+	logger.info("IP: "+str(ip_new))
+	logger.info("City: "+str(city_new))
+	logger.info("State/Prov: "+str(state_new))
+	logger.info("Country: "+str(country_new))
+	logger.info("Longitude: "+str(long_new))
+	logger.info("Latitude: "+str(lat_new))
 
 	if city_new == city:
 		logger.info("You are still in the same location")
-	else: 
+	else:
 		logger.info("Oh hello! Welcome to "+city_new)
 		if speaker:
 			speaker.speakString("Welcome to "+city_new+" sir")
 			speaker.speakString("I trust you enjoyed your travels")
-
 
 		try:
 			cursor.execute("UPDATE environment SET country = \" "+country_new+"\" WHERE name = \""+socket.gethostname()+"\";")
 			cursor.execute("UPDATE environment SET state = \" "+state_new+"\" WHERE name = \""+socket.gethostname()+"\";")
 			cursor.execute("UPDATE environment SET city = \" "+city_new+"\" WHERE name = \""+socket.gethostname()+"\";")
 			cursor.execute("UPDATE environment SET IP = \" "+ip_new+"\" WHERE name = \""+socket.gethostname()+"\";")
+			cursor.execute("UPDATE environment SET latitude = \" "+str(lat_new)+"\" WHERE name = \""+socket.gethostname()+"\";")
+			cursor.execute("UPDATE environment SET longitude = \" "+str(long_new)+"\" WHERE name = \""+socket.gethostname()+"\";")
 			db.commit()
 			logger.info("Environment updated")
 		except Exception, e:
 			logger.error("Failed to update Environment database")
-			logger.error("Traceback "+str(e))	
+			logger.error("Traceback "+str(e))
 			db.rollback()
 			db.close()
 			return False
@@ -196,14 +239,14 @@ def checkLocation(speaker):
 	db.close()
 
 	# get latest weather info for new location
-	try: 
+	try:
 		logger.info("Getting latest weather")
-		weatherUtil.getWeather(city_new, country_new)
+		weatherUtil.getWeather(city_new, country_new, speaker)
 	except Exception, e:
 		logger.error("Failed to get weather")
-		logger.error("Traceback "+str(e))			
-	return True
+		logger.error("Traceback "+str(e))
+	return [True, city_new, country_new]
 
 # Main - only really used for testing
 if __name__ == '__main__':
-	checkLocation()	
+	checkLocation()

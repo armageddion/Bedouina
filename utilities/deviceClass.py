@@ -38,7 +38,7 @@ from datetime import datetime, timedelta
 # current path from which python is executed
 CURRENT_PATH = os.path.dirname(__file__)
 
-# set up logging 
+# set up logging
 logger = logging.getLogger("DevicesLog")
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -85,7 +85,7 @@ class Device:
 			db.close()
 			return False
 
-		logger.info("Creating a new DB entry for device with MAC: "+member)
+		logger.info("Creating a new DB entry for device with MAC: "+mac)
 		try:
 			cursor.execute("INSERT INTO device(name, IP, MAC, state, last_online, user) \
 							VALUES (\""+self.name+"\", \""+self.IP+"\", \""+self.MAC+"\",  \""+self.state+"\",  \""+self.last_online+"\",  \""+self.user+"\")")
@@ -95,7 +95,7 @@ class Device:
 			logger.error("Traceback: "+str(e))
 			db.rollback()
 			db.close()
-			return False			
+			return False
 
 		db.close()
 		return True
@@ -117,7 +117,7 @@ class Device:
 
 		self.name = data[1]
 		self.IP = data[2]
-		self.MAC = data[3] 
+		self.MAC = data[3]
 		self.state = data[7]
 		self.last_online = data[4]
 		self.user = data[5]
@@ -150,7 +150,7 @@ class Device:
 			states = cursor.fetchall()
 			for state in states:
 				if state[1]=='online':
-					print state[0]
+					#print state[0]
 					cursor.execute("UPDATE device SET state_id = "+str(state[0])+" WHERE MAC = \""+self.MAC+"\";")
 					break
 			db.commit()
@@ -159,7 +159,7 @@ class Device:
 			logger.error("Traceback: "+str(e))
 			db.rollback()
 			db.close()
-			return False		
+			return False
 
 		db.close()
 		logger.info("Updated device with MAC: " + self.MAC)
@@ -167,7 +167,7 @@ class Device:
 
 	def refreshAll(self):
 		logger.info("Refreshing device list")
-		
+
 		db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
 		cursor = db.cursor()
 		cursor.execute("SELECT * from device;")
@@ -180,7 +180,7 @@ class Device:
 			# for my devices 5 minute timeout here is more than enough
 			# for most devices 15 minutes is fine
 			# however, some (brand new) tech is being clever about power saving and if unused will
-			# be dormant and, from my observations, only connect once every 20 minutes or so. 
+			# be dormant and, from my observations, only connect once every 20 minutes or so.
 			try:
 				last_online = device[4]
 				time_now = datetime.utcnow()
@@ -206,7 +206,7 @@ class Device:
 				logger.error("Traceback: "+str(e))
 				db.rollback()
 				db.close()
-				return False	
+				return False
 
 		db.close()
 		return True

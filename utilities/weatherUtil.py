@@ -38,13 +38,14 @@ import logging										# needed for useful logs
 import socket
 import ConfigParser
 import MySQLdb
+from datetime import datetime
 from time import gmtime, strftime, localtime		# needed to obtain time
 from random import randint
 
 # current path from which python is executed
 CURRENT_PATH = os.path.dirname(__file__)
 
-# set up logging 
+# set up logging
 logger = logging.getLogger("WeatherLog")
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -52,26 +53,22 @@ handler = logging.FileHandler(os.path.join(CURRENT_PATH,"../log/total.log"))
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-def getWeather(city="Toronto",country="CA", speaker):
+def getWeather(city="Toronto",country="CA", speaker=None):
 	"""
         Description:
-            This function gets weather data and parses it. 
+            This function gets weather data and parses it.
         Return:
             Boolean; True if successful, False if not.
     """
-	# get API key for openWeather 
+	# get API key for openWeather
 	logger.info("Getting weather data for "+city+", "+country)
 	config = ConfigParser.RawConfigParser()
 	config.read(os.path.join(os.path.dirname(__file__),'../conf/apikeys.conf'))
 	# get main DB credentials
-	DATABASE_URL 	= os.environ.get('DATABASE_URL') or '10.0.0.69'
-	DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or 'alfr3d'
-	DATABASE_USER 	= os.environ.get('DATABASE_USER') or 'alfr3d'
-	DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or 'alfr3d'
-	# DATABASE_URL 	= os.environ.get('DATABASE_URL') or config.get("Alfr3d_DB","database_url")
-	# DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or config.get("Alfr3d_DB","database_name")
-	# DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d_DB","database_user")
-	# DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d_DB","database_pswd")
+	DATABASE_URL 	= os.environ.get('DATABASE_URL') or config.get("Alfr3d DB","database_url")
+	DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or config.get("Alfr3d DB","database_name")
+	DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d DB","database_user")
+	DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d DB","database_pswd")
 	apikey = config.get("API KEY", "openWeather")
 
 	weatherData = None
@@ -80,7 +77,7 @@ def getWeather(city="Toronto",country="CA", speaker):
 	try:
 		weatherData = json.loads(urllib.urlopen(url).read().decode('utf-8'))
 	except:
-		logger.error("Failed to get weather data\n")	
+		logger.error("Failed to get weather data\n")
 		return False, weatherData
 
 	logger.info("got weather data for "+city+", "+country)
@@ -95,38 +92,39 @@ def getWeather(city="Toronto",country="CA", speaker):
 	logger.info("Today's High:                   "+str(KtoC(weatherData['main']['temp_max'])))
 	logger.info("Description:                    "+str(weatherData['weather'][0]['description']))
 	logger.info("Current Temperature:            "+str(KtoC(weatherData['main']['temp'])))
-	logger.info("Sunrise:                        "+str(strftime('%H:%M', localtime(weatherData['sys']['sunrise']))))
-	logger.info("Sunset:                         "+str(strftime('%H:%M', localtime(weatherData['sys']['sunset']))))
+	logger.info("Sunrise:                        "+datetime.fromtimestamp(weatherData['sys']['sunrise']).strftime("%Y-%m-%d %H:%M:%S"))
+	logger.info("Sunset:                         "+datetime.fromtimestamp(weatherData['sys']['sunset']).strftime("%Y-%m-%d %H:%M:%S"))
 
 	logger.info("Parsed weather data\n")
 
 	# Initialize the database
 	logger.info("Updating weather data in DB")
 
+	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
 	cursor = db.cursor()
 	cursor.execute("SELECT * from environment WHERE name = \""+socket.gethostname()+"\";")
 	try:
-		cursor.execute("UPDATE environment SET description = \" "+str(weatherData['weather'][0]['description'])+"\" WHERE name = \""+socket.gethostname()+"\";")
-		cursor.execute("UPDATE environment SET low = \" "++str(KtoC(weatherData['main']['temp_min']))+"\" WHERE name = \""+socket.gethostname()+"\";")
-		cursor.execute("UPDATE environment SET high = \" "+str(KtoC(weatherData['main']['temp_max']))+"\" WHERE name = \""+socket.gethostname()+"\";")
-		cursor.execute("UPDATE environment SET sunrise = \" "+str(strftime('%H:%M', localtime(weatherData['sys']['sunrise'])))+"\" WHERE name = \""+socket.gethostname()+"\";")
-		cursor.execute("UPDATE environment SET sunset = \" "+str(strftime('%H:%M', localtime(weatherData['sys']['sunset'])))+"\" WHERE name = \""+socket.gethostname()+"\";")
+		cursor.execute("UPDATE environment SET description = \""+str(weatherData['weather'][0]['description'])+"\" WHERE name = \""+socket.gethostname()+"\";")
+		cursor.execute("UPDATE environment SET low = \""+str(KtoC(weatherData['main']['temp_min']))+"\" WHERE name = \""+socket.gethostname()+"\";")
+		cursor.execute("UPDATE environment SET high = \""+str(KtoC(weatherData['main']['temp_max']))+"\" WHERE name = \""+socket.gethostname()+"\";")
+		cursor.execute("UPDATE environment SET sunrise = \""+datetime.fromtimestamp(weatherData['sys']['sunrise']).strftime("%Y-%m-%d %H:%M:%S")+"\" WHERE name = \""+socket.gethostname()+"\";")
+		cursor.execute("UPDATE environment SET sunset = \""+datetime.fromtimestamp(weatherData['sys']['sunset']).strftime("%Y-%m-%d %H:%M:%S")+"\" WHERE name = \""+socket.gethostname()+"\";")
 		db.commit()
 		logger.info("Environment weather info updated")
 	except Exception, e:
 		logger.error("Failed to update Environment database with weather info")
-		logger.error("Traceback "+str(e))	
+		logger.error("Traceback "+str(e))
 		db.rollback()
 		db.close()
-		return False	
+		return False
 
-	# Subjective weather 
+	# Subjective weather
 	badDay = []
 	badDay_data = []
 	badDay.append(False)
 	badDay.append(badDay_data)
 
-	# if weather is bad... 
+	# if weather is bad...
 	if weatherData['weather'][0]['main'] in ['Thunderstorm','Drizzle','Rain','Snow','Atmosphere','Exreeme']:
 		badDay[0] = True
 		badDay[1].append(weatherData['weather'][0]['description'])
@@ -135,10 +133,10 @@ def getWeather(city="Toronto",country="CA", speaker):
 		badDay[1].append(weatherData['main']['humidity'])
 	if KtoC(weatherData['main']['temp_max']) > 27:
 		badDay[0] = True
-		badDay[1].append(weatherData['main']['temp_max'])		
+		badDay[1].append(weatherData['main']['temp_max'])
 	elif KtoC(weatherData['main']['temp_min']) < -5:
 		badDay[0] = True
-		badDay[1].append(weatherData['main']['temp_min'])		
+		badDay[1].append(weatherData['main']['temp_min'])
 	if weatherData['wind']['speed'] > 10:
 		badDay[0] = True
 		badDay[1].append(weatherData['wind']['speed'])
@@ -147,7 +145,7 @@ def getWeather(city="Toronto",country="CA", speaker):
 	# Speak the weather data
 	greeting = ''
 	random = ["Weather patterns ", "My scans "]
-	greeting += random[randint(0,len(random)-1)]	
+	greeting += random[randint(0,len(random)-1)]
 
 	# Time variables
 	hour=strftime("%I", localtime())
@@ -177,7 +175,7 @@ def getWeather(city="Toronto",country="CA", speaker):
 				greeting += " , and on top of everything, "
 			else:
 				logger.info(greeting+"\n")
-		speaker.speakString(greeting)		
+		speaker.speakString(greeting)
 	else:
 		speaker.speakString("Weather today is just gorgeous!")
 		greeting += "indicate "+weatherData['weather'][0]['description']
@@ -200,5 +198,5 @@ def KtoC(tempK):
 	return math.trunc(int(tempK)-273.15)
 
 # purely for testing purposes
-if __name__ == "__main__":	
+if __name__ == "__main__":
 	getWeather()

@@ -11,7 +11,7 @@ class User(UserMixin, db.Model):
 	email = db.Column(db.String(120), index=True, unique=True)
 	password_hash = db.Column(db.String(128))
 	about_me = db.Column(db.String(140))
-	last_online = db.Column(db.DateTime, index=True, default=datetime.utcnow)	
+	last_online = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 	state_id = db.Column(db.Integer, db.ForeignKey('states.id'))
 	#location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
 	user_type_id = db.Column(db.Integer, db.ForeignKey('user_types.id'))
@@ -25,7 +25,7 @@ class User(UserMixin, db.Model):
 		return '<User {}>'.format(self.username)
 
 	def set_password(self, password):
-		self.password_hash = generate_password_hash(password)		
+		self.password_hash = generate_password_hash(password)
 
 	def check_password(self, password):
 		return check_password_hash(self.password_hash, password)
@@ -33,7 +33,7 @@ class User(UserMixin, db.Model):
 	def avatar(self, size):
 		digest = md5(self.email.lower().encode('utf-8')).hexdigest()
 		return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
-			digest, size)		
+			digest, size)
 
 class UserTypes(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -58,7 +58,7 @@ class Device(db.Model):
 	IP = db.Column(db.String(24))
 	MAC = db.Column(db.String(24), unique=True)
 	state_id = db.Column(db.Integer, db.ForeignKey('states.id'))
-	last_online = db.Column(db.DateTime, default=datetime.utcnow, index=True)	
+	last_online = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 	device_type_id = db.Column(db.Integer, db.ForeignKey('device_types.id'))
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 	environment_id = db.Column(db.Integer, db.ForeignKey('environment.id'))
@@ -90,7 +90,7 @@ class Environment(db.Model):
 	sunset = db.Column(db.DateTime)
 
 	user_env = db.relationship('User', backref='environment',lazy='dynamic')
-	device_env = = db.relationship('Device', backref='environment',lazy='dynamic')
+	device_env = db.relationship('Device', backref='environment',lazy='dynamic')
 
 @login.user_loader
 def load_user(id):

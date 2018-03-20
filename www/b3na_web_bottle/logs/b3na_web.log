@@ -122,3 +122,5 @@ AttributeError: 'long' object has no attribute '_sa_instance_state'
 2018-03-15 18:41:10,582 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
 2018-03-20 13:31:47,213 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
 2018-03-20 13:31:57,361 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-20 14:44:27,862 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]
+2018-03-20 14:53:26,935 INFO: B3na web startup [in /home/armageddion/Alfr3d/b3na/www/b3na_web_bottle/app/__init__.py:46]

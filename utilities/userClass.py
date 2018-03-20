@@ -42,7 +42,7 @@ from deviceClass import Device
 # current path from which python is executed
 CURRENT_PATH = os.path.dirname(__file__)
 
-# set up logging 
+# set up logging
 logger = logging.getLogger("UsersLog")
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -75,7 +75,8 @@ class User:
 
 	def first(self):
 		logger.info("Checking for god user")
-		self.newUser("armageddion")
+		self.name = "armageddion"
+		self.newUser()
 
 	def newUser(self):
 		logger.info("Creating a new user")
@@ -103,7 +104,7 @@ class User:
 			logger.error("Traceback: "+str(e))
 			db.rollback()
 			db.close()
-			return False		
+			return False
 
 		db.close()
 		return True
@@ -120,7 +121,7 @@ class User:
 			db.close()
 			return False
 
-		print data
+		#print data
 		self.name = data[1]
 		self.state = data[8]
 		self.last_online = data[6]
@@ -159,16 +160,16 @@ class User:
 			logger.error("Traceback: "+str(e))
 			db.rollback()
 			db.close()
-			return False		
+			return False
 
 		db.close()
 		logger.info("Updated user: " + self.name)
 		return True
 
 	# refreshes state and last_online for all users
-	def refreshAll(self, speaker):		
+	def refreshAll(self, speaker):
 		logger.info("Refreshing users")
-		
+
 		db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
 		cursor = db.cursor()
 		cursor.execute("SELECT * from user;")
@@ -186,12 +187,12 @@ class User:
 		cursor.execute("SELECT * FROM states;")
 		states = cursor.fetchall()
 		for state in states:
-			stat[state[1]]=state[0]			
+			stat[state[1]]=state[0]
 
 		# get all devices for that user
 		for user in data:
 			self.getUser(user[1])
-			logger.info("refreshing user "+self.name)			
+			logger.info("refreshing user "+self.name)
 			last_online=self.last_online
 
 			# get all devices for that user
@@ -203,7 +204,6 @@ class User:
 					# update last_online time for that user
 					if device[4] > user[6]:
 						logger.info("Updating user "+self.name)
-						print "UPDATE user SET last_online = \""+device[4]+"\" WHERE username = \""+user[1]+"\";"
 						cursor.execute("UPDATE user SET last_online = \""+device[4]+"\" WHERE username = \""+user[1]+"\";")
 						db.commit()
 						last_online = device[4]
@@ -211,10 +211,10 @@ class User:
 				logger.error("Failed to update the database")
 				logger.error("Traceback: "+str(e))
 				db.rollback()
-				continue	
+				continue
 
 			# this time only needs to account for one cycle of alfr3d's standard loop
-			# or a few... in case one of them misses it :) 
+			# or a few... in case one of them misses it :)
 			try:
 				time_now = datetime.utcnow()
 				delta = time_now-last_online
@@ -243,7 +243,7 @@ class User:
 				logger.error("Traceback: "+str(e))
 				db.rollback()
 				db.close()
-				continue					
+				continue
 
 		db.close()
 		return True
