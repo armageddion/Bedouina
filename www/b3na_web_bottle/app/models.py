@@ -77,27 +77,20 @@ class States(db.Model):
 class Environment(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(100), index=True)
-	dev_env = db.relationship('Device', backref='environment', lazy='dynamic')
-	usr_env = db.relationship('User', backref='environment', lazy='dynamic')
-
-class Location(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
 	latitude = db.Column(db.DECIMAL(6,4))
 	longitude = db.Column(db.DECIMAL(6,4))
 	country = db.Column(db.String(24))
 	state = db.Column(db.String(24))
 	city = db.Column(db.String(24))
 	IP = db.Column(db.String(24))
-	environment_id = db.Column(db.Integer, db.ForeignKey('environment.id'))
-
-class Weather(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
 	low = db.Column(db.Integer)
 	high = db.Column(db.Integer)
 	description = db.Column(db.String(64))
 	sunrise = db.Column(db.DateTime)
 	sunset = db.Column(db.DateTime)
-	environment_id = db.Column(db.Integer, db.ForeignKey('environment.id'))
+
+	user_env = db.relationship('User', backref='environment',lazy='dynamic')
+	device_env = = db.relationship('Device', backref='environment',lazy='dynamic')
 
 @login.user_loader
 def load_user(id):

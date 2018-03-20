@@ -120,3 +120,5 @@ Traceback (most recent call last):
     newvalue_state = attributes.instance_state(newvalue)
 AttributeError: 'long' object has no attribute '_sa_instance_state'
 2018-03-15 18:41:10,582 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-20 13:31:47,213 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]
+2018-03-20 13:31:57,361 INFO: B3na web startup [in C:\Users\armag\OneDrive\Documents\GitHub\Bedouina\www\b3na_web_bottle\app\__init__.py:46]

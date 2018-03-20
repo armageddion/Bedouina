@@ -73,15 +73,19 @@ class User:
 	last_online = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 	userType = 'guest'
 
+	def first(self):
+		logger.info("Checking for god user")
+		self.newUser("armageddion")
+
 	def newUser(self):
 		logger.info("Creating a new user")
 		db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
 		cursor = db.cursor()
-		cursor.execute("SELECT * from user WHERE username = \""+name+"\";")
+		cursor.execute("SELECT * from user WHERE username = \""+self.name+"\";")
 		data = cursor.fetchone()
 
 		try:
-			exists = self.getDetails(self.name)
+			exists = self.getUser(self.name)
 		except:
 			exists = False
 		if exists:
@@ -104,7 +108,7 @@ class User:
 		db.close()
 		return True
 
-	def getDetails(self, name):
+	def getUser(self, name):
 		logger.info("Looking for user: " + name)
 		db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
 		cursor = db.cursor()
@@ -162,7 +166,7 @@ class User:
 		return True
 
 	# refreshes state and last_online for all users
-	def refreshAll(self):		
+	def refreshAll(self, speaker):		
 		logger.info("Refreshing users")
 		
 		db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
@@ -186,7 +190,7 @@ class User:
 
 		# get all devices for that user
 		for user in data:
-			self.getDetails(user[1])
+			self.getUser(user[1])
 			logger.info("refreshing user "+self.name)			
 			last_online=self.last_online
 
@@ -225,7 +229,7 @@ class User:
 					cursor.execute("UPDATE user SET state_id = "+str(stat['online'])+" WHERE  = username = \""+user[1]+"\";")
 					#nighttime_auto()	# turn on the lights
 				 	# speak welcome
-				 	#speakWelcome(user['name'], time() - float(self.last_online))
+				 	speaker.speakWelcome(self, time() - float(self.last_online))
 			else:
 				if self.state == stat["online"]:
 					logger.info(self.name+" went offline")

@@ -38,8 +38,10 @@ import time
 import socket
 import logging
 from datetime import datetime
-from pymongo import MongoClient
 from time import strftime, localtime, time
+
+from deviceClass import Device
+from userClass import User
 
 # current path from which python is executed
 CURRENT_PATH = os.path.dirname(__file__)
@@ -53,7 +55,7 @@ handler = logging.FileHandler(os.path.join(CURRENT_PATH,"../log/total.log"))
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-def checkLANMembers():
+def checkLANMembers(speaker):
 	"""
 		Description:
 			This function checks who is on LAN
@@ -65,8 +67,6 @@ def checkLANMembers():
 	configFile = (os.path.join(os.path.join(os.getcwd(),os.path.dirname(__file__)),'../conf/alfr3ddaemon.conf'))
 	# temporary file for storing results of network scan
 	netclientsfile = os.path.join(os.path.join(os.getcwd(),os.path.dirname(__file__)),'../log/netclients.tmp')
-	# temporary file for secondary network scan
-	nethostsfile = os.path.join(os.path.join(os.getcwd(),os.path.dirname(__file__)),'../log/nethosts.tmp')
 
 	# depending on where the daemon is running....
 	# find out who is online
@@ -132,16 +132,14 @@ def checkLANMembers():
 			device.newDevice(member)	
 
 	# logger.info("Updating users")
-	# user = User()
-	# user.refreshAll()
+	user = User()
+	user.refreshAll(speaker)
 	logger.info("Updating devices")
 	device = Device()
 	device.refreshAll()
 
 	logger.info("Cleaning up temporary files")
 	os.system('rm -rf '+netclientsfile)
-	os.system('rm -rf '+nethostsfile)
-
 
 # Main - only really used for testing
 if __name__ == '__main__':

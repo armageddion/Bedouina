@@ -69,7 +69,6 @@ DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or 'alfr3d'
 # DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d_DB","database_user")
 # DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d_DB","database_pswd")
 
-
 # gmail unread count
 unread_Count = 0
 unread_Count_new = 0
@@ -107,7 +106,7 @@ class MyDaemon(Daemon):
 			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 			try:
 				logger.info("Scanning network")
-				utilities.checkLANMembers()
+				utilities.checkLANMembers(masterSpeaker)
 			except Exception, e:
 				logger.error("Failed to complete network scan")
 				utilities.speakError("I failed to complete the network scan")
@@ -187,6 +186,10 @@ def init_daemon():
 	"""
 	logger.info("Initializing systems check")
 	masterSpeaker.speakString("Initializing systems check")
+
+	# check and create god user if it doesn't exist
+	user = utilities.User()
+	user.first()
 
 	faults = 0
 	

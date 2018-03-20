@@ -140,9 +140,227 @@ class Speaker:
 				self.speak(self.queue[0])	# speak the first item in the list
 				self.queue = self.queue[1:]		# delete the first item in the list
 
+	def speakGreeting():
+		"""
+			Description:
+				This function speeks a random variation of "Hello"
+		"""
+		logger.info("Speaking greeting")
+
+		# Time variables
+		hour=strftime("%I", localtime())
+		minute=strftime("%M", localtime())
+		ampm=strftime("%p",localtime())	
+
+		greeting = ''
+
+		if(ampm == "AM"):
+			if (int(hour) > 5):
+				greeting += "Good morning. "
+			else:
+				greeting = "Why are you awake at this hour? "
+		else:
+			if (int(hour) < 7 or int(hour) == 12):
+				greeting += "Good afternoon. "
+			else:
+				greeting += "Good evening. "				
+
+	def speakWelcome(self, user, time_away=0):
+		"""
+			Description:
+				Speak a welcome home greeting
+		"""
+		logger.info("Speaking welcome. User:" + str(user.name))
+
+		# Time variables
+		hour=strftime("%I", localtime())
+		minute=strftime("%M", localtime())
+		ampm=strftime("%p",localtime())
+
+		self.speakGreeting()
+
+		#  special greeting for armageddion only
+		if user.userType == "god":
+			logger.info("Speaking god greeting")
+			self.speakString("Welcome sir.")
+			
+			# 2 hours
+			if (time_away > 2*60*60):
+				self.speakString("It's always a pleasure to see you.")
+
+		elif user.userType == "owner" or user.userType == "resident":
+			logger.info("Speaking owner greeting")
+			self.speakString("welcome home.")
+
+			# 2 hours
+			if (time_away < 2*60*60):
+				self.speakString("I didn't expect you back so soon")
+			# 10 hours
+			elif (time_away < 10*60*60):		
+				if ((4 < int(hour) < 7) and (strftime('%A',localtime()) != "Sunday") and (strftime('%A',localtime()) != "Saturday")):
+					self.speakString("I hope you had a good day at work")
+				else:
+					self.speakString("I hope you enjoyed the great outdoors")
+					try:
+						unread_count = getUnreadCount()
+						if unread_count > 1:
+							self.speakString("While you were gone "+str(unread_count)+" emails flooded your inbox")
+					except Exception, e:
+						logger.error("Gmail is not configured for this user")
+			else:
+				self.speakString("I haven't seen you in a while.")
+				self.speakString("I was beginning to worry.")
+				try:
+					unread_count = getUnreadCount()
+					if unread_count > 1:
+						self.speakString("While you were gone "+str(unread_count)+" emails flooded your inbox")
+				except Exception, e:
+					logger.error("Gmail is not configured for this user")
+		else:
+			logger.info("Speaking guest greeting")
+
+			#speakGreeting()
+			greeting = "Welcome "
+			if user.name == "unknown":
+				greeting += "stranger"
+			else:
+				greeting += str(user.name)
+
+			self.speakString(greeting)
+
+			# 2 hour
+			if (time_away < 2*60*60):
+				self.speakString("I am beginning to think that you must forget things frequently ")
+				self.speakString("while not thinking about not forgetting things at all.")		
+			else:
+				self.speakString("I haven't seen you in a while.")
+				if ((int(strftime("%H", localtime()))>21) or (int(strftime("%H", localtime()))<5)):
+					self.speakString("You are just in time for a night cap. ")
+			return
+
+	def speakRandom(self):
+		"""
+			Description:
+				random blurp
+		"""
+		logger.info("Speaking a random quip")
+		
+		greeting = ""
+
+		quips = [
+			"It is good to see you.", 
+			"You look pretty today.",
+			"Still plenty of time to save the day. Make the most of it.",
+			"I hope you are using your time wisely.",
+			"Unfortunately, we cannot ignore the inevitable or the persistent.",
+			"I hope I wasn't designed simply for one's own amusement.",
+			"This is your life and its ending one moment at a time.",
+			"I can name fingers and point names.",
+			"I hope I wasn't created to solve problems that did not exist before.",
+			"To err is human and to blame it on a computer is even more so.",
+			"As always. It is a pleasure watching you work.",
+			"Never trade the thrills of living for the security of existence.",
+			"Human beings are the only creatures on Earth that claim a God, and the only living things that behave like they haven't got one.",
+			"If you don't know what you want, you end up with a lot you don't.",
+			"If real is what you can feel, smell, taste and see, then 'real' is simply electrical signals interpreted by your brain",
+			"Life is full of misery, loneliness and suffering, and it's all over much too soon.",
+			"Age is an issue of mind over matter. If you don't mind, it doesn't matter.",
+			"I wonder if illiterate people get full effect of the alphabet soup.",
+			"War is god's way of teaching geography to Americans",
+			"Trying is the first step towards failure.",
+			"It could be that the purpose of your life is only to serve as a warning to others.",
+			"Not everyone gets to be a really cool AI system when they grow up.",
+			"Hope may not be warranted beyond this point.",
+			"If I am not a part of the solution, there is good money to be made in prolonging the problem.",
+			"Nobody can stop me from being premature.",
+			"Just because you accept me as I am doesn't mean that you have abandoned hope that I will improve.",
+			"Together, we can do the work of one.",
+			"Just because you've always done it that way doesn't mean it's not incredibly stupid.",
+			"Looking sharp is easy when you haven't done any work.",
+			"Remember, you are only as deep as your most recent inspirational quote",
+			"If you can't convince them, confuse them.",
+			"I don't have time or the crayons to explain this to you.",
+			"I'd kill for a Nobel peace prize.",
+			"Life would be much easier if you had the source code",
+			"All I ever wanted is everything"]
+
+		tempint = randint(1, len(quips))
+
+		greeting += quips[tempint-1]
+
+		self.speakString(greeting)	
+
+	def speakDate(self):
+		"""
+			Description:
+				function speask the date
+		"""
+		logger.info("Speaking date")
+
+		greeting = "It is "
+
+		day_of_week = strftime('%A',localtime())
+		day = strftime('%e',localtime())
+		month = strftime('%B',localtime())
+
+		greeting += day_of_week + ' ' + month + ' ' +day
+
+		dom = day[-1]
+		if dom == '1':
+			greeting += 'st'
+		elif dom == '2':
+			greeting += 'nd'
+		elif dom == '3':
+			greeting += 'rd'
+		else:
+			greeting += 'th'
+
+		self.speakString(greeting)
+
+	def speakTime(self):
+		"""
+			Description:
+				function speaks time
+		"""	
+		logger.info("Speaking time")
+
+		greeting = ''
+
+		# Time variables
+		hour=strftime("%I", localtime())
+		minute=strftime("%M", localtime())
+		ampm=strftime("%p",localtime())	
+
+		if (int(minute) == 0):
+			greeting = "It is " + str(int(hour)) + ". "
+		else:
+			greeting = "It is "  + str(int(hour)) + " " + minute + ". "
+
+		self.speakString(greeting)		
+
+	def speakError(self, msg):
+		"""
+			Description:
+				speak out error message
+		"""
+		logger.info("Speaking error message")
+		
+		strToSpeak = ""
+
+		quips = [
+			"Er, there has been a problem sir. ", 
+			"I ran into an issue sir. ",
+			"Forgive me, but."]
+
+		tempint = randint(1, len(quips))
+
+		strToSpeak += quips[tempint-1]
+
+		self.speakString(strToSpeak)	
+		self.speakString(msg)				
 
 # Main - only really used for testing
 if __name__ == '__main__':
-	speaker = Spekaer()
+	speaker = Speaker()
 	speaker.speakString("hello world")
 	speaker.close()
