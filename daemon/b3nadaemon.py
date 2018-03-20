@@ -35,8 +35,8 @@ import logging
 import time
 import os										# used to allow execution of system level commands
 import sys
-import schedule									# 3rd party lib used for alarm clock managment. 
-import datetime									
+import schedule									# 3rd party lib used for alarm clock managment.
+import datetime
 import ConfigParser								# used to parse alfr3ddaemon.conf
 from threading import Thread
 from daemon import Daemon
@@ -60,14 +60,10 @@ os.system('sudo mkdir -p /var/run/alfr3ddaemon')
 config = ConfigParser.RawConfigParser()
 config.read(os.path.join(CURRENT_PATH,'../conf/apikeys.conf'))
 # get main DB credentials
-DATABASE_URL 	= os.environ.get('DATABASE_URL') or '10.0.0.69'
-DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or 'alfr3d'
-DATABASE_USER 	= os.environ.get('DATABASE_USER') or 'alfr3d'
-DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or 'alfr3d'
-# DATABASE_URL 	= os.environ.get('DATABASE_URL') or config.get("Alfr3d_DB","database_url")
-# DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or config.get("Alfr3d_DB","database_name")
-# DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d_DB","database_user")
-# DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d_DB","database_pswd")
+DATABASE_URL 	= os.environ.get('DATABASE_URL') or config.get("Alfr3d DB","database_url")
+DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or config.get("Alfr3d DB","database_name")
+DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d DB","database_user")
+DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d DB","database_pswd")
 
 # gmail unread count
 unread_Count = 0
@@ -78,7 +74,7 @@ sunset_time = datetime.datetime.now().replace(hour=19, minute=0)
 sunrise_time = datetime.datetime.now().replace(hour=6, minute=30)
 bed_time = datetime.datetime.now().replace(hour=23, minute=00)
 
-# set up logging 
+# set up logging
 logger = logging.getLogger("DaemonLog")
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -87,7 +83,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
-class MyDaemon(Daemon):		
+class MyDaemon(Daemon):
 	def run(self):
 		while True:
 			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -98,7 +94,7 @@ class MyDaemon(Daemon):
 				logger.error("Error message")
 			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-			# OK Take a break 
+			# OK Take a break
 			time.sleep(10)
 
 			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -110,7 +106,7 @@ class MyDaemon(Daemon):
 			except Exception, e:
 				logger.error("Failed to complete network scan")
 				utilities.speakError("I failed to complete the network scan")
-				logger.error("Traceback: "+str(e))				
+				logger.error("Traceback: "+str(e))
 
 	def checkGmail(self):
 		"""
@@ -118,14 +114,14 @@ class MyDaemon(Daemon):
 				Checks the unread count in gMail
 		"""
 		logger.info("Checking email")
-			
+
 	def welcomeHome(self,time_away=None):
 		"""
 			Description:
 				Speak a 'welcome home' greeting
 		"""
 		logger.info("Greeting the creator")
-		
+
 	def beSmart(self):
 		"""
 			Description:
@@ -144,9 +140,9 @@ class MyDaemon(Daemon):
 		"""
 			Description:
 				is anyone at home?
-				is it after dark? 
-				turn the lights on or off as needed. 
-		"""	
+				is it after dark?
+				turn the lights on or off as needed.
+		"""
 		logger.info("nightlight auto-check")
 
 def sunriseRoutine():
@@ -155,14 +151,14 @@ def sunriseRoutine():
 			sunset routine - perform this routine 30 minutes before sunrise
 			giving the users time to go see sunrise
 			### TO DO - figure out scheduling
-	"""		
+	"""
 	logger.info("Pre-sunrise routine")
 
 def morningRoutine():
 	"""
 		Description:
 			perform morning routine - ring alarm, speak weather, check email, etc..
-	"""	
+	"""
 	logger.info("Time for morning routine")
 
 def sunsetRoutine():
@@ -177,12 +173,12 @@ def bedtimeRoutine():
 		Description:
 			routine to perform at bedtime - turn on ambient lights
 	"""
-	logger.info("Bedtime")				
+	logger.info("Bedtime")
 
 def init_daemon():
 	"""
 		Description:
-			initialize alfr3d services 
+			initialize alfr3d services
 	"""
 	logger.info("Initializing systems check")
 	masterSpeaker.speakString("Initializing systems check")
@@ -192,7 +188,7 @@ def init_daemon():
 	user.first()
 
 	faults = 0
-	
+
 	return faults
 
 if __name__ == "__main__":
@@ -210,7 +206,7 @@ if __name__ == "__main__":
 				masterSpeaker.speakString("All systems are up and operational")
 			daemon.start()
 		elif 'stop' == sys.argv[1]:
-			logger.info("B3na Daemon stopping...")			
+			logger.info("B3na Daemon stopping...")
 			daemon.stop()
 		elif 'restart' == sys.argv[1]:
 			daemon.restart()

@@ -15,7 +15,7 @@
 			Device ID: {{ device.id }} <br>
 			Device IP: {{ device.IP }} <br>
 			Device MAC: {{ device.MAC }} <br>
-			Device state: {{ device.state }} <br>
+			Device state: {{ device.state.state }} <br>
 			Device Last seen: {{ device.last_online }} <br>
 			Device Type: <select name='types'>
 							{% for type in device_types %}
@@ -27,7 +27,7 @@
 								<option value="{{ user.username }}">{{ user.username }}</option>
 							{% endfor %}
 						</select><br>
-			Device environemnt: {{ device.environment_id }} <br>
+			Device environemnt: {{ device.environment.name }} <br>
 		</p>
 		<p>{{ form.submit() }}</p>
 	</form>

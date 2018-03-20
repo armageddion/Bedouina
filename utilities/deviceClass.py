@@ -31,6 +31,7 @@
 
 import os
 import logging
+import socket
 import ConfigParser
 import MySQLdb
 from datetime import datetime, timedelta
@@ -51,14 +52,10 @@ logger.addHandler(handler)
 config = ConfigParser.RawConfigParser()
 config.read(os.path.join(os.path.dirname(__file__),'../conf/apikeys.conf'))
 # get main DB credentials
-DATABASE_URL 	= os.environ.get('DATABASE_URL') or '10.0.0.69'
-DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or 'alfr3d'
-DATABASE_USER 	= os.environ.get('DATABASE_USER') or 'alfr3d'
-DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or 'alfr3d'
-# DATABASE_URL 	= os.environ.get('DATABASE_URL') or config.get("Alfr3d_DB","database_url")
-# DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or config.get("Alfr3d_DB","database_name")
-# DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d_DB","database_user")
-# DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d_DB","database_pswd")
+DATABASE_URL 	= os.environ.get('DATABASE_URL') or config.get("Alfr3d DB","database_url")
+DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or config.get("Alfr3d DB","database_name")
+DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d DB","database_user")
+DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d DB","database_pswd")
 
 class Device:
 	"""
@@ -143,8 +140,8 @@ class Device:
 		logger.info(data)
 
 		try:
-			cursor.execute("UPDATE device SET name = \" "+self.name+"\" WHERE MAC = \""+self.MAC+"\";")
-			cursor.execute("UPDATE device SET IP = \" "+self.IP+"\" WHERE MAC = \""+self.MAC+"\";")
+			cursor.execute("UPDATE device SET name = \""+self.name+"\" WHERE MAC = \""+self.MAC+"\";")
+			cursor.execute("UPDATE device SET IP = \""+self.IP+"\" WHERE MAC = \""+self.MAC+"\";")
 			cursor.execute("UPDATE device SET last_online = \""+datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")+"\" WHERE MAC = \""+self.MAC+"\";")
 			cursor.execute("SELECT * FROM states;")
 			states = cursor.fetchall()
@@ -173,6 +170,13 @@ class Device:
 		cursor.execute("SELECT * from device;")
 		data = cursor.fetchall()
 
+		# figure out environments
+		cursor.execute("SELECT * FROM environment WHERE name = \""+socket.gethostname()+"\";")
+		env_data = cursor.fetchone()
+		if env_data:
+			env = env_data[1]
+			env_id = env_data[0]
+
 		# get all devices for that user
 		for device in data:
 			logger.info("refreshing device "+device[1])
@@ -198,6 +202,7 @@ class Device:
 			try:
 				if delta < timedelta(minutes=30):
 					cursor.execute("UPDATE device SET state_id = "+str(stat['online'])+" WHERE MAC = \""+device[3]+"\";")
+					cursor.execute("UPDATE device SET environment_id = "+str(env_id)+" WHERE MAC = \""+device[3]+"\";")
 				else:
 					cursor.execute("UPDATE device SET state_id = "+str(stat['offline'])+" WHERE MAC = \""+device[3]+"\";")
 				db.commit()

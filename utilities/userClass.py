@@ -2,7 +2,6 @@
 
 """
 	This is a utility for handling the UserClass for Alfr3d:
-
 """
 # Copyright (c) 2010-2018 LiTtl3.1 Industries (LiTtl3.1).
 # All rights reserved.
@@ -55,14 +54,10 @@ logger.addHandler(handler)
 config = ConfigParser.RawConfigParser()
 config.read(os.path.join(os.path.dirname(__file__),'../conf/apikeys.conf'))
 # get main DB credentials
-DATABASE_URL 	= os.environ.get('DATABASE_URL') or '10.0.0.69'
-DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or 'alfr3d'
-DATABASE_USER 	= os.environ.get('DATABASE_USER') or 'alfr3d'
-DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or 'alfr3d'
-# DATABASE_URL 	= os.environ.get('DATABASE_URL') or config.get("Alfr3d_DB","database_url")
-# DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or config.get("Alfr3d_DB","database_name")
-# DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d_DB","database_user")
-# DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d_DB","database_pswd")
+DATABASE_URL 	= os.environ.get('DATABASE_URL') or config.get("Alfr3d DB","database_url")
+DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or config.get("Alfr3d DB","database_name")
+DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d DB","database_user")
+DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d DB","database_pswd")
 
 class User:
 	"""
@@ -189,6 +184,13 @@ class User:
 		for state in states:
 			stat[state[1]]=state[0]
 
+		# figure out environments
+		cursor.execute("SELECT * FROM environment WHERE name = \""+socket.gethostname()+"\";")
+		env_data = cursor.fetchone()
+		if env_data:
+			env = env_data[1]
+			env_id = env_data[0]
+
 		# get all devices for that user
 		for user in data:
 			self.getUser(user[1])
@@ -204,7 +206,9 @@ class User:
 					# update last_online time for that user
 					if device[4] > user[6]:
 						logger.info("Updating user "+self.name)
-						cursor.execute("UPDATE user SET last_online = \""+device[4]+"\" WHERE username = \""+user[1]+"\";")
+						cursor.execute("UPDATE user SET last_online = \""+str(device[4])+"\" WHERE username = \""+user[1]+"\";")
+						if env_id:
+							cursor.execute("UPDATE user set environment_id = \""+str(env_id)+"\" WHERE username = \""+user[1]+"\";")
 						db.commit()
 						last_online = device[4]
 			except Exception, e:

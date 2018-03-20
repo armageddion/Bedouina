@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-This is a utility for all Google APIs - gmail, calendar..
+	This is a utility for all Google APIs - gmail, calendar..
 """
 # Copyright (c) 2010-2018 LiTtl3.1 Industries (LiTtl3.1).
 # All rights reserved.
@@ -112,12 +112,12 @@ def get_credentials_cal():
 		else: # Needed only for compatibility with Python 2.6
 			credentials = tools.run(flow, store)
 		print('Storing credentials to ' + credential_path)
-	return credentials    
+	return credentials
 
 def getUnreadCount():
 	"""
 		Description:
-			This function provides the count of unread messages in my gmail inbox 
+			This function provides the count of unread messages in my gmail inbox
 		Returns:
 			Intiger value of under emails
 	"""
@@ -134,7 +134,7 @@ def getUnreadCount():
 
 	return unread_msgs
 
-def calendarTomorrow():   
+def calendarTomorrow():
 	credentials = get_credentials_cal()
 	http = credentials.authorize(httplib2.Http())
 	service = discovery.build('calendar', 'v3', http=http)
@@ -143,7 +143,7 @@ def calendarTomorrow():
 	tomorrow_night = tomorrow + datetime.timedelta(hours=23, minutes=59)
 	tomorrow = tomorrow.isoformat()+timezone_offset
 	tomorrow_night = tomorrow_night.isoformat()+timezone_offset
-	
+
 	print('Getting the first event of tomorrow')
 	eventsResult = service.events().list(
 		calendarId='primary', timeMin=tomorrow, maxResults=1, timeMax=tomorrow_night, singleEvents=True,
@@ -157,7 +157,7 @@ def calendarTomorrow():
 
 	# for event in events:
 	# 	start = event['start'].get('dateTime', event['start'].get('date'))
-	# 	print(start, event['summary']) 
+	# 	print(start, event['summary'])
 
 	# 	# since there is only one event, we're ok to do this
 	# 	return event
@@ -171,7 +171,7 @@ def calendarToday():
 	tonight = datetime.datetime.now().replace(hour=23,minute=59)
 	today = today.isoformat()+timezone_offset
 	tonight = tonight.isoformat()+timezone_offset
-	
+
 	print('Getting todays events')
 	eventsResult = service.events().list(
 		calendarId='primary', timeMin=today, maxResults=10, timeMax=tonight, singleEvents=True,
@@ -184,11 +184,10 @@ def calendarToday():
 
 	# for event in events:
 	# 	start = event['start'].get('dateTime', event['start'].get('date'))
-	# 	print(start, event['summary']) 
+	# 	print(start, event['summary'])
 
 	return events
 
 # Main
 if __name__ == '__main__':
 	print("this is alfr3ds google utility")
-
