@@ -9,7 +9,8 @@
 
 from speak import *
 from guestDetect import *
-from deviceClass import Device 
-from userClass import User 
+from deviceClass import Device
+from userClass import User
 from environment import *
 from weatherUtil import *
+from googleUtil import *

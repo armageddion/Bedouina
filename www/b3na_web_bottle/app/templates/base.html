@@ -7,7 +7,7 @@
 			{% endif %}
 		</head>
 		<body>
-				<div>B3na - {{ host }}: 
+				<div>B3na - {{ current_user.environment.name }}: 
 					<a href="{{ url_for('index') }}">Home</a>
 					{% if current_user.is_anonymous %}
 					<a href="{{ url_for('login') }}">Login</a>

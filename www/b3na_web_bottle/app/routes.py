@@ -14,8 +14,8 @@ def before_request():
 		current_user.last_seen = datetime.utcnow()
 		db.session.commit()
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET','POST'])
+@app.route('/index', methods=['GET','POST'])
 @login_required
 def index():
 	posts = [
@@ -31,8 +31,19 @@ def index():
 
 	env = Environment.query.filter_by(name=socket.gethostname()).first()
 	devices = Device.query.filter_by(environment=env)
+	# lights
+	# coffee
+	# irrigation
+	# weather
+	if request.method == 'POST':
+		for i in request.form:
+			print "button pressed: ", i
+			# TODO process button request... 
 
-	return render_template('index.html', title='Home', posts=posts, devices=devices, host=env.name)
+	elif request.method == 'GET':
+		pass # do something
+
+	return render_template('index.html', title='Home', posts=posts, devices=devices, environment=env)
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -109,7 +120,7 @@ def edit_device(mac):
 	device = Device.query.filter_by(MAC=mac).first()
 	device_types = DeviceTypes.query.all()
 	users = User.query.all()
-	environments = Environment.query.all()
+	environment = Environment.query.all()
 	form = EditDeviceForm()
 	if form.validate_on_submit():
 		device.device_type_id=DeviceTypes.query.filter_by(type=request.form['types']).first().id
@@ -126,4 +137,4 @@ def edit_device(mac):
 							device=device, \
 							device_types=device_types, \
 							users=users, \
-							environments=environments)
+							environment=environment)
