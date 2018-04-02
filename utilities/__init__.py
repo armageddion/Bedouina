@@ -14,3 +14,4 @@ from userClass import User
 from environment import *
 from weatherUtil import *
 from googleUtil import *
+from spotify import *
