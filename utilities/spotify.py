@@ -32,11 +32,13 @@
 #
 
 import os
+import sys
 import json
 import base64
 import logging
 import urllib
 import urllib2
+import requests
 import spotipy
 import spotipy.util as sp_util
 import ConfigParser
@@ -54,8 +56,9 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 # load up all the configs
+configfile = os.path.join(os.path.dirname(__file__),'../conf/apikeys.conf')
 config = ConfigParser.RawConfigParser()
-config.read(os.path.join(os.path.dirname(__file__),'../conf/apikeys.conf'))
+config.read(configfile)
 
 #=====================================
 # Account Config Stuff
@@ -66,7 +69,7 @@ USERNAME = os.environ.get("SPOTIFY_USERNAME") or config.get("Spotify","username"
 REDIRECT_URI = os.environ.get("SPOTIFY_REDIRECT") or config.get("Spotify","redirect_uri")
 ACCESS_TOKEN = os.environ.get("SPOTIFY_ACCESS_TOKEN") or config.get("Spotify","access_token")
 REFRESH_TOKEN = os.environ.get("SPOTIFY_REFRESH_TOKEN") or config.get("Spotify","refresh_token")
-SCOPE='user-library-read streaming user-read-playback-state'
+SCOPE='user-library-read streaming user-read-playback-state user-modify-playback-state'
 KEY = str(CLIENT_ID)+":"+str(CLIENT_SECRET)
 KEY64 = base64.b64encode(KEY.encode())
 
@@ -95,7 +98,7 @@ TODO:
  - proper caching of access creds
 """
 def init_spotify():
-	print 'init'
+	logger.info("Running Spotify init")
 
 	os.environ["SPOTIPY_CLIENT_ID"] = CLIENT_ID
 	os.environ["SPOTIPY_CLIENT_SECRET"] = CLIENT_SECRET
@@ -108,18 +111,33 @@ def init_spotify():
 	# gotta find a workaround.
 	token = sp_util.prompt_for_user_token(username=USERNAME, scope=SCOPE)
 
-	print 'init end'
+	logger.info("Spotify init done")
 	return token
 		
 
 def main():
 	print 'main'
 
-	refresh_token()
+	try:
+		refresh_token()
+	except Exception, e:
+		logger.error("Failed to refresh Spotify token")
+		logger.error("Traceback: "+str(e))
+		return		
 
-	device = find_device()
+	try:
+		device = find_device()
+	except Exception, e:
+		logger.error("Failed to find Alfr3d device")
+		logger.error("Traceback: "+str(e))
+		return				
 
-	b3na_play(device=device)
+	try:
+		b3na_play(device=device)
+	except Exception, e:
+		logger.error("Failed to start Spotify playback on device")
+		logger.error("Traceback: "+str(e))
+		return		
 
 	print 'end main'
 
@@ -128,7 +146,8 @@ def main():
 # Step 1: Request New Access Token
 #======================================
 def refresh_token():
-	print "REQUESTING NEW TOKEN"
+	logger.info("Requesting Spotify token refresh")
+
 	url = 'https://accounts.spotify.com/api/token'
 	values = {'grant_type' : 'refresh_token',
 	          'refresh_token' : REFRESH_TOKEN }
@@ -137,49 +156,60 @@ def refresh_token():
 	data = urllib.urlencode(values)
 	data = data.encode('ascii')
 	req = urllib2.Request(url, data, headers)
-	print (url, data, headers)
+
 	try:
 		response = urllib2.urlopen(req)
 		the_page = response.read()	
 		ret_data = json.loads(the_page)
-		print ret_data
-		print "new access_token", ret_data['access_token']
-		config.set('Spotify','access_token',ret_data['access_token'])
+		# print ret_data		# DEBUG
+		# print "new access_token", ret_data['access_token']		# DEBUG
+		logger.info("Got new Spotify access token")
 
 		global ACCESS_TOKEN
 		ACCESS_TOKEN = ret_data['access_token']
+
 	except Exception, e:
-		print "ERROR getting access token. Giving up"
-		print "Traceback: "+str(e)
+		logger.error("ERROR getting access token. Giving up")
+		logger.error("Traceback: "+str(e))
+		return
+
+	try:
+		logger.info("Updating conf files with new token")
+		cfgfile = open(configfile,'a')
+		config.set('Spotify','access_token',ret_data['access_token'])
+		config.write(cfgfile)
+	except Exception, e:
+		logger.error("ERROR updating conf files")
+		logger.error("Traceback: "+str(e))
 		return
 
 #======================================
 # Step 2: Get list of devices
 #======================================	
 def find_device():
-	print "REQUESTING LIST OF DEVICES"
+	logger.info("Requesting a list of Spotify playable devices")
+
 	url = 'https://api.spotify.com/v1/me/player/devices'
 	headers = { "Authorization" : "Bearer "+ACCESS_TOKEN }
 
 	req = urllib2.Request(url, headers=headers)
-	print (url, headers)
 	response = urllib2.urlopen(req)
 	the_page = response.read()	
 	ret_data = json.loads(the_page)
 
 	device = None
 	for dev in ret_data['devices']:
-		print dev['name']
+		print dev['name']				# DEBUG
 		#if dev['name'] == "B3na":
-		if dev['name'] == "Shogun":    #DEBUG
-			print "B3na found"
+		if dev['name'] == "Shogun": 	# DEBUG
 			device = dev
 			break
 
 	if not device:
-		print "B3NA NOT FOUND"
+		logger.error("B3na Spotify device not found")
 		return
 	else:
+		logger.info("B3na Spotify device found")
 		print device
 
 	return device
@@ -188,20 +218,53 @@ def find_device():
 # Step 3: Play on B3na
 #======================================	
 def b3na_play(device):
-	print "PLAYING ON B3NA"
-	url = 'https://api.spotify.com/v1/me/player'
-	values = {'device_ids' : device['id']}	
+	logger.info("Loading Spotify onto B3na device: "+str(device['id']))
 
+	url = 'https://api.spotify.com/v1/me/player'
+	values = {'device_ids' : [device['id']]}	
 	headers = { "Authorization" : "Bearer "+ACCESS_TOKEN,
 				"Accept" : "application/json",
 				"Content-Type" : "application/json"}
 
-	req = urllib2.Request(url, headers=headers)
-	print (url, headers)
-	response = urllib2.urlopen(req)
-	the_page = response.read()	
-	print the_page
-	ret_data = json.loads(the_page)	
+	load_on_b3na = requests.put(url, \
+				 data=json.dumps(values), \
+				 headers=headers)
+
+	if load_on_b3na.status_code == requests.codes.ok or load_on_b3na.status_code == 204:
+		logger.info("Successfully loaded Spotify on B3na")
+	else:
+		logger.error("Failed to load Spotify on B3na")
+		logger.error("Error code: "+str(load_on_b3na.status_code))
+		try:
+			logger.error("Error json: "+str(load_on_b3na.json()))
+		except:
+			logger.error("Unable to get more error details")
+		return
+
+	logger.info("Starting Spotify playback")
+	# RED LIGHTING SPOTIFY PLAYLIST:
+	# spotify:user:1249844952:playlist:4F2fAhORzNTtvBL2FOtGqR
+	# ON THE ROAD PLAYLIST
+	# spotify:user:22q2mipzh23ikceoixqzozv6q:playlist:2Fakjp8KmV37Mri7fYr0rR
+	url = 'https://api.spotify.com/v1/me/player/play'
+	values = { 'context_uri': 'spotify:user:22q2mipzh23ikceoixqzozv6q:playlist:2Fakjp8KmV37Mri7fYr0rR'}
+	headers = { "Authorization" : "Bearer "+ACCESS_TOKEN,
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"}
+
+	play_on_b3na = requests.put(url, \
+				 data=json.dumps(values), \
+				 headers=headers)
+	if play_on_b3na.status_code == requests.codes.ok or play_on_b3na.status_code == 204:
+		logger.info("Successfully started Spotify playback")
+	else:
+		logger.error("Failed to start Spotify playback on B3na")
+		logger.error("Error code: "+str(play_on_b3na.status_code))
+		try:
+			logger.error("Error json: "+str(play_on_b3na.json()))
+		except:
+			logger.error("Unable to get more error details")
+		return
 
 # Main - only really used for testing
 if __name__ == '__main__':
