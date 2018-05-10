@@ -189,11 +189,27 @@ def init_daemon():
 
 	faults = 0
 
+	# set up some routine schedules
+	try: 
+		masterSpeaker.speakString("Setting up scheduled routines")
+		logger.info("Setting up scheduled routines")		
+
+		# "8.30" in the following function is just a placeholder
+		# until i deploy a more configurable alarm clock
+		schedule.every().day.at("8:30").do(morningRoutine)
+		#schedule.every().day.at(str(bed_time.hour)+":"+str(bed_time.minute)).do(bedtimeRoutine)
+	except Exception, e:
+		masterSpeaker.speakString("Failed to set schedules")
+		logger.error("Failed to set schedules")
+		logger.error("Traceback: "+str(e))
+		faults+=1												# bump up fault counter		
+
+	masterSpeaker.speakString("Systems check complete")
 	return faults
 
 if __name__ == "__main__":
-	daemon = MyDaemon('/var/run/b3nadaemon/b3nadaemon.pid',stderr='/dev/null')
-	#daemon = MyDaemon('/var/run/b3nadaemon/b3nadaemon.pid',stderr='/dev/stderr')
+	#daemon = MyDaemon('/var/run/b3nadaemon/b3nadaemon.pid',stderr='/dev/null')
+	daemon = MyDaemon('/var/run/b3nadaemon/b3nadaemon.pid',stderr='/dev/stderr')
 	if len(sys.argv) == 2:
 		if 'start' == sys.argv[1]:
 			logger.info("B3na Daemon initializing")

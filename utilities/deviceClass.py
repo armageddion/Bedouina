@@ -84,8 +84,8 @@ class Device:
 
 		logger.info("Creating a new DB entry for device with MAC: "+mac)
 		try:
-			cursor.execute("INSERT INTO device(name, IP, MAC, state, last_online, user) \
-							VALUES (\""+self.name+"\", \""+self.IP+"\", \""+self.MAC+"\",  \""+self.state+"\",  \""+self.last_online+"\",  \""+self.user+"\")")
+			cursor.execute("INSERT INTO device(name, IP, MAC, last_online) \
+							VALUES (\""+self.name+"\", \""+self.IP+"\", \""+self.MAC+"\",  \""+self.last_online+"\")")
 			db.commit()
 		except Exception, e:
 			logger.error("Failed to update the database")

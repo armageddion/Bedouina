@@ -7,7 +7,11 @@
 			{% endif %}
 		</head>
 		<body>
-				<div>B3na - {{ current_user.environment.name }}: 
+			{% if current_user.is_authenticated %}
+				<div>B3na - {{ current_user.environment.name }}:
+			{% else %}
+				<div>B3na ::
+			{% endif %}
 					<a href="{{ url_for('index') }}">Home</a>
 					{% if current_user.is_anonymous %}
 					<a href="{{ url_for('login') }}">Login</a>

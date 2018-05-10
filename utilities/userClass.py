@@ -70,8 +70,11 @@ class User:
 
 	def first(self):
 		logger.info("Checking for god user")
-		self.name = "armageddion"
-		self.newUser()
+		if not self.getUser("armageddion"):
+			self.name = "armageddion"
+			self.newUser()
+		else:
+			logger.info("God is already with us")
 
 	def newUser(self):
 		logger.info("Creating a new user")
@@ -91,8 +94,8 @@ class User:
 
 		logger.info("Creating a new DB entry for user: "+name)
 		try:
-			cursor.execute("INSERT INTO user(name, state, last_online) \
-							VALUES (\""+self.name+"\", \""+self.state+"\", \""+self.last_online+"\" )")
+			cursor.execute("INSERT INTO user(name, last_online) \
+							VALUES (\""+self.name+"\", \""+self.last_online+"\" )")
 			db.commit()
 		except Exception, e:
 			logger.error("Failed to update the database")

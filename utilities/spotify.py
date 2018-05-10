@@ -175,7 +175,7 @@ def refresh_token():
 
 	try:
 		logger.info("Updating conf files with new token")
-		cfgfile = open(configfile,'a')
+		cfgfile = open(configfile,'w')
 		config.set('Spotify','access_token',ret_data['access_token'])
 		config.write(cfgfile)
 	except Exception, e:

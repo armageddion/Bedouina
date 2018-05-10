@@ -36,9 +36,9 @@ def index():
 	# irrigation
 	# weather
 	if request.method == 'POST':
-		for i in request.form:
+		for i in request.form: 
 			print "button pressed: ", i
-			# TODO process button request... 
+			# TODO process button request...
 
 	elif request.method == 'GET':
 		pass # do something
