@@ -126,8 +126,8 @@ fi
 
 # set up the startup file
 echo "creating startup scripts"
-chmod a+x ../startup/b3na
-cp ../startup/b3na /etc/init.d/
+chmod a+x $APPDIR/startup/b3na
+cp $APPDIR/startup/b3na /etc/init.d/
 update-rc.d b3na defaults
 
 echo "creating log directory"
