@@ -156,6 +156,7 @@ echo "creating www dir"
 ln -s $APPDIR/www/ /var/www/b3na
 echo "copying apache config"
 cp $APPDIR/setup/b3na.conf /etc/apache2/sites-available
+rm -f /etc/apache2/sites-enabled/*.conf
 ln -s /etc/apache2/sites-available/b3na.conf /etc/apache2/sites-enabled/
 echo "configuring apache"
 service apache2 restart
