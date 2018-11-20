@@ -15,7 +15,7 @@ CONFIGFILE=$APPDIR/conf/apikeys.conf
 ./dependencies.sh
 
 echo "creating user b3na"
-getent passwd b3na > /dev/null 2&>1
+getent passwd b3na > /dev/null 2>&1
 if [ $? -eq 0 ]; then
 	echo "b3na user already exists"
 else
