@@ -53,7 +53,7 @@ import utilities
 masterSpeaker = utilities.Speaker()
 
 # set up daemon things
-os.system('sudo mkdir -p /var/run/alfr3ddaemon')
+os.system('sudo mkdir -p /var/run/b3nadaemon')
 #os.system('sudo chown alfr3d:alfr3d /var/run/alfr3ddaemon')
 
 # load up all the configs
