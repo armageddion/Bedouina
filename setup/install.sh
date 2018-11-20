@@ -155,7 +155,7 @@ chown -R b3na:b3na $APPDIR
 echo "creating www dir"
 ln -s $APPDIR/www/ /var/www/b3na
 echo "copying apache config"
-cp b3na.conf /etc/apache2/sites-available
+cp $APPDIR/setup/b3na.conf /etc/apache2/sites-available
 ln -s /etc/apache2/sites-available/b3na.conf /etc/apache2/sites-enabled/
 echo "configuring apache"
 service apache2 restart
