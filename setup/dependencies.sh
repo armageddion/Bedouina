@@ -58,8 +58,8 @@ sudo pip install flask-login
 echo "installing python-mysqldb"
 apt-get install python-mysqldb
 
-#echo "installing Spotipy"
-#sudo pip install spotipy
+echo "installing Spotipy"
+sudo pip install spotipy
 
 echo "installing pychromecast"
 sudo pip install pychromecast
