@@ -55,6 +55,9 @@ sudo pip install flask-migrate
 echo "installing flask-login extension"
 sudo pip install flask-login
 
+echo "installing python-mysqldb"
+apt-get install python-mysqldb
+
 #echo "installing Spotipy"
 #sudo pip install spotipy
 
