@@ -44,7 +44,7 @@ else
 	read dbip
 	if [ -z $dbip ]; then
 		# user didn't provide an API key
-		echo "dbip: <n/a>" >> $CONFIGFILE
+		echo "dbip: None" >> $CONFIGFILE
 	else
 		echo "dbip: $dbip" >> $CONFIGFILE
 	fi
@@ -53,7 +53,7 @@ else
 	read openWeather
 	if [ -z $openWeather ]; then
 		# user didn't provide an API key
-		echo "openWeather: <n/a>" >> $CONFIGFILE
+		echo "openWeather: None" >> $CONFIGFILE
 	else
 		echo "openWeather: $openWeather" >> $CONFIGFILE
 	fi
@@ -62,7 +62,7 @@ else
 	read voicerss
 	if [ -z $voicerss ]; then
 		# user didn't provide an API key
-		echo "voicerss: <n/a>" >> $CONFIGFILE
+		echo "voicerss: None" >> $CONFIGFILE
 	else
 		echo "voicerss: $voicerss" >> $CONFIGFILE
 	fi
@@ -71,7 +71,7 @@ else
 	read ifttt
 	if [ -z $ifttt ]; then
 		# user didn't provide an API key
-		echo "ifttt_hook: <n/a>" >> $CONFIGFILE
+		echo "ifttt_hook: None" >> $CONFIGFILE
 	else
 		echo "ifttt_hook: $ifttt" >> $CONFIGFILE
 	fi
@@ -80,7 +80,7 @@ else
 	read pushbullet
 	if [ -z $pushbullet ]; then
 		# user didn't provide an API key
-		echo "pushbullet: <n/a>" >> $CONFIGFILE
+		echo "pushbullet: None" >> $CONFIGFILE
 	else
 		echo "pushbullet: $pushbullet" >> $CONFIGFILE
 	fi
@@ -92,13 +92,13 @@ else
 	read huemac
 	if [ -z $huemac ]; then
 		# user didn't provide an API key
-		echo "<n/a>" >> $CONFIGFILE
+		echo "None" >> $CONFIGFILE
 	else
 		echo "please enter your hue developer token"
 		read huetoken
 		if [ -z $huetoken ]; then
 			# user didn't provide an API key
-			echo "$huemac: <n/a>" >> $CONFIGFILE
+			echo "$huemac: None" >> $CONFIGFILE
 		else
 			echo "$huemac: $huetoken" >> $ CONFIGFILE
 		fi
@@ -111,7 +111,7 @@ else
 	read lifx
 	if [ -z $lifx ]; then
 		# user didn't provide an API key
-		echo "token: <n/a>" >> $CONFIGFILE
+		echo "token: None" >> $CONFIGFILE
 	else
 		echo "token: $lifx" >> $CONFIGFILE
 	fi
@@ -138,6 +138,10 @@ mkdir $APPDIR/tmp
 
 echo "set up restart script"
 chmod a+x $APPDIR/run/kick-b3na.sh
+if [ -f /usr/bin/kick-b3na ]; then
+	echo "restart script already exists"
+	rm -f /usr/bin/kick-b3na
+fi
 ln -s $APPDIR/run/kick-b3na.sh /usr/bin/kick-b3na
 
 echo "set up web app startup script"
