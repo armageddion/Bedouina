@@ -61,8 +61,8 @@ DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or config.get("Alfr3d DB","data
 DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d DB","database_user")
 DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d DB","database_pswd")
 
-def checkLocation(method="freegeoip", speaker=None):
-#def checkLocation(method="dbip", speaker=None):
+#def checkLocation(method="freegeoip", speaker=None):
+def checkLocation(method="dbip", speaker=None):
 	"""
 		Check location based on IP
 	"""
