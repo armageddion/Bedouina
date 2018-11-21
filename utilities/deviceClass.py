@@ -171,11 +171,14 @@ class Device:
 		data = cursor.fetchall()
 
 		# figure out environments
-		cursor.execute("SELECT * FROM environment WHERE name = \""+socket.gethostname()+"\";")
-		env_data = cursor.fetchone()
-		if env_data:
+		try:
+			cursor.execute("SELECT * FROM environment WHERE name = \""+socket.gethostname()+"\";")
+			env_data = cursor.fetchone()
 			env = env_data[1]
 			env_id = env_data[0]
+		except:
+			logger.error("Failed to get environment data")
+			return False
 
 		# get all devices for that user
 		for device in data:
