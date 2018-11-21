@@ -55,7 +55,7 @@ else
 		# user didn't provide an API key
 		echo "openWeather: <n/a>" >> $CONFIGFILE
 	else
-		echo "openWeather: $openWeather" >> $CONFIGFILE	
+		echo "openWeather: $openWeather" >> $CONFIGFILE
 	fi
 
 	echo "please enter your API key for voicerss. go and get one from http://www.voicerss.org/registration.aspx"
@@ -98,7 +98,7 @@ else
 		read huetoken
 		if [ -z $huetoken ]; then
 			# user didn't provide an API key
-			echo "$huemac: <n/a>" >> $CONFIGFILE	
+			echo "$huemac: <n/a>" >> $CONFIGFILE
 		else
 			echo "$huemac: $huetoken" >> $ CONFIGFILE
 		fi
@@ -121,7 +121,7 @@ else
 	# mongo? firebase?
 
 	# TODO
-	echo "still need to setup client_secret.json files for gmail and calendar"	
+	echo "still need to setup client_secret.json files for gmail and calendar"
 fi
 
 # set up the startup file
@@ -133,9 +133,15 @@ update-rc.d b3na defaults
 echo "creating log directory"
 mkdir $APPDIR/log
 
+echo "creating tmp directory"
+mkdir $APPDIR/tmp
+
 echo "set up restart script"
 chmod a+x $APPDIR/run/kick-b3na.sh
 ln -s $APPDIR/run/kick-b3na.sh /usr/bin/kick-b3na
+
+echo "set up web app startup script"
+chmod a+x $APPDIR/www/b3na_web_bottle/start_web_app.sh
 
 # set up logrotate
 echo "setting up logrotate"
@@ -163,5 +169,3 @@ rm -f /etc/apache2/sites-enabled/*.conf
 ln -s /etc/apache2/sites-available/b3na.conf /etc/apache2/sites-enabled/
 echo "configuring apache"
 service apache2 restart
-
-
