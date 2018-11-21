@@ -62,7 +62,7 @@ DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d DB","data
 DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d DB","database_pswd")
 
 #def checkLocation(method="freegeoip", speaker=None):
-def checkLocation(method="dbip", speaker=None):
+def checkLocation(method="freegeoip", speaker=None):
 	"""
 		Check location based on IP
 	"""
@@ -163,7 +163,7 @@ def checkLocation(method="dbip", speaker=None):
 			else:
 				info6 = json.loads(urllib.urlopen(url6).read().decode('utf-8'))
 				print info6 	#DEBUG
-				
+
 				if info6['country']:
 					country_new = info6['country']
 					state_new = info6['stateprov']
@@ -178,13 +178,17 @@ def checkLocation(method="dbip", speaker=None):
 				return [False, 0, 0]
 
 	elif method == "freegeoip":
+		# get API key for ipstack which was freegeoip.net
+		apikey = config.get("API KEY", "ipstack")
+
 		if myipv4:
-			url4 = "http://freegeoip.net/json/"+myipv4
+			#url4 = "http://freegeoip.net/json/"+myipv4
+			url4 = "http://api.ipstack.com/"+myipv4+"?access_key="+apikey
 
 			try:
 				# try to get our info based on IPV4
 				info4 = json.loads(urllib.urlopen(url4).read().decode('utf-8'))
-				print info4
+				print info4 	#DEBUG
 				if info4['city']:
 					country_new = info4['country_name']
 					#state_new = info4['stateprov_name']
