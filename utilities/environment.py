@@ -94,7 +94,7 @@ def checkLocation(method="dbip", speaker=None):
 				cursor.execute("INSERT INTO environment (name) \
 				VALUES (\""+socket.gethostname()+"\");")
 				db.commit()
-				logger.info("new engironment created")
+				logger.info("New environment created")
 			except Exception, e:
 				logger.error("Failed to add new environment to DB")
 				logger.error("Traceback "+str(e))
@@ -151,6 +151,7 @@ def checkLocation(method="dbip", speaker=None):
 		try:
 			# try to get our info based on IPV4
 			info4 = json.loads(urllib.urlopen(url4).read().decode('utf-8'))
+			print info4 	#DEBUG
 
 			if info4['city']:
 				country_new = info4['country']
@@ -161,6 +162,8 @@ def checkLocation(method="dbip", speaker=None):
 			# if that fails, try the IPV6 way
 			else:
 				info6 = json.loads(urllib.urlopen(url6).read().decode('utf-8'))
+				print info6 	#DEBUG
+				
 				if info6['country']:
 					country_new = info6['country']
 					state_new = info6['stateprov']
