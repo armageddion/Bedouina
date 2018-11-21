@@ -43,6 +43,19 @@
 				{% endif %}
 			{% endfor %}
 		</div>
+		<div>
+			{% for device in devices %}
+				{% if device.device_type.type == "HW_switch" %}
+					{% if device.state.state == "offline" %}
+						<input type="submit" name={{ device.name }} value={{ device.name }} disabled>
+					{% else %}
+						<form method="post">
+							<input type="submit" name={{ device.name }} value={{ device.name }}>
+						</form>
+					{% endif %}
+				{% endif %}
+			{% endfor %}
+		</div>		
 		<h3>Location</h3>
 		<div>
 			City: {{ environment.city }} <br>

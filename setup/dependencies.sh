@@ -6,6 +6,9 @@ sudo apt install -y python-dev
 echo "installing pip"
 sudo apt install -y python-pip
 
+echo "installing arp-scan"
+sudo apt install -y arp-scan
+
 echo "installing pymongo"
 sudo pip install pymongo
 
