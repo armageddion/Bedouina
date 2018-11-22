@@ -36,12 +36,12 @@
 				{% if device.device_type.type == "HW_lights" %}
 					<td>{{ device.name }}</td>
 					{% if device.state.state == "offline" %}
-						<td><input type="submit" name={{ device.name }} value="ON" disabled></td>
-						<td><input type="submit" name={{ device.name }} value="OFF" disabled></td>
+						<td><input type="submit" name="{{ device.device_type.type }};{{ device.name }};ON" value="ON" disabled></td>
+						<td><input type="submit" name="{{ device.device_type.type }};{{ device.name }};OFF" value="OFF" disabled></td>
 					{% else %}
 						<form method="post">
-							<td><input type="submit" name="{{ device.name }}_ON" value="ON"></td>
-							<td><input type="submit" name="{{ device.name }}_OFF" value="OFF"></td>
+							<td><input type="submit" name="{{ device.device_type.type }};{{ device.name }};ON" value="ON"></td>
+							<td><input type="submit" name="{{ device.device_type.type }};{{ device.name }};OFF" value="OFF"></td>
 						</form>
 					{% endif %}
 				{% endif %}
@@ -55,12 +55,12 @@
 				{% if device.device_type.type == "HW_switch" %}
 					<td>{{ device.name }}</td>
 					{% if device.state.state == "offline" %}
-						<td><input type="submit" name={{ device.name }} value="ON" disabled></td>
-						<td><input type="submit" name={{ device.name }} value="OFF" disabled></td>
+						<td><input type="submit" name="{{ device.device_type.type }};{{ device.name }};ON" value="ON" disabled></td>
+						<td><input type="submit" name="{{ device.device_type.type }};{{ device.name }};OFF" value="OFF" disabled></td>
 					{% else %}
 						<form method="post">
-							<td><input type="submit" name={{ device.name }} value="ON"></td>
-							<td><input type="submit" name={{ device.name }} value="OFF"></td>
+							<td><input type="submit" name="{{ device.device_type.type }};{{ device.name }};ON" value="ON"></td>
+							<td><input type="submit" name="{{ device.device_type.type }};{{ device.name }};OFF" value="OFF"></td>
 						</form>
 					{% endif %}
 				{% endif %}
