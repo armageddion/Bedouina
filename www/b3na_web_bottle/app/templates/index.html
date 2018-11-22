@@ -30,32 +30,43 @@
 			{% endfor %}
 		</table>
 		<h3>Lights</h3>
-		<div>
+		<table>
 			{% for device in devices %}
+			<tr>
 				{% if device.device_type.type == "HW_lights" %}
+					<td>{{ device.name }}</td>
 					{% if device.state.state == "offline" %}
-						<input type="submit" name={{ device.name }} value={{ device.name }} disabled>
+						<td><input type="submit" name="ON" value={{ device.name }} disabled></td>
+						<td><input type="submit" name="OFF" value={{ device.name }} disabled></td>
 					{% else %}
 						<form method="post">
-							<input type="submit" name={{ device.name }} value={{ device.name }}>
+							<td><input type="submit" name="ON" value={{ device.name }}></td>
+							<td><input type="submit" name="OFF" value={{ device.name }}></td>
 						</form>
 					{% endif %}
 				{% endif %}
+			</tr>
 			{% endfor %}
-		</div>
-		<div>
+		</table>
+		<h3>Switches</h3>
+		<table>
 			{% for device in devices %}
+			<tr>
 				{% if device.device_type.type == "HW_switch" %}
+					<td>{{ device.name }}</td>
 					{% if device.state.state == "offline" %}
-						<input type="submit" name={{ device.name }} value={{ device.name }} disabled>
+						<td><input type="submit" name="ON" value={{ device.name }} disabled></td>
+						<td><input type="submit" name="OFF" value={{ device.name }} disabled></td>
 					{% else %}
 						<form method="post">
-							<input type="submit" name={{ device.name }} value={{ device.name }}>
+							<td><input type="submit" name="ON" value={{ device.name }}></td>
+							<td><input type="submit" name="OFF" value={{ device.name }}></td>
 						</form>
 					{% endif %}
 				{% endif %}
+			</tr>
 			{% endfor %}
-		</div>		
+		</table>
 		<h3>Location</h3>
 		<div>
 			City: {{ environment.city }} <br>

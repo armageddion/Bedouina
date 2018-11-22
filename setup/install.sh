@@ -126,6 +126,10 @@ fi
 
 # set up the startup file
 echo "creating startup scripts"
+if [ -f /etc/init.d/b3na ]; then
+	echo "restart script already exists"
+	rm -f /etc/init.d/b3na
+fi
 chmod a+x $APPDIR/startup/b3na
 cp $APPDIR/startup/b3na /etc/init.d/
 update-rc.d b3na defaults
@@ -161,6 +165,13 @@ echo "	ifempty" 			>> /etc/logrotate.d/b3na
 echo "}" 					>> /etc/logrotate.d/b3na
 
 chown -R b3na:b3na $APPDIR
+
+# export environment variables
+export DATABASE_URL='mysql://alfr3d:alfr3d@192.168.1.100/alfr3d'
+export DATABASE_NAME='alfr3d'
+export DATABASE_USER='alfr3d'
+export DATABASE_PSWD='alfr3d'
+#more to come
 
 echo "starting b3na service"
 service b3na start
