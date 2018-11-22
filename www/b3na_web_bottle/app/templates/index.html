@@ -40,8 +40,8 @@
 						<td><input type="submit" name={{ device.name }} value="OFF" disabled></td>
 					{% else %}
 						<form method="post">
-							<td><input type="submit" name={{ device.name }} value="ON"></td>
-							<td><input type="submit" name={{ device.name }} value="OFF"></td>
+							<td><input type="submit" name="{{ device.name }}_ON" value="ON"></td>
+							<td><input type="submit" name="{{ device.name }}_OFF" value="OFF"></td>
 						</form>
 					{% endif %}
 				{% endif %}
