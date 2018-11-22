@@ -36,9 +36,24 @@ def index():
 	# irrigation
 	# weather
 	if request.method == 'POST':
-		for i in request.form: 
+		for i in request.form:
 			print "button pressed: ", i
 			# TODO process button request...
+			hw_item=i.split(";")
+			print hw_item[0]
+			if hw_item[0] == "HW_lights":
+				# switch a light
+				if hw_item[1].startswith(Lifx):
+					# it's a Lifx lights
+					if hw_item[2] == "ON":
+						#turn the lifx light on
+						print "turning "+hw_item[1]+" ON"
+					else:
+						#turn the lifx light off
+						print "turning "+hw_item[1]+" OFF"
+				else:
+					# TODO...
+					pass
 
 	elif request.method == 'GET':
 		pass # do something
