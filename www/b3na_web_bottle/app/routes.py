@@ -43,7 +43,7 @@ def index():
 			print hw_item[0]
 			if hw_item[0] == "HW_lights":
 				# switch a light
-				if hw_item[1].startswith(Lifx):
+				if hw_item[1].startswith("Lifx"):
 					# it's a Lifx lights
 					if hw_item[2] == "ON":
 						#turn the lifx light on
