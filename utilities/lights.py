@@ -61,60 +61,60 @@ DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d DB","data
 DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d DB","database_pswd")
 
 def lightingOn(lights="all"):
-    logger.info("turning the lights "+lights+ "on")
+	logger.info("turning the lights "+lights+ "on")
 
-    # find all lights in the database
+	# find all lights in the database
 	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
 	cursor = db.cursor()
-    # find id for lights
-    cursor.execute("SELECT * FROM device_types WHERE device_type == 'HW_lights';")
-    dev_type = cursor.fetchone()[0]
-    # find id for environment
-    cursor.execute("SELECT * FROM environment WHERE name = \""+socket.gethostname()+"\";")
-    env_id = cursor.fetchone()[0]
+	# find id for lights
+	cursor.execute("SELECT * FROM device_types WHERE device_type == 'HW_lights';")
+	dev_type = cursor.fetchone()[0]
+	# find id for environment
+	cursor.execute("SELECT * FROM environment WHERE name = \""+socket.gethostname()+"\";")
+	env_id = cursor.fetchone()[0]
 
-    if lights == "all":
-        # find all lights in our environment
+	if lights == "all":
+		# find all lights in our environment
 		cursor.execute("SELECT * FROM device WHERE device_type_id = "+dev_type+" and environment_id = "+env_id+";")
 		devices = cursor.fetchall()
 		for device in devices:
-            print "switching device"+ device[0] + "on"
-            #TODO
-    else:
+			print "switching device"+ device[0] + "on"
+			#TODO
+	else:
 		cursor.execute("SELECT * FROM device WHERE device_type_id = "+dev_type+" and environment_id = "+env_id+" and name = "+lights+";")
 		device = cursor.fetchone()
-        print "switching device"+ device[0] + "on"
-        #TODO
+		print "switching device"+ device[0] + "on"
+		#TODO
 
-    return True
+	return True
 
 def lightingOff(lights="all"):
-    logger.info("turning the lights "+lights+ "off")
+	logger.info("turning the lights "+lights+ "off")
 
-    # find all lights in the database
+	# find all lights in the database
 	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
 	cursor = db.cursor()
-    # find id for lights
-    cursor.execute("SELECT * FROM device_types WHERE device_type == 'HW_lights';")
-    dev_type = cursor.fetchone()[0]
-    # find id for environment
-    cursor.execute("SELECT * FROM environment WHERE name = \""+socket.gethostname()+"\";")
-    env_id = cursor.fetchone()[0]
+	# find id for lights
+	cursor.execute("SELECT * FROM device_types WHERE device_type == 'HW_lights';")
+	dev_type = cursor.fetchone()[0]
+	# find id for environment
+	cursor.execute("SELECT * FROM environment WHERE name = \""+socket.gethostname()+"\";")
+	env_id = cursor.fetchone()[0]
 
-    if lights == "all":
-        # find all lights in our environment
+	if lights == "all":
+		# find all lights in our environment
 		cursor.execute("SELECT * FROM device WHERE device_type_id = "+dev_type+" and environment_id = "+env_id+";")
 		devices = cursor.fetchall()
 		for device in devices:
-            print "switching device"+ device[0] + "off"
-            #TODO
-    else:
+			print "switching device"+ device[0] + "off"
+			#TODO
+	else:
 		cursor.execute("SELECT * FROM device WHERE device_type_id = "+dev_type+" and environment_id = "+env_id+" and name = "+lights+";")
 		device = cursor.fetchone()
-        print "switching device"+ device[0] + "off"
-        #TODO
+		print "switching device"+ device[0] + "off"
+		#TODO
 
-    return True
+	return True
 
 # purely for testing purposes
 if __name__ == "__main__":
