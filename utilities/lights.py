@@ -95,7 +95,7 @@ def lightingOff(lights="all"):
 	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
 	cursor = db.cursor()
 	# find id for lights
-	cursor.execute("SELECT * FROM device_types WHERE device_type == 'HW_lights';")
+	cursor.execute("SELECT * FROM device_types WHERE type = 'HW_lights';")
 	dev_type = cursor.fetchone()[0]
 	# find id for environment
 	cursor.execute("SELECT * FROM environment WHERE name = \""+socket.gethostname()+"\";")
