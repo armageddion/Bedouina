@@ -81,8 +81,8 @@ def lightingOn(lights="all"):
 			print "switching device"+ device[0] + "on"
 			#TODO
 	else:
-		cursor.execute("SELECT * FROM device WHERE device_type_id = "+str(dev_type)+" AND environment_id = "+str(env_id)+" AND name = "+lights+";")
 		print "SELECT * FROM device WHERE device_type_id = "+str(dev_type)+" AND environment_id = "+str(env_id)+" AND name = "+lights+";" # DEBUG
+		cursor.execute("SELECT * FROM device WHERE device_type_id = "+str(dev_type)+" AND environment_id = "+str(env_id)+" AND name = "+lights+";")
 		device = cursor.fetchone()
 		print "switching device"+ device[0] + "on"
 		#TODO
