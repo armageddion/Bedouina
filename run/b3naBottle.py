@@ -207,7 +207,7 @@ def lights():
 		result['details']="you didn't provide any args... "
 	else:
 		if request.query.light == "all":
-			if request.query.state == "on"
+			if request.query.state == "on":
 				logger.info("Processing command")
 				utilities.lightingOn()				# TODO: need to return a value for proper processing
 				result['status']="OK"
@@ -218,7 +218,7 @@ def lights():
 				result['status']="OK"
 				result['details']='processing request to turn the lights off'
 		elif request.query.light:	# not all, but some light needs to be toggled
-			if request.query.state == "on"
+			if request.query.state == "on":
 				logger.info("Processing command")
 				utilities.lightingOn(request.query.light)				# TODO: need to return a value for proper processing
 				result['status']="OK"
