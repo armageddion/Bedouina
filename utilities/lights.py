@@ -75,13 +75,13 @@ def lightingOn(lights="all"):
 
 	if lights == "all":
 		# find all lights in our environment
-		cursor.execute("SELECT * FROM device WHERE device_type_id = "+dev_type+" and environment_id = "+env_id+";")
+		cursor.execute("SELECT * FROM device WHERE device_type_id = "+str(dev_type)+" and environment_id = "+str(env_id)+";")
 		devices = cursor.fetchall()
 		for device in devices:
 			print "switching device"+ device[0] + "on"
 			#TODO
 	else:
-		cursor.execute("SELECT * FROM device WHERE device_type_id = "+dev_type+" and environment_id = "+env_id+" and name = "+lights+";")
+		cursor.execute("SELECT * FROM device WHERE device_type_id = "+str(dev_type)+" and environment_id = "+str(env_id)+" and name = "+lights+";")
 		device = cursor.fetchone()
 		print "switching device"+ device[0] + "on"
 		#TODO
@@ -103,13 +103,13 @@ def lightingOff(lights="all"):
 
 	if lights == "all":
 		# find all lights in our environment
-		cursor.execute("SELECT * FROM device WHERE device_type_id = "+dev_type+" and environment_id = "+env_id+";")
+		cursor.execute("SELECT * FROM device WHERE device_type_id = "+str(dev_type)+" and environment_id = "+str(env_id)+";")
 		devices = cursor.fetchall()
 		for device in devices:
 			print "switching device"+ device[0] + "off"
 			#TODO
 	else:
-		cursor.execute("SELECT * FROM device WHERE device_type_id = "+dev_type+" and environment_id = "+env_id+" and name = "+lights+";")
+		cursor.execute("SELECT * FROM device WHERE device_type_id = "+str(dev_type)+" and environment_id = "+str(env_id)+" and name = "+lights+";")
 		device = cursor.fetchone()
 		print "switching device"+ device[0] + "off"
 		#TODO
