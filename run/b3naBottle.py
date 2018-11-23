@@ -50,7 +50,7 @@ CURRENT_PATH = os.path.dirname(__file__)
 sys.path.append(os.path.join(os.path.join(os.getcwd(),os.path.dirname(__file__)),"../"))
 # import utilities
 
-# set up logging 
+# set up logging
 logger = logging.getLogger("BottleLog")
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -104,7 +104,7 @@ def index(name):
 
 @app.route('/whosthere', method=['OPTIONS','GET'])
 def whosthere():
-	logger.info("Received a 'whosthere' requet")
+	logger.info("Received a 'whosthere' request")
 
 	client = MongoClient('mongodb://ec2-52-89-213-104.us-west-2.compute.amazonaws.com:27017/')
 	client.Alfr3d_DB.authenticate(db_user,db_pass)
@@ -148,7 +148,7 @@ def make_coffee():
 
 	coffe_request = requests.post("https://maker.ifttt.com/trigger/make_coffee/with/key/"+str(secret))
 	if coffe_request.status_code == 200:
-		logger.info("coffee is being made")		
+		logger.info("coffee is being made")
 		result['status']="OK"
 	else:
 		logger.error("something went wrong... cannot make coffee")
@@ -166,7 +166,7 @@ def water_flowers():
 
 	timeout = 30
 
-	try: 
+	try:
 		timeout=int(request.query.timeout)
 	except:
 		logger.warn("Timeout not provided")
@@ -179,7 +179,7 @@ def water_flowers():
 		result['status pump on']="OK"
 
 		time.sleep(timeout)
-		
+
 		flower_off_request = requests.post("https://maker.ifttt.com/trigger/water_flowers_end/with/key/"+str(secret))
 		if flower_off_request.status_code == 200:
 			logger.info("Successfully turned off the irrigation system")
@@ -191,11 +191,11 @@ def water_flowers():
 	else:
 		logger.error("Something went wrong. unable to turn off the irrigation system")
 		result['status']="ERROR"
-		result['error code']=str(coffe_request.status_code)		
+		result['error code']=str(coffe_request.status_code)
 
 	return json.dumps(result)
 
-# http://b3na.littl31.com:8080/lights?all=on
+# http://b3na.littl31.com:8080/lights?light=all&state=on
 @app.route('/lights')
 def lights():
 	logger.info("Received request to command the lights: "+str(request.query_string))
@@ -206,16 +206,28 @@ def lights():
 		result['status']="ERROR"
 		result['details']="you didn't provide any args... "
 	else:
-		if request.query.all == "on":
-			logger.info("Processing command")
-			utilities.lightingOn()				# TODO: need to return a value for proper processing
-			result['status']="OK"
-			result['details']='processing request to turn the lights off'
-		elif request.query.all == "off":
-			logger.info("Processing command")
-			utilities.lightingOff()				# TODO: need to return a value for proper processing
-			result['status']="OK"
-			result['details']='processing request to turn the lights on'
+		if request.query.light == "all":
+			if request.query.state == "on"
+				logger.info("Processing command")
+				utilities.lightingOn()				# TODO: need to return a value for proper processing
+				result['status']="OK"
+				result['details']='processing request to turn the lights on'
+			elif request.query.state == "off":
+				logger.info("Processing command")
+				utilities.lightingOff()				# TODO: need to return a value for proper processing
+				result['status']="OK"
+				result['details']='processing request to turn the lights off'
+		elif request.query.light:	# not all, but some light needs to be toggled
+			if request.query.state == "on"
+				logger.info("Processing command")
+				utilities.lightingOn(request.query.light)				# TODO: need to return a value for proper processing
+				result['status']="OK"
+				result['details']='processing request to turn '+request.query.light+' on'
+			elif request.query.state == "off":
+				logger.info("Processing command")
+				utilities.lightingOff(request.query.light)				# TODO: need to return a value for proper processing
+				result['status']="OK"
+				result['details']='processing request to turn '+request.query.light+' off'
 		else:
 			logger.warn("Received request to command the lights: "+str(request.query_string))
 			logger.warn("But I dont know how to process it yet")
@@ -224,5 +236,5 @@ def lights():
 
 	return json.dumps(result)
 
-app.install(EnableCors())	
-app.run(host='0.0.0.0',port=8080)
+app.install(EnableCors())
+app.run(host='127.0.0.1',port=8080)

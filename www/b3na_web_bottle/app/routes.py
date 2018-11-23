@@ -1,4 +1,5 @@
 import socket
+import requests
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
@@ -48,12 +49,28 @@ def index():
 					if hw_item[2] == "ON":
 						#turn the lifx light on
 						print "turning "+hw_item[1]+" ON"
+						response = requests.get('http://localhost:8080/lights?light='+hw_item[1]+'&state=on')
+						if response != 200:
+							print "Failed to toggle light"	# TODO make better
 					else:
 						#turn the lifx light off
 						print "turning "+hw_item[1]+" OFF"
+						response = requests.get('http://localhost:8080/lights?light='+hw_item[1]+'&state=off')
+						if response != 200:
+							print "Failed to toggle light"	# TODO make better
 				else:
 					# TODO...
 					pass
+			elif hw_item[0] == "HW_switch":
+				# switch a Switches
+				if hw_item[1].startswith("Wemo"):
+					# it's a Wemo switch
+					if hw_item[2] == "ON":
+						#turn the Wemo switch on
+						print "turning "+hw_item[1]+" ON"
+					else:
+						#turn the Wemo switch off
+						print "turning "+hw_item[1]+" OFF"
 
 	elif request.method == 'GET':
 		pass # do something
