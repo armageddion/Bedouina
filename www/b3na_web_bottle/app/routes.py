@@ -50,14 +50,16 @@ def index():
 						#turn the lifx light on
 						print "turning "+hw_item[1]+" ON"
 						response = requests.get('http://localhost:8080/lights?light='+hw_item[1]+'&state=on')
-						if response != 200:
+						if response.status_code != 200:
 							print "Failed to toggle light"	# TODO make better
+							print response
 					else:
 						#turn the lifx light off
 						print "turning "+hw_item[1]+" OFF"
 						response = requests.get('http://localhost:8080/lights?light='+hw_item[1]+'&state=off')
-						if response != 200:
+						if response.status_code != 200:
 							print "Failed to toggle light"	# TODO make better
+							print response
 				else:
 					# TODO...
 					pass
