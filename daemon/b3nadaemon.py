@@ -117,7 +117,7 @@ class MyDaemon(Daemon):
 				god is in tha house
 			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 			god = utilities.User()
-			god.getDetails("armageddion")
+			god.getUser("armageddion")
 			if (god.state == 'online') and \
 			   ((datetime.datetime.now().hour < bed_time.hour) or \
 			    (datetime.datetime.now().hour > sunrise_time.hour)):
