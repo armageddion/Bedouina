@@ -66,13 +66,17 @@ DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d DB","data
 DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d DB","database_pswd")
 
 # gmail unread count
-unread_Count = 0
-unread_Count_new = 0
+UNREAD_COUNT = 0
+UNREAD_COUNT_NEW = 0
 
 # time of sunset/sunrise - defaults
-sunset_time = datetime.datetime.now().replace(hour=19, minute=0)
-sunrise_time = datetime.datetime.now().replace(hour=6, minute=30)
-bed_time = datetime.datetime.now().replace(hour=23, minute=00)
+SUNSET_TIME = datetime.datetime.now().replace(hour=19, minute=0)
+SUNRISE_TIME = datetime.datetime.now().replace(hour=6, minute=30)
+BED_TIME = datetime.datetime.now().replace(hour=23, minute=00)
+
+# various counters to be used for pacing spreadout functions
+QUIP_START_TIME = time.time()
+QUIP_WAIT_TIME = randint(5,10)
 
 # set up logging
 logger = logging.getLogger("DaemonLog")
@@ -105,8 +109,29 @@ class MyDaemon(Daemon):
 				utilities.checkLANMembers(masterSpeaker)
 			except Exception, e:
 				logger.error("Failed to complete network scan")
-				utilities.speakError("I failed to complete the network scan")
+				masterSpeaker.speakError("I failed to complete the network scan")
 				logger.error("Traceback: "+str(e))
+
+			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+				Things to do only during waking hours and only when
+				god is in tha house
+			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+			god = utilities.User()
+			god.getDetails("armageddion")
+			if (god.state == 'online') and \
+			   ((datetime.datetime.now().hour < bed_time.hour) or \
+			    (datetime.datetime.now().hour > sunrise_time.hour)):
+				"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+					Things to do only during waking hours and only when
+					god is in tha house
+				"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+				try:
+					logger.info("Is it time for a smartass quip?")
+					self.beSmart()
+				except Exception, e:
+					logger.error("Failed to complete the quip block")
+					masterSpeaker.speakError("I failed in being a smart arse")
+					logger.error("Traceback: "+str(e))
 
 	def checkGmail(self):
 		"""
@@ -127,7 +152,20 @@ class MyDaemon(Daemon):
 			Description:
 				speak a quip
 		"""
-		logger.info("time to be a smart ass ?")
+		global QUIP_START_TIME
+		global QUIP_WAIT_TIME
+
+		if time.time() - QUIP_START_TIME > QUIP_WAIT_TIME*60:
+			logger.info("It is time to be a smartass")
+
+			masterSpeaker.speakRandom()
+
+			QUIP_START_TIME = time.time()
+			QUIP_WAIT_TIME = randint(10,50)
+			print "Time until next quip: ", QUIP_WAIT_TIME 	#DEBUG
+
+			logger.info("QUIP_START_TIME and QUIP_WAIT_TIME have been reset")
+			logger.info("Next quip will be shouted in "+str(QUIP_WAIT_TIME)+" minutes.")
 
 	def playTune(self):
 		"""
@@ -190,9 +228,9 @@ def init_daemon():
 	faults = 0
 
 	# set up some routine schedules
-	try: 
+	try:
 		masterSpeaker.speakString("Setting up scheduled routines")
-		logger.info("Setting up scheduled routines")		
+		logger.info("Setting up scheduled routines")
 
 		# "8.30" in the following function is just a placeholder
 		# until i deploy a more configurable alarm clock
@@ -202,7 +240,7 @@ def init_daemon():
 		masterSpeaker.speakString("Failed to set schedules")
 		logger.error("Failed to set schedules")
 		logger.error("Traceback: "+str(e))
-		faults+=1												# bump up fault counter		
+		faults+=1												# bump up fault counter
 
 	masterSpeaker.speakString("Systems check complete")
 	return faults
