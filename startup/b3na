@@ -22,19 +22,20 @@ BOTTLEPIDNAME=b3naBottle
 BOTTLEPIDFILE=/var/run/$BOTTLEPIDNAME
 
 start() {
+    echo "Checking for updates..."
+    ### fetch any updates ###
+    git -C $HOMEDIR pull
+
     echo "Starting b3na services: "
     ### Create the lock file ###
     touch /var/lock/b3na
     echo
 
     echo "Exporting variables for Flask"
-    export FLASK_APP=b3na.py  
+    export FLASK_APP=$HOMEDIR/www/b3na_web_bottle/b3na.py  
 
     echo "Exporting variables for Flask"
     flask run 
-
-    ### fetch any updates ###
-    git -C $HOMEDIR pull
 
     ### Start the daemon ###
     echo "Starting b3na daemon"
