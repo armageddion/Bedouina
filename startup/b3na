@@ -27,29 +27,30 @@ start() {
     git -C $HOMEDIR pull
 
     echo "Starting b3na services: "
+    echo "Starting b3na services: " >> $HOMEDIR/log/init.log &
     ### Create the lock file ###
     touch /var/lock/b3na
     echo
 
-    echo "Exporting variables for Flask"
+    echo "Exporting variables for Flask" >> $HOMEDIR/log/init.log &
     export FLASK_APP=$HOMEDIR/www/b3na_web_bottle/b3na.py  
 
-    echo "Exporting variables for Flask"
+    echo "Starting Flask app" >> $HOMEDIR/log/init.log &
     flask run 
 
     ### Start the daemon ###
-    echo "Starting b3na daemon"
-    python $HOMEDIR/daemon/b3nadaemon.py start > $HOMEDIR/log/init.log &
+    echo "Starting b3na daemon"  >> $HOMEDIR/log/init.log &
+    python $HOMEDIR/daemon/b3nadaemon.py start >> $HOMEDIR/log/init.log &
 
     ### Initialize resftul interface ###
     if [ -f /var/run/$BOTTLEPIDNAME ] && kill -0 $(cat /var/run/$BOTTLEPIDNAME);
     then
-    echo 'Restful interface already running' > $HOMEDIR/log/init.log &
+    echo 'Restful interface already running' >> $HOMEDIR/log/init.log &
     else
-    echo "Initializing restful interface" > $HOMEDIR/log/init.log &
+    echo "Initializing restful interface" >> $HOMEDIR/log/init.log &
     local CMD="python $HOMEDIR/run/b3naBottle.py > $HOMEDIR/log/init.log & echo \$!"
     su -c "$CMD" $RUNAS > "$BOTTLEPIDFILE"
-    echo "Restful interface started" > $HOMEDIR/log/init.log &
+    echo "Restful interface started" >> $HOMEDIR/log/init.log &
     fi
 
     echo "Speaking init greeting"
