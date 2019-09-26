@@ -48,7 +48,7 @@ start() {
     echo 'Restful interface already running' >> $HOMEDIR/log/init.log &
     else
     echo "Initializing restful interface" >> $HOMEDIR/log/init.log &
-    local CMD="python $HOMEDIR/run/b3naBottle.py > $HOMEDIR/log/init.log & echo \$!"
+    local CMD="python $HOMEDIR/run/b3naBottle.py >> $HOMEDIR/log/init.log & echo \$!"
     su -c "$CMD" $RUNAS > "$BOTTLEPIDFILE"
     echo "Restful interface started" >> $HOMEDIR/log/init.log &
     fi

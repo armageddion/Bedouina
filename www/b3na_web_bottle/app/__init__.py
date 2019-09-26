@@ -33,9 +33,9 @@ if not app.debug:
 		mail_handler.setLevel(logging.ERROR)
 		app.logger.addHandler(mail_handler)
 
-	if not os.path.exists('logs'):
-		os.mkdir('logs')
-	file_handler = RotatingFileHandler('logs/b3na_web.log', maxBytes=10240,
+	if not os.path.exists('log'):
+		os.mkdir('log')
+	file_handler = RotatingFileHandler('log/b3na_web.log', maxBytes=10240,
 									   backupCount=10)
 	file_handler.setFormatter(logging.Formatter(
 		'%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
