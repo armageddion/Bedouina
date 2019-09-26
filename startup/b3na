@@ -36,7 +36,7 @@ start() {
     export FLASK_APP=$HOMEDIR/www/b3na_web_bottle/b3na.py  
 
     echo "Starting Flask app" >> $HOMEDIR/log/init.log &
-    flask run 
+    flask run &
 
     ### Start the daemon ###
     echo "Starting b3na daemon"  >> $HOMEDIR/log/init.log &
