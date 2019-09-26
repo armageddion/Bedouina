@@ -60,14 +60,15 @@ start() {
 # Restart the service b3na
 stop() {
     echo "Stopping b3na services: "
+    echo "Stopping b3na services: " >> $HOMEDIR/log/init.log &
     
     echo "Speaking end greeting"
     pico2wave -w "$HOMEDIR/soundbites/end.wav" "$ENDSAY"
     mplayer -ao alsa:device=default -really-quiet -noconsolecontrols "$HOMEDIR/soundbites/end.wav"    
 
     ### Stop the daemon ###
-    echo "Stopping b3na daemon"
-    python $HOMEDIR/daemon/b3nadaemon.py stop > $HOMEDIR/log/init.log &
+    echo "Stopping b3na daemon" >> $HOMEDIR/log/init.log &
+    python $HOMEDIR/daemon/b3nadaemon.py stop >> $HOMEDIR/log/init.log &
 
     echo "Stopping flask"
     ## TODO
@@ -75,9 +76,9 @@ stop() {
     # stop python bottle server
     if [ ! -f "$BOTTLEPIDFILE" ] || ! kill -0 $(cat "$BOTTLEPIDFILE");
     then
-    echo "Restful interface is not running" > $HOMEDIR/log/init.log &
+    echo "Restful interface is not running" >> $HOMEDIR/log/init.log &
     else
-    echo "Stopping restful interface..." > $HOMEDIR/log/init.log &
+    echo "Stopping restful interface..." >> $HOMEDIR/log/init.log &
     kill -15 $(cat "$BOTTLEPIDFILE") && rm -f "$BOTTLEPIDFILE"
     echo "Restful interface stopped"
     fi
