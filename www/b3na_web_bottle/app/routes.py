@@ -165,8 +165,8 @@ def edit_device(mac):
 	environment = Environment.query.all()
 	form = EditDeviceForm()
 	if form.validate_on_submit():
-		device.device_type_id=DeviceTypes.query.filter_by(id=request.form['dev_type']).first().id
-		device.user_id=User.query.filter_by(id=request.form['dev_user']).first().id
+		device.device_type_id=DeviceTypes.query.filter_by(type=request.form['dev_type']).first().id
+		device.user_id=User.query.filter_by(username=request.form['dev_user']).first().id
 		device.name=form.name.data
 		db.session.commit()
 		flash('Your changes have been saved.')
