@@ -237,5 +237,46 @@ def lights():
 
 	return json.dumps(result)
 
+# http://b3na.littl31.com:8080/lights?light=all&state=on
+@app.route('/switches')
+def switches():
+	logger.info("Received request to command the switch: "+str(request.query_string))
+
+	result = {}
+
+	if len(request.query)==0:
+		result['status']="ERROR"
+		result['details']="you didn't provide any args... "
+	else:
+		if request.query.switch == "all":
+			if request.query.state == "on":
+				logger.info("Processing command")
+				utilities.switchesOn()				# TODO: need to return a value for proper processing
+				result['status']="OK"
+				result['details']='processing request to turn the switches on'
+			elif request.query.state == "off":
+				logger.info("Processing command")
+				utilities.switchesOff()				# TODO: need to return a value for proper processing
+				result['status']="OK"
+				result['details']='processing request to turn the switches off'
+		elif request.query.switch:	# not all, but some light needs to be toggled
+			if request.query.state == "on":
+				logger.info("Processing command")
+				utilities.switchesOn(request.query.switch)				# TODO: need to return a value for proper processing
+				result['status']="OK"
+				result['details']='processing request to turn '+request.query.switch+' on'
+			elif request.query.state == "off":
+				logger.info("Processing command")
+				utilities.switchesOff(request.query.switch)				# TODO: need to return a value for proper processing
+				result['status']="OK"
+				result['details']='processing request to turn '+request.query.switch+' off'
+		else:
+			logger.warn("Received request to command the switches: "+str(request.query_string))
+			logger.warn("But I dont know how to process it yet")
+			result['status']="ERROR"
+			result['details']='i dont know how to process that request yet'
+
+	return json.dumps(result)	
+
 app.install(EnableCors())
 app.run(host='127.0.0.1',port=8080)

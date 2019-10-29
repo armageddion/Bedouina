@@ -70,9 +70,17 @@ def index():
 					if hw_item[2] == "ON":
 						#turn the Wemo switch on
 						print "turning "+hw_item[1]+" ON"
+						response = requests.get('http://localhost:8080/switches?switch='+hw_item[1]+'&state=on')
+						if response.status_code != 200:
+							print "Failed to toggle switch"	# TODO make better
+							print response						
 					else:
 						#turn the Wemo switch off
 						print "turning "+hw_item[1]+" OFF"
+						response = requests.get('http://localhost:8080/switches?switch='+hw_item[1]+'&state=off')
+						if response.status_code != 200:
+							print "Failed to toggle switch"	# TODO make better
+							print response							
 
 	elif request.method == 'GET':
 		pass # do something
