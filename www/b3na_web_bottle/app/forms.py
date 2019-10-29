@@ -57,8 +57,10 @@ class EditDeviceForm(FlaskForm):
 	name = StringField('Name',validators=[DataRequired()])
 
 	device_types = DeviceTypes.query.all()
+	print ("DEVICE TYPES::::: ",device_types)
 	dev_type = SelectField('Device Type', choices=device_types)
 
 	users = User.query.all()
+	print ("USERS :::::::::: ", users)
 	dev_user = SelectField('Device User', choices=users)
 	submit = SubmitField('Update')
