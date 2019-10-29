@@ -44,7 +44,7 @@ from time import gmtime, strftime, localtime		# needed to obtain time
 CURRENT_PATH = os.path.dirname(__file__)
 
 # set up logging
-logger = logging.getLogger("LightsLog")
+logger = logging.getLogger("StiwchesLog")
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 handler = logging.FileHandler(os.path.join(CURRENT_PATH,"../log/total.log"))
@@ -61,7 +61,7 @@ DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d DB","data
 DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d DB","database_pswd")
 
 def switchesOn(swtiches="all"):
-	logger.info("turning the swtiches "+swtiches+ "on")
+	logger.info("turning the swtiches "+swtiches+ " on")
 
 	# find all swtiches in the database
 	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
@@ -89,7 +89,7 @@ def switchesOn(swtiches="all"):
 	return True
 
 def switchesOff(swtiches="all"):
-	logger.info("turning the swtiches "+swtiches+ "off")
+	logger.info("turning the swtiches "+swtiches+ " off")
 
 	# find all swtiches in the database
 	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)

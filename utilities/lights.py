@@ -61,7 +61,7 @@ DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d DB","data
 DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d DB","database_pswd")
 
 def lightingOn(lights="all"):
-	logger.info("turning the lights "+lights+ "on")
+	logger.info("turning the lights "+lights+ " on")
 
 	# find all lights in the database
 	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
@@ -89,7 +89,7 @@ def lightingOn(lights="all"):
 	return True
 
 def lightingOff(lights="all"):
-	logger.info("turning the lights "+lights+ "off")
+	logger.info("turning the lights "+lights+ " off")
 
 	# find all lights in the database
 	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
