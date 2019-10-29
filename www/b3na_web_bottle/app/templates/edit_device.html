@@ -3,9 +3,33 @@
 
 {% block app_content %}
 	<h1>Edit Device</h1>
-	<div class="row">
-		<div class="col-md-4">
-			{{ wtf.quick_form(form) }}
-		</div>
-	</div>
+	<form action="" method="post">
+		{{ form.hidden_tag() }}
+		<p>
+			{{ form.name.label }}<br>
+			{{ form.name(size=32) }}<br>
+			{% for error in form.name.errors %}
+			<span style="color: red;">[{{ error }}]</span>
+			{% endfor %}
+		</p>
+		<p>
+			Device ID: {{ device.id }} <br>
+			Device IP: {{ device.IP }} <br>
+			Device MAC: {{ device.MAC }} <br>
+			Device state: {{ device.state.state }} <br>
+			Device Last seen: {{ device.last_online }} <br>
+			Device Type: <select name='types'>
+							{% for type in device_types %}
+								<option value="{{ type.type }}">{{ type.type }}</option>
+							{% endfor %}
+						</select><br>
+			Device user: <select name='users'>
+							{% for user in users %}
+								<option value="{{ user.username }}">{{ user.username }}</option>
+							{% endfor %}
+						</select><br>
+			Device environemnt: {{ device.environment.name }} <br>
+		</p>
+		<p>{{ form.submit() }}</p>
+	</form>
 {% endblock %}
