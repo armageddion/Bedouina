@@ -58,3 +58,13 @@ class EditDeviceForm(FlaskForm):
 	dev_type = SelectField('Device Type', choices=[(d.type,d.type) for d in DeviceTypes.query.order_by('type')])
 	dev_user = SelectField('Device User', choices=[(u.username,u.username) for u in User.query.order_by('username')])
 	submit = SubmitField('Update')
+
+class ResetPasswordRequestForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField(
+        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Request Password Reset')
