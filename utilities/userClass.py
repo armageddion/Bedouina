@@ -136,11 +136,11 @@ class User:
 		data = cursor.fetchone()
 
 		if not data:
-			logger.warn("Failed to find a device with MAC: " +self.MAC+ " in the database")
+			logger.warn("Failed to find user with username: " +self.name+ " in the database")
 			db.close()
 			return False
 
-		logger.info("Device found")
+		logger.info("User found")
 		logger.info(data)
 
 		try:
@@ -230,7 +230,7 @@ class User:
 				delta = timedelta(minutes=60)
 
 			if delta < timedelta(minutes=30):	# 30 minutes
-				if self.state == stat['offline']:
+				if self.state == stat["offline"]:
 					logger.info(self.name+" just came online")
 					# welcome the user
 					cursor.execute("UPDATE user SET state_id = "+str(stat['online'])+" WHERE  = username = \""+user[1]+"\";")
