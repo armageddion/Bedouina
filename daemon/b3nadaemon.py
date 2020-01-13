@@ -227,6 +227,20 @@ def init_daemon():
 
 	faults = 0
 
+	# initial geo check
+	try:
+		masterSpeaker.speakString("Running geo scan")
+		logger.info("Running a geoscan")
+		ret = utilities.checkLocation("freegeoip")
+		if not ret[0]:
+			raise Exception("Geo scan failed")
+		masterSpeaker.speakString("Geo scan complete")
+	except Exception, e:
+		masterSpeaker.speakString("Failed to complete geo scan")
+		logger.error("Failed to complete geoscan scan")
+		logger.error("Traceback: "+str(e))
+		faults+=1
+
 	# set up some routine schedules
 	try:
 		masterSpeaker.speakString("Setting up scheduled routines")

@@ -100,7 +100,7 @@ def checkLocation(method="freegeoip", speaker=None):
 				logger.error("Traceback "+str(e))
 				db.rollback()
 				db.close()
-				return False
+				return [False, 0, 0]
 	except Exception, e:
 		logger.error("Environment check failed")
 		logger.error("Traceback "+str(e))
@@ -241,7 +241,7 @@ def checkLocation(method="freegeoip", speaker=None):
 			logger.error("Traceback "+str(e))
 			db.rollback()
 			db.close()
-			return False
+			return [False, 0, 0]
 
 	db.close()
 
