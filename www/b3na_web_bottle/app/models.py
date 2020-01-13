@@ -93,6 +93,8 @@ class Routines(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(100), index=True)
 	time = db.Column(db.Time)
+	enabled = db.Column(db.Boolean, default=False)
+	triggered = db.Column(db.Boolean, default=False)
 
 	environment_id = db.Column(db.Integer, db.ForeignKey('environment.id'))
 

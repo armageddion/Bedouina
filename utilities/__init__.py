@@ -17,3 +17,4 @@ from googleUtil import *
 from spotify import *
 from lights import *
 from switches import *
+from routines import *

@@ -245,6 +245,7 @@ def init_daemon():
 	try:
 		masterSpeaker.speakString("Setting up scheduled routines")
 		logger.info("Setting up scheduled routines")
+		utilities.createRoutines()
 
 		# "8.30" in the following function is just a placeholder
 		# until i deploy a more configurable alarm clock
