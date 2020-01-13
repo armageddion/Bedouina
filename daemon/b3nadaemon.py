@@ -231,7 +231,7 @@ def init_daemon():
 	try:
 		masterSpeaker.speakString("Running geo scan")
 		logger.info("Running a geoscan")
-		ret = utilities.checkLocation("freegeoip")
+		ret = utilities.checkLocation("freegeoip", speaker=masterSpeaker)
 		if not ret[0]:
 			raise Exception("Geo scan failed")
 		masterSpeaker.speakString("Geo scan complete")
