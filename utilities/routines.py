@@ -78,11 +78,11 @@ def sunriseRoutine(speaker=None):
 	"""
 	logger.info("Pre-sunrise routine:")
 
-    if speaker == None:
-        logger.warning("speaker not supplied")
-        return False
+	if speaker == None:
+		logger.warning("speaker not supplied")
+		return False
 
-    return True
+	return True
 
 def morningRoutine(speaker=None):
 	"""
@@ -91,10 +91,11 @@ def morningRoutine(speaker=None):
 	"""
 	logger.info("Time for morning routine")
 
-    if speaker == None:
-        logger.warning("speaker not supplied")
-        return False
-    return True
+	if speaker == None:
+		logger.warning("speaker not supplied")
+		return False
+
+	return True
 
 def sunsetRoutine(speaker=None):
 	"""
@@ -103,10 +104,11 @@ def sunsetRoutine(speaker=None):
 	"""
 	logger.info("Time for sunset routine")
 
-    if speaker == None:
-        logger.warning("speaker not supplied")
-        return False
-    return True
+	if speaker == None:
+		logger.warning("speaker not supplied")
+		return False
+
+	return True
 
 def bedtimeRoutine(speaker=None):
 	"""
@@ -115,33 +117,36 @@ def bedtimeRoutine(speaker=None):
 	"""
 	logger.info("Bedtime")
 
-    if speaker == None:
-        logger.warning("speaker not supplied")
-        return False
-    return True
+	if speaker == None:
+		logger.warning("speaker not supplied")
+		return False
+
+	return True
 
 def createRoutines():
-    db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
-    cursor = db.cursor()
+	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
+	cursor = db.cursor()
 
-    for routine in routine_list:
-    	cursor.execute("SELECT * from routines WHERE name = "+routine+" and environment_id = env_id;")
-    	data = cursor.fetchone()
+	for routine in routine_list:
+		cursor.execute("SELECT * from routines WHERE name = "+routine+" and environment_id = env_id;")
+		data = cursor.fetchone()
 
-        if not data:
-    		logger.warning("Failed to find routine configuration for "+routine+" routine")
-    		logger.info("Creating new routine configuration")
-    		try:
-    			cursor.execute("INSERT INTO routines (name, environment_id) \
-    			VALUES (\""+routine+"\",\""env_id"\");")
-    			db.commit()
-    			logger.info("New routine created")
-    		except Exception, e:
-    			logger.error("Failed to add new routine to DB")
-    			logger.error("Traceback "+str(e))
-    			db.rollback()
-    			db.close()
-    			return False
+		if not data:
+			logger.warning("Failed to find routine configuration for "+routine+" routine")
+			logger.info("Creating new routine configuration")
+			try:
+				cursor.execute("INSERT INTO routines (name, environment_id) \
+				VALUES (\""+routine+"\",\""env_id"\");")
+				db.commit()
+				logger.info("New routine created")
+			except Exception, e:
+				logger.error("Failed to add new routine to DB")
+				logger.error("Traceback "+str(e))
+				db.rollback()
+				db.close()
+				return False
 
-        else:
-            logger.info("..RUN SUNRISE ROUTINE..")
+		else:
+			logger.info("..RUN SUNRISE ROUTINE..")
+
+	return
