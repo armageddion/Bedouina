@@ -128,7 +128,7 @@ def createRoutines():
 	cursor = db.cursor()
 
 	for routine in routine_list:
-		cursor.execute("SELECT * from routines WHERE name = "+routine+" and environment_id = "+env_id+";")
+		cursor.execute("SELECT * from routines WHERE name = "+routine+" and environment_id = "+str(env_id)+";")
 		data = cursor.fetchone()
 
 		if not data:
@@ -136,7 +136,7 @@ def createRoutines():
 			logger.info("Creating new routine configuration")
 			try:
 				cursor.execute("INSERT INTO routines (name, environment_id) \
-				VALUES (\""+routine+"\",\""+env_id+"\");")
+				VALUES (\""+routine+"\","+str(env_id)+");")
 				db.commit()
 				logger.info("New routine created")
 			except Exception, e:
