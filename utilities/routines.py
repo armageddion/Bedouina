@@ -136,7 +136,7 @@ def createRoutines():
 			logger.info("Creating new routine configuration")
 			try:
 				cursor.execute("INSERT INTO routines (name, environment_id) \
-				VALUES (\""+routine+"\",\""env_id"\");")
+				VALUES (\""+routine+"\",\""+env_id+"\");")
 				db.commit()
 				logger.info("New routine created")
 			except Exception, e:
