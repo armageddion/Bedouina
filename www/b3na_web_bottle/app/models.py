@@ -113,7 +113,7 @@ class Environment(db.Model):
 
 	user_env = db.relationship('User', backref='environment',lazy='dynamic')
 	device_env = db.relationship('Device', backref='environment',lazy='dynamic')
-	routine_env = db.relationship('Routine', backref='environment',lazy='dynamic')
+	routine_env = db.relationship('Routines', backref='environment',lazy='dynamic')
 
 @login.user_loader
 def load_user(id):
