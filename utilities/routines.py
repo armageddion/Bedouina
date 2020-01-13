@@ -128,7 +128,7 @@ def createRoutines():
 	cursor = db.cursor()
 
 	for routine in routine_list:
-		cursor.execute("SELECT * from routines WHERE name = "+routine+" and environment_id = env_id;")
+		cursor.execute("SELECT * from routines WHERE name = "+routine+" and environment_id = "+env_id+";")
 		data = cursor.fetchone()
 
 		if not data:
