@@ -230,6 +230,7 @@ class User:
 				delta = timedelta(minutes=60)
 
 			if delta < timedelta(minutes=30):	# 30 minutes
+				logger.info("User is online")	#DEBUG
 				if self.state == stat["offline"]:
 					logger.info(self.name+" just came online")
 					# welcome the user
@@ -238,6 +239,7 @@ class User:
 				 	# speak welcome
 				 	speaker.speakWelcome(self, time() - float(self.last_online))
 			else:
+				logger.info("User is offline")	#DEBUG
 				if self.state == stat["online"]:
 					logger.info(self.name+" went offline")
 					cursor.execute("UPDATE user SET state_id = "+str(stat['offline'])+" WHERE  = username = \""+user[1]+"\";")

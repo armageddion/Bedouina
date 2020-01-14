@@ -217,6 +217,8 @@ def checkMute():
 	end_time = datetime.now().replace(hour=bed_time.seconds/3600, minute=((bed_time.seconds//60)%60))
 
 	if cur_time > mor_time and cur_time < end_time:
+		logger.info("B3na is free to speak")
 		return False
 	else:
+		logger.info("B3na should be quiet")
 		return True
