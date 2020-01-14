@@ -136,12 +136,11 @@ class Speaker:
 
 	def processQueue(self):
 		while True:
-			if self.stop:
-				return
 			while len(self.queue)>0:
 				self.speak(self.queue[0])	# speak the first item in the list
 				self.queue = self.queue[1:]		# delete the first item in the list
-			self.stop = True
+			if self.stop:
+				return
 
 	def speakGreeting():
 		"""
