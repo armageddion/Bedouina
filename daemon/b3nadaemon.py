@@ -137,13 +137,6 @@ class MyDaemon(Daemon):
 		"""
 		logger.info("Checking email")
 
-	def welcomeHome(self,time_away=None):
-		"""
-			Description:
-				Speak a 'welcome home' greeting
-		"""
-		logger.info("Greeting the creator")
-
 	def beSmart(self):
 		"""
 			Description:
