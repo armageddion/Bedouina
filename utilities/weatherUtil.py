@@ -125,16 +125,16 @@ def getWeather(city="Toronto",country="CA", speaker=None):
 		env_data = cursor.fetchone()
 		env_id = env_data[0]
 		cursor.execute("UPDATE routines SET time = \""+datetime.fromtimestamp(weatherData['sys']['sunrise']).strftime("%H:%M:%S")+"\" \
-						WHERE name = Sunrise \
+						WHERE name = \"Sunrise\" \
 						and environment_id = \""+str(env_id)+"\";")
 		cursor.execute("UPDATE routines SET time = \""+datetime.fromtimestamp(weatherData['sys']['sunset']).strftime("%H:%M:%S")+"\" \
-						WHERE name = Sunset \
+						WHERE name = \"Sunset\" \
 						and environment_id = \""+str(env_id)+"\";")
 		cursor.execute("UPDATE routines SET triggered = 0 \
-						WHERE name = Sunrise \
+						WHERE name = \"Sunrise\" \
 						and environment_id = \""+str(env_id)+"\";")
 		cursor.execute("UPDATE routines SET triggered = 0 \
-						WHERE name = Sunset \
+						WHERE name = \"Sunset\" \
 						and environment_id = \""+str(env_id)+"\";")
 		db.commit()
 	except Exception, e:
