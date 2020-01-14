@@ -234,7 +234,7 @@ class User:
 				if self.state == stat["offline"]:
 					logger.info(self.name+" just came online")
 					# welcome the user
-					cursor.execute("UPDATE user SET state_id = "+str(stat['online'])+" WHERE  = username = \""+user[1]+"\";")
+					cursor.execute("UPDATE user SET state_id = "+str(stat['online'])+" WHERE username = \""+user[1]+"\";")
 					#nighttime_auto()	# turn on the lights
 				 	# speak welcome
 				 	speaker.speakWelcome(self, time() - float(self.last_online))
@@ -242,7 +242,7 @@ class User:
 				logger.info("User is offline")	#DEBUG
 				if self.state == stat["online"]:
 					logger.info(self.name+" went offline")
-					cursor.execute("UPDATE user SET state_id = "+str(stat['offline'])+" WHERE  = username = \""+user[1]+"\";")
+					cursor.execute("UPDATE user SET state_id = "+str(stat['offline'])+" WHERE username = \""+user[1]+"\";")
 					#nighttime_auto()			# this is only useful when alfr3d is left all alone
 
 			try:
