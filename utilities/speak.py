@@ -47,7 +47,7 @@ import third_party
 # current path from which python is executed
 CURRENT_PATH = os.path.dirname(__file__)
 
-# set up logging 
+# set up logging
 logger = logging.getLogger("SpeakLog")
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -70,7 +70,7 @@ class Speaker:
 
 	def __init__(self):
 		# create a thread which will constantly monitor the queue
-		logger.info("starting speaker agent on another thread")
+		logger.info("Starting speaker agent on another thread")
 		agent=Thread(target=self.processQueue)
 		try:
 			agent.start()
@@ -85,6 +85,8 @@ class Speaker:
 	# the new item is simply added to the queue
 	def speakString(self, stringToSpeak):
 		logger.info("Adding string to speak queue: "+stringToSpeak)
+		if self.stop:
+			self.stop = False
 		self.queue.append(stringToSpeak)
 
 	# speaking happens heare
@@ -119,7 +121,7 @@ class Speaker:
 			logger.error("Failed to write sound file to temporary directory")
 			logger.error("Traceback: "+str(e))
 
-		try:			
+		try:
 			os.system('mplayer -really-quiet -noconsolecontrols '+os.path.join(CURRENT_PATH,'../tmp/audio.mp3')) 	# old alfr3d on RPI2
 		except Exception, e:
 			logger.error("Failed to play the sound file using mplayer")
@@ -130,7 +132,7 @@ class Speaker:
 			except Exception, e:
 				logger.error("Failed to play the sound file using omxplayer")
 				logger.error("Traceback: "+str(e))
-				logger.info("Trying another one")	
+				logger.info("Trying another one")
 
 	def processQueue(self):
 		while True:
@@ -139,6 +141,7 @@ class Speaker:
 			while len(self.queue)>0:
 				self.speak(self.queue[0])	# speak the first item in the list
 				self.queue = self.queue[1:]		# delete the first item in the list
+			self.stop = True
 
 	def speakGreeting():
 		"""
@@ -150,7 +153,7 @@ class Speaker:
 		# Time variables
 		hour=strftime("%I", localtime())
 		minute=strftime("%M", localtime())
-		ampm=strftime("%p",localtime())	
+		ampm=strftime("%p",localtime())
 
 		greeting = ''
 
@@ -163,7 +166,7 @@ class Speaker:
 			if (int(hour) < 7 or int(hour) == 12):
 				greeting += "Good afternoon. "
 			else:
-				greeting += "Good evening. "				
+				greeting += "Good evening. "
 
 	def speakWelcome(self, user, time_away=0):
 		"""
@@ -183,7 +186,7 @@ class Speaker:
 		if user.userType == "god":
 			logger.info("Speaking god greeting")
 			self.speakString("Welcome sir.")
-			
+
 			# 2 hours
 			if (time_away > 2*60*60):
 				self.speakString("It's always a pleasure to see you.")
@@ -196,7 +199,7 @@ class Speaker:
 			if (time_away < 2*60*60):
 				self.speakString("I didn't expect you back so soon")
 			# 10 hours
-			elif (time_away < 10*60*60):		
+			elif (time_away < 10*60*60):
 				if ((4 < int(hour) < 7) and (strftime('%A',localtime()) != "Sunday") and (strftime('%A',localtime()) != "Saturday")):
 					self.speakString("I hope you had a good day at work")
 				else:
@@ -231,7 +234,7 @@ class Speaker:
 			# 2 hour
 			if (time_away < 2*60*60):
 				self.speakString("I am beginning to think that you must forget things frequently ")
-				self.speakString("while not thinking about not forgetting things at all.")		
+				self.speakString("while not thinking about not forgetting things at all.")
 			else:
 				self.speakString("I haven't seen you in a while.")
 				if ((int(strftime("%H", localtime()))>21) or (int(strftime("%H", localtime()))<5)):
@@ -244,11 +247,11 @@ class Speaker:
 				random blurp
 		"""
 		logger.info("Speaking a random quip")
-		
+
 		greeting = ""
 
 		quips = [
-			"It is good to see you.", 
+			"It is good to see you.",
 			"You look pretty today.",
 			"Still plenty of time to save the day. Make the most of it.",
 			"I hope you are using your time wisely.",
@@ -288,7 +291,7 @@ class Speaker:
 
 		greeting += quips[tempint-1]
 
-		self.speakString(greeting)	
+		self.speakString(greeting)
 
 	def speakDate(self):
 		"""
@@ -321,7 +324,7 @@ class Speaker:
 		"""
 			Description:
 				function speaks time
-		"""	
+		"""
 		logger.info("Speaking time")
 
 		greeting = ''
@@ -329,14 +332,14 @@ class Speaker:
 		# Time variables
 		hour=strftime("%I", localtime())
 		minute=strftime("%M", localtime())
-		ampm=strftime("%p",localtime())	
+		ampm=strftime("%p",localtime())
 
 		if (int(minute) == 0):
 			greeting = "It is " + str(int(hour)) + ". "
 		else:
 			greeting = "It is "  + str(int(hour)) + " " + minute + ". "
 
-		self.speakString(greeting)		
+		self.speakString(greeting)
 
 	def speakError(self, msg):
 		"""
@@ -344,11 +347,11 @@ class Speaker:
 				speak out error message
 		"""
 		logger.info("Speaking error message")
-		
+
 		strToSpeak = ""
 
 		quips = [
-			"Er, there has been a problem sir. ", 
+			"Er, there has been a problem sir. ",
 			"I ran into an issue sir. ",
 			"Forgive me, but."]
 
@@ -356,8 +359,8 @@ class Speaker:
 
 		strToSpeak += quips[tempint-1]
 
-		self.speakString(strToSpeak)	
-		self.speakString(msg)				
+		self.speakString(strToSpeak)
+		self.speakString(msg)
 
 # Main - only really used for testing
 if __name__ == '__main__':

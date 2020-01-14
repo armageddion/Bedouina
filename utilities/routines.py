@@ -147,6 +147,6 @@ def createRoutines():
 				return False
 
 		else:
-			logger.info("..RUN SUNRISE ROUTINE..")
+			logger.info("Routine for "+routine+" already exists..")
 
 	return

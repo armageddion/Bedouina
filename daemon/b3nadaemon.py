@@ -70,9 +70,9 @@ UNREAD_COUNT = 0
 UNREAD_COUNT_NEW = 0
 
 # time of sunset/sunrise - defaults
-SUNSET_TIME = datetime.datetime.now().replace(hour=19, minute=0)
-SUNRISE_TIME = datetime.datetime.now().replace(hour=6, minute=30)
-BED_TIME = datetime.datetime.now().replace(hour=23, minute=00)
+# SUNSET_TIME = datetime.datetime.now().replace(hour=19, minute=0)
+# SUNRISE_TIME = datetime.datetime.now().replace(hour=6, minute=30)
+# BED_TIME = datetime.datetime.now().replace(hour=23, minute=00)
 
 # various counters to be used for pacing spreadout functions
 QUIP_START_TIME = time.time()
