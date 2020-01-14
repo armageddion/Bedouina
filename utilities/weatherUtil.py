@@ -126,16 +126,16 @@ def getWeather(city="Toronto",country="CA", speaker=None):
 		env_id = env_data[0]
 		cursor.execute("UPDATE routines SET time = \""+datetime.fromtimestamp(weatherData['sys']['sunrise']).strftime("%H:%M:%S")+"\" \
 						WHERE name = Sunrise \
-						and environment_id = \""+env_id+"\";")
+						and environment_id = \""+str(env_id)+"\";")
 		cursor.execute("UPDATE routines SET time = \""+datetime.fromtimestamp(weatherData['sys']['sunset']).strftime("%H:%M:%S")+"\" \
 						WHERE name = Sunset \
-						and environment_id = \""+env_id+"\";")
+						and environment_id = \""+str(env_id)+"\";")
 		cursor.execute("UPDATE routines SET triggered = 0 \
 						WHERE name = Sunrise \
-						and environment_id = \""+env_id+"\";")
+						and environment_id = \""+str(env_id)+"\";")
 		cursor.execute("UPDATE routines SET triggered = 0 \
 						WHERE name = Sunset \
-						and environment_id = \""+env_id+"\";")
+						and environment_id = \""+str(env_id)+"\";")
 		db.commit()
 	except Exception, e:
 		logger.error("Failed to update Routines database with daytime info")
