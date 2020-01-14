@@ -211,7 +211,7 @@ def checkLocation(method="freegeoip", speaker=None):
 	# by this point we got our geo info
 	# just gotta clean it up because sometimes we get garbage in the city name
 	city_new = re.sub('[^A-Za-z]+',"",city_new)
-	state_new = lstrip(state_new)
+	state_new = state_new.strip()
 
 	logger.info("IP: "+str(ip_new))
 	logger.info("City: "+str(city_new))
