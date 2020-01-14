@@ -228,6 +228,7 @@ def checkMute():
 	cursor.execute("SELECT * from states WHERE state = \"online\";")
 	data = cursor.fetchone()
 	state = data[1]
+	print state
 
 	# get all user types which are god or owner type
 	cursor.execute("SELECT * from user_types WHERE type = \"owner\" or \
