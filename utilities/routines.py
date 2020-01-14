@@ -124,6 +124,11 @@ def bedtimeRoutine(speaker=None):
 	return True
 
 def createRoutines():
+	"""
+		Description:
+			check if native routines exist in the DB and create them if
+			necessary
+	"""
 	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
 	cursor = db.cursor()
 
@@ -149,4 +154,40 @@ def createRoutines():
 		else:
 			logger.info("Routine for "+routine+" already exists..")
 
-	return
+	return True
+
+def checkRoutines():
+	"""
+		Description:
+			Check if it is time to execute any routines and take action
+			if needed...
+	"""
+	logger.info("Checking routines")
+
+def resetRoutines():
+	"""
+		Description:
+			reset Triggerd flag for every Enabled routine
+	"""
+	logger.info("Resetting routine flags")
+	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
+	cursor = db.cursor()
+	cursor.execute("SELECT * from routines WHERE \
+					environment_id = "+str(env_id)+"\
+					and enabled = True;")
+	routines = cursor.fetchall()
+
+	for routine in routines:
+		# set Triggered flag to false
+		try:
+			logger.info("Resetting 'triggered' flag for "+routine[1]+" routine")
+			cursor.execute("UPDATE routines SET triggered = 0 WHERE id = \""+routine[0]+"\";")
+			db.commit()
+		except Exception, e:
+			logger.error("Failed to update the database")
+			logger.error("Traceback: "+str(e))
+			db.rollback()
+			db.close()
+			return False
+
+	return True
