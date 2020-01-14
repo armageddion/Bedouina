@@ -212,8 +212,8 @@ def checkMute():
 	bed = cursor.fetchone()
 	bed_time = bed[2]
 
-	print ("morning time",str(morning_time))
-	print ("bed time",str(bed_time))
+	print ("morning time",morning_time/3600,((morning_time//60)%60))
+	print ("bed time",bed_time/3600,((bed_time//60)%60))
 	cur_time = datetime.now()
 	mor_time = datetime.now().replace(hour=morning_time/3600, minute=((morning_time//60)%60))
 	end_time = datetime.now().replace(hour=bed_time/3600, minute=((bed_time//60)%60))
