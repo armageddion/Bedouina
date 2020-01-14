@@ -215,8 +215,8 @@ def checkMute():
 	print ("morning time",str(morning_time))
 	print ("bed time",str(bed_time))
 	cur_time = datetime.now()
-	mor_time = datetime.now().replace(hour=morning_time/3600, minute=(morning_time//60)%60)
-	end_time = datetime.now().replace(hour=bed_time/3600, minute=(bed_time//60)%60)
+	mor_time = datetime.now().replace(hour=morning_time/3600, minute=((morning_time//60)%60))
+	end_time = datetime.now().replace(hour=bed_time/3600, minute=((bed_time//60)%60))
 
 	if cur_time > mor_time and cur_time < end_time:
 		return True
