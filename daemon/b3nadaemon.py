@@ -278,6 +278,7 @@ if __name__ == "__main__":
 		elif 'stop' == sys.argv[1]:
 			logger.info("B3na Daemon stopping...")
 			daemon.stop()
+			sys.exit(1)
 		elif 'restart' == sys.argv[1]:
 			daemon.restart()
 		else:
