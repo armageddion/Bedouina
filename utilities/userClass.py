@@ -121,9 +121,9 @@ class User:
 
 		#print data
 		self.name = data[1]
-		self.state = data[8]
+		self.state = data[7]
 		self.last_online = data[6]
-		self.userType = data[7]
+		self.userType = data[8]
 
 		db.close()
 		return True
