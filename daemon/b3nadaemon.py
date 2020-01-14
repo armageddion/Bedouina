@@ -114,12 +114,10 @@ class MyDaemon(Daemon):
 
 			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 				Things to do only during waking hours and only when
-				god is in tha house
+				god or owner is in tha house
 			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-			god = utilities.User()
-			god.getUser("armageddion")
 			mute = utilities.checkMute()
-			if (god.state == 'online') and not mute:
+			if not mute:
 				"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 					Things to do only during waking hours and only when
 					god is in tha house
