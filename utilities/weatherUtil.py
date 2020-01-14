@@ -118,6 +118,32 @@ def getWeather(city="Toronto",country="CA", speaker=None):
 		db.close()
 		return False
 
+	# update times for sunrise and sunset routines
+	try:
+		logger.info("Updating routines")
+		cursor.execute("SELECT * FROM environment WHERE name = \""+socket.gethostname()+"\";")
+		env_data = cursor.fetchone()
+		env_id = env_data[0]
+		cursor.execute("UPDATE routines SET time = \""+datetime.fromtimestamp(weatherData['sys']['sunrise']).strftime("%H:%M:%S")+"\" \
+						WHERE name = Sunrise \
+						and environment_id = \""+env_id+"\";")
+		cursor.execute("UPDATE routines SET time = \""+datetime.fromtimestamp(weatherData['sys']['sunset']).strftime("%H:%M:%S")+"\" \
+						WHERE name = Sunset \
+						and environment_id = \""+env_id+"\";")
+		cursor.execute("UPDATE routines SET triggered = 0 \
+						WHERE name = Sunrise \
+						and environment_id = \""+env_id+"\";")
+		cursor.execute("UPDATE routines SET triggered = 0 \
+						WHERE name = Sunset \
+						and environment_id = \""+env_id+"\";")
+		db.commit()
+	except Exception, e:
+		logger.error("Failed to update Routines database with daytime info")
+		logger.error("Traceback "+str(e))
+		db.rollback()
+		db.close()
+		return False
+
 	# Subjective weather
 	badDay = []
 	badDay_data = []
