@@ -94,8 +94,14 @@ class User:
 
 		logger.info("Creating a new DB entry for user: "+name)
 		try:
-			cursor.execute("INSERT INTO user(name, last_online) \
-							VALUES (\""+self.name+"\", \""+self.last_online+"\" )")
+			cursor.execute("SELECT * from states WHERE state = \"offline\";")
+			data = cursor.fetchone()
+			stateid = data[0]
+			cursor.execute("SELECT * from user_types WHERE type = \"guest\";")
+			data = cursor.fetchone()
+			usrtype = data[0]
+			cursor.execute("INSERT INTO user(username, last_online, state_id, user_type_id) \
+							VALUES (\""+self.name+"\", \""+self.last_online+"\",\""+str(state_id)+"\",\""+str(state_id)+"\");")
 			db.commit()
 		except Exception, e:
 			logger.error("Failed to update the database")
