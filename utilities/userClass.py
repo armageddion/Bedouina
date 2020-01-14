@@ -237,7 +237,7 @@ class User:
 					cursor.execute("UPDATE user SET state_id = "+str(stat['online'])+" WHERE username = \""+user[1]+"\";")
 					#nighttime_auto()	# turn on the lights
 				 	# speak welcome
-				 	speaker.speakWelcome(self, time() - float(self.last_online))
+				 	speaker.speakWelcome(self, datetime.utcnow() - self.last_online)
 			else:
 				logger.info("User is offline")	#DEBUG
 				if self.state == stat["online"]:

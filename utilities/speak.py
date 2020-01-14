@@ -38,6 +38,7 @@ import socket									# needed to get hostname
 from random import randint						# used for random number generator
 from threading import Thread
 from time import strftime, localtime, time, sleep
+import datetime
 
 
 # import my own utilities
@@ -180,6 +181,9 @@ class Speaker:
 		ampm=strftime("%p",localtime())
 
 		self.speakGreeting()
+
+		# until i convert this utility from time() to datetime()
+		time_away = time_away.seconds
 
 		#  special greeting for armageddion only
 		if user.userType == "god":
