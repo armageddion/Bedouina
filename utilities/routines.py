@@ -198,7 +198,7 @@ def checkMute():
 			checks what time it is and decides if B3na should be quiet
 	"""
 	logger.info("Checking if B3na should be mute")
-	retult = False
+	result = False
 
 	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
 	cursor = db.cursor()
