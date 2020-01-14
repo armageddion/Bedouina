@@ -198,7 +198,7 @@ def checkMute():
 			checks what time it is and decides if B3na should be quiet
 	"""
 	logger.info("Checking if B3na should be mute")
-	retult = True
+	retult = False
 
 	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
 	cursor = db.cursor()
@@ -220,15 +220,14 @@ def checkMute():
 
 	if cur_time > mor_time and cur_time < end_time:
 		logger.info("B3na is free to speak during this time of day")
-		result = False
 	else:
 		logger.info("B3na should be quiet while we're sleeping")
+		result = True
 
 	# get state id of status "online"
 	cursor.execute("SELECT * from states WHERE state = \"online\";")
 	data = cursor.fetchone()
 	state = data[0]
-	print state
 
 	# get all user types which are god or owner type
 	cursor.execute("SELECT * from user_types WHERE type = \"owner\" or \
@@ -237,7 +236,6 @@ def checkMute():
 	types = []
 	for item in data:
 		types.append(item[0])
-	print types
 
 	# see if any users worth speaking to are online
 	cursor.execute("SELECT * from user WHERE state_id = \""+str(state)+"\" and \
@@ -247,13 +245,13 @@ def checkMute():
 
 	if not data:
 		logger.info("B3na should be quiet when no worthy ears are around")
-		result = False
+		result = True
 	else:
 		logger.info("B3na has worthy listeners")
 
 	if result:
-		logger.info("B3na is free to speak")
-	else:
 		logger.info("B3na is to be quiet")
+	else:
+		logger.info("B3na is free to speak")
 
 	return result
