@@ -212,6 +212,8 @@ def checkMute():
 	bed = cursor.fetchone()
 	bed_time = bed[2]
 
+	print ("morning time",morning_time)
+	print ("bed time",morning_time)
 	cur_time = datetime.now()
 	mor_time = datetime.now().replace(hour=morning_time[:2], minute=morning_time[3:5])
 	end_time = datetime.now().replace(hour=bed_time[:2], minute=bed_time[3:5])
