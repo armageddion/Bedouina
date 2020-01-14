@@ -143,7 +143,7 @@ class Speaker:
 			if self.stop:
 				return
 
-	def speakGreeting():
+	def speakGreeting(self):
 		"""
 			Description:
 				This function speeks a random variation of "Hello"
