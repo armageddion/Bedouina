@@ -118,9 +118,8 @@ class MyDaemon(Daemon):
 			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 			god = utilities.User()
 			god.getUser("armageddion")
-			if (god.state == 'online') and \
-			   ((datetime.datetime.now().hour < bed_time.hour) or \
-			    (datetime.datetime.now().hour > sunrise_time.hour)):
+			mute = utilities.checkMute()
+			if (god.state == 'online') and not mute:
 				"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 					Things to do only during waking hours and only when
 					god is in tha house
@@ -213,6 +212,14 @@ def bedtimeRoutine():
 	"""
 	logger.info("Bedtime")
 
+def resetRoutines():
+	"""
+		Description:
+			refresh some things at midnight
+	"""
+	utilities.resetRoutines()
+
+
 def init_daemon():
 	"""
 		Description:
@@ -246,11 +253,11 @@ def init_daemon():
 		masterSpeaker.speakString("Setting up scheduled routines")
 		logger.info("Setting up scheduled routines")
 		utilities.createRoutines()
-		utilities.resetRoutines()
+		resetRoutines()
 
 		# "8.30" in the following function is just a placeholder
 		# until i deploy a more configurable alarm clock
-		schedule.every().day.at("00:05").do(utilities.resetRoutines)
+		schedule.every().day.at("00:05").do(resetRoutines)
 		#schedule.every().day.at(str(bed_time.hour)+":"+str(bed_time.minute)).do(bedtimeRoutine)
 	except Exception, e:
 		masterSpeaker.speakString("Failed to set schedules")

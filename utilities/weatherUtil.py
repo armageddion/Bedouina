@@ -144,6 +144,8 @@ def getWeather(city="Toronto",country="CA", speaker=None):
 		db.close()
 		return False
 
+	db.close()
+
 	# Subjective weather
 	badDay = []
 	badDay_data = []

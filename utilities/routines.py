@@ -191,3 +191,32 @@ def resetRoutines():
 			return False
 
 	return True
+
+def checkMute():
+	"""
+		Description:
+			checks what time it is and decides if B3na should be quiet
+	"""
+	logger.info("Checking if B3na should be mute")
+	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
+	cursor = db.cursor()
+	cursor.execute("SELECT * from routines WHERE \
+					environment_id = "+str(env_id)+"\
+					and name = \"Morning\";")
+	morning = cursor.fetchone()
+	morning_time = morning[2]
+
+	cursor.execute("SELECT * from routines WHERE \
+					environment_id = "+str(env_id)+"\
+					and name = \"Bedtime\";")
+	bed = cursor.fetchone()
+	bed_time = bed[2]
+
+	cur_time = datetime.now()
+	mor_time = datetime.now().replace(hour=morning_time[:2], minute=morning_time[3:5])
+	end_time = datetime.now().replace(hour=bed_time[:2], minute=bed_time[3:5])
+
+	if cur_time > mor_time and cur_time < end_time:
+		return True
+	else:
+		return False
