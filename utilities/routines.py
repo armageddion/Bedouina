@@ -181,7 +181,7 @@ def resetRoutines():
 		# set Triggered flag to false
 		try:
 			logger.info("Resetting 'triggered' flag for "+routine[1]+" routine")
-			cursor.execute("UPDATE routines SET triggered = 0 WHERE id = \""+routine[0]+"\";")
+			cursor.execute("UPDATE routines SET triggered = 0 WHERE id = \""+str(routine[0])+"\";")
 			db.commit()
 		except Exception, e:
 			logger.error("Failed to update the database")
