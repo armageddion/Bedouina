@@ -236,6 +236,7 @@ def checkMute():
 	types = []
 	for item in data:
 		types.append(item[0])
+	print types
 
 	# see if any users worth speaking to are online
 	cursor.execute("SELECT * from user WHERE state_id = \""+str(state)+"\" and \
