@@ -30,24 +30,33 @@
 #      software/component specified under (i).
 
 from __future__ import print_function
+import pickle
 import os
 import time
 import datetime
 import httplib2
 
-from apiclient.discovery import build
-from oauth2client.file import Storage
-from apiclient import discovery
-from oauth2client import client
-from oauth2client import tools
+# used for older version of the utility
+# from apiclient.discovery import build
+# from oauth2client.file import Storage
+# from apiclient import discovery
+# from oauth2client import client
+# from oauth2client import tools
+
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
 
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/gmail-python-quickstart.json
 SCOPES_GMAIL = 'https://www.googleapis.com/auth/gmail.readonly'
 SCOPES_CAL = 'https://www.googleapis.com/auth/calendar.readonly'
+SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
+		  'https://www.googleapis.com/auth/calendar.readonly']
 CLIENT_SECRET_FILE_GMAIL = os.path.join(os.path.join(os.getcwd(),os.path.dirname(__file__)),'../conf/client_secret_gmail.json')
 CLIENT_SECRET_FILE_CAL = os.path.join(os.path.join(os.getcwd(),os.path.dirname(__file__)),'../conf/client_secret_calendar.json')
-APPLICATION_NAME = 'Alfr3d'
+CLIENT_SECRET_FILE = os.path.join(os.path.join(os.getcwd(),os.path.dirname(__file__)),'../conf/client_secret_google.json')
+APPLICATION_NAME = 'B3na'
 
 # calculate offset to UTC
 #timezone_offset = "-04:00"
@@ -58,7 +67,7 @@ if tz_off < 0:
 else:
 	timezone_offset = "+"+str(tz_off).zfill(2)+":00"
 
-def get_credentials_gmail():
+def get_credentials_google():
 	"""Gets valid user credentials from storage.
 
 	If nothing has been stored, or if the stored credentials are invalid,
@@ -67,52 +76,104 @@ def get_credentials_gmail():
 	Returns:
 		Credentials, the obtained credential.
 	"""
-	home_dir = os.path.expanduser('~')
-	# credential_dir = os.path.join(home_dir, '.credentials')
 	credential_dir = os.path.join(os.path.dirname(__file__),'../conf')
+	credentials = None
+	# The file token.pickle stores the user's access and refresh tokens, and is
+	# created automatically when the authorization flow completes for the first
+	# time.
+
 	if not os.path.exists(credential_dir):
 		os.makedirs(credential_dir)
-	credential_path = os.path.join(credential_dir,
-								   'gmail.storage')
-	store = Storage(credential_path)
-	credentials = store.get()
-	if not credentials or credentials.invalid:
-		flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE_GMAIL, SCOPES_GMAIL)
-		flow.user_agent = APPLICATION_NAME
-		if flags:
-			credentials = tools.run_flow(flow, store, flags)
-		else: # Needed only for compatibility with Python 2.6
-			credentials = tools.run(flow, store)
-		print('Storing credentials to ' + credential_path)
+	token_file = os.path.join(os.path.join(credential_dir,'token.pickle'))
+	if os.path.exists(token_file):
+		with open(token_file, 'rb') as token:
+			credentials = pickle.load(token)
+
+	# if there are no (valid) credentials available, let the user log in
+	if not credentials or not credentials.valid:
+		if credentials and credentials.expired and credentials.refresh_token:
+			credentials.refresh(Request())
+		else:
+			flow = InstalledAppFlow.from_client_secrets_file(
+					CLIENT_SECRET_FILE, SCOPES)
+			credentials = flow.run_local_server(port=0)
+		# save credentials for the next run
+		with open(token_file, 'wb') as token:
+			pickle.dump(credentials, token)
+
 	return credentials
 
-def get_credentials_cal():
-	"""Gets valid user credentials from storage.
-
-	If nothing has been stored, or if the stored credentials are invalid,
-	the OAuth2 flow is completed to obtain the new credentials.
-
-	Returns:
-		Credentials, the obtained credential.
-	"""
-	home_dir = os.path.expanduser('~')
-	# credential_dir = os.path.join(home_dir, '.credentials')
-	credential_dir = os.path.join(os.path.dirname(__file__),'../conf')
-	if not os.path.exists(credential_dir):
-		os.makedirs(credential_dir)
-	credential_path = os.path.join(credential_dir,
-								   'calendar.storage')
-	store = Storage(credential_path)
-	credentials = store.get()
-	if not credentials or credentials.invalid:
-		flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE_CAL, SCOPES_CAL)
-		flow.user_agent = APPLICATION_NAME
-		if flags:
-			credentials = tools.run_flow(flow, store, flags)
-		else: # Needed only for compatibility with Python 2.6
-			credentials = tools.run(flow, store)
-		print('Storing credentials to ' + credential_path)
-	return credentials
+# def get_credentials_gmail():
+# 	"""Gets valid user credentials from storage.
+#
+# 	If nothing has been stored, or if the stored credentials are invalid,
+# 	the OAuth2 flow is completed to obtain the new credentials.
+#
+# 	Returns:
+# 		Credentials, the obtained credential.
+# 	"""
+# 	credential_dir = os.path.join(os.path.dirname(__file__),'../conf')
+# 	credentials = None
+# 	# The file token.pickle stores the user's access and refresh tokens, and is
+# 	# created automatically when the authorization flow completes for the first
+# 	# time.
+#
+# 	if not os.path.exists(credential_dir):
+# 		os.makedirs(credential_dir)
+# 	token_file = os.path.join(os.path.join(credential_dir,'token_gmail.pickle'))
+# 	if os.path.exists(token_file):
+# 		with open(token_file, 'rb') as token:
+# 			credentials = pickle.load(token)
+#
+# 	# if there are no (valid) credentials available, let the user log in
+# 	if not credentials or not credentials.valid:
+# 		if credentials and credentials.expired and credentials.refresh_token:
+# 			credentials.refresh(Request())
+# 		else:
+# 			flow = InstalledAppFlow.from_client_secrets_file(
+# 					CLIENT_SECRET_FILE_GMAIL, SCOPES_GMAIL)
+# 			credentials = flow.run_local_server(port=0)
+# 		# save credentials for the next run
+# 		with open(token_file, 'wb') as token:
+# 			pickle.dump(credentials, token)
+#
+# 	return credentials
+#
+# def get_credentials_cal():
+# 	"""Gets valid user credentials from storage.
+#
+# 	If nothing has been stored, or if the stored credentials are invalid,
+# 	the OAuth2 flow is completed to obtain the new credentials.
+#
+# 	Returns:
+# 		Credentials, the obtained credential.
+# 	"""
+# 	credential_dir = os.path.join(os.path.dirname(__file__),'../conf')
+# 	credentials = None
+# 	# The file token.pickle stores the user's access and refresh tokens, and is
+# 	# created automatically when the authorization flow completes for the first
+# 	# time.
+#
+# 	if not os.path.exists(credential_dir):
+# 		os.makedirs(credential_dir)
+# 	token_file = os.path.join(os.path.join(credential_dir,'token_cal.pickle'))
+# 	if os.path.exists(token_file):
+# 		with open(token_file, 'rb') as token:
+# 			credentials = pickle.load(token)
+#
+# 	# if there are no (valid) credentials available, let the user log in
+# 	if not credentials or not credentials.valid:
+# 		if credentials and credentials.expired and credentials.refresh_token:
+# 			credentials.refresh(Request())
+# 		else:
+# 			flow = InstalledAppFlow.from_client_secrets_file(
+# 					CLIENT_SECRET_FILE_CAL, SCOPES_CAL)
+# 			credentials = flow.run_local_server(port=0)
+# 		# save credentials for the next run
+# 		with open(token_file, 'wb') as token:
+# 			pickle.dump(credentials, token)
+#
+# 	return credentials
 
 def getUnreadCount():
 	"""
@@ -121,23 +182,21 @@ def getUnreadCount():
 		Returns:
 			Intiger value of under emails
 	"""
-	credentials = get_credentials_gmail()
-
-	# Authorize the httplib2.Http object with our credentials
-	http = credentials.authorize(httplib2.Http())
+	credentials = get_credentials_google()
 
 	# Build the Gmail service from discovery
-	gmail_service = discovery.build('gmail', 'v1', http=http)
+	gmail_service = build('gmail', 'v1', credentials=credentials)
 
+	print ("getting gmail data...")
 	messages = gmail_service.users().messages().list(userId='me', q='label:inbox is:unread').execute()
 	unread_msgs = messages[u'resultSizeEstimate']
 
 	return unread_msgs
 
 def calendarTomorrow():
-	credentials = get_credentials_cal()
-	http = credentials.authorize(httplib2.Http())
-	service = discovery.build('calendar', 'v3', http=http)
+	credentials = get_credentials_google()
+
+	calendar_service = build('calendar', 'v3', credentials = credentials)
 
 	tomorrow = datetime.datetime.now().replace(hour=0,minute=0) + datetime.timedelta(days=1)
 	tomorrow_night = tomorrow + datetime.timedelta(hours=23, minutes=59)
@@ -145,7 +204,7 @@ def calendarTomorrow():
 	tomorrow_night = tomorrow_night.isoformat()+timezone_offset
 
 	print('Getting the first event of tomorrow')
-	eventsResult = service.events().list(
+	eventsResult = calendar_service.events().list(
 		calendarId='primary', timeMin=tomorrow, maxResults=1, timeMax=tomorrow_night, singleEvents=True,
 		orderBy='startTime').execute()
 	events = eventsResult.get('items', [])
@@ -163,9 +222,9 @@ def calendarTomorrow():
 	# 	return event
 
 def calendarToday():
-	credentials = get_credentials_cal()
-	http = credentials.authorize(httplib2.Http())
-	service = discovery.build('calendar', 'v3', http=http)
+	credentials = get_credentials_google()
+
+	calendar_service = build('calendar', 'v3', credentials = credentials)
 
 	today = datetime.datetime.now()
 	tonight = datetime.datetime.now().replace(hour=23,minute=59)
@@ -173,7 +232,7 @@ def calendarToday():
 	tonight = tonight.isoformat()+timezone_offset
 
 	print('Getting todays events')
-	eventsResult = service.events().list(
+	eventsResult = calendar_service.events().list(
 		calendarId='primary', timeMin=today, maxResults=10, timeMax=tonight, singleEvents=True,
 		orderBy='startTime').execute()
 	events = eventsResult.get('items', [])
@@ -191,3 +250,7 @@ def calendarToday():
 # Main
 if __name__ == '__main__':
 	print("this is alfr3ds google utility")
+	#get_credentials_google()
+	getUnreadCount()
+	calendarToday()
+	calendarTomorrow()
