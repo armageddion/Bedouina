@@ -271,7 +271,7 @@ if __name__ == "__main__":
 				masterSpeaker.speakString("Total number of faults is "+str(faults))
 			else:
 				masterSpeaker.speakString("All systems are up and operational")
-			masterSpeaker.close()
+			masterSpeaker.close() 	# does this work????
 			logger.info("B3na Daemon starting...")
 			daemon.start()
 		elif 'stop' == sys.argv[1]:

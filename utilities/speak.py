@@ -89,6 +89,7 @@ class Speaker:
 		if self.stop:
 			self.stop = False
 		self.queue.append(stringToSpeak)
+		return
 
 	# speaking happens heare
 	def speak(self,string):

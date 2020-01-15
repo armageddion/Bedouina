@@ -22,7 +22,7 @@ echo "installing httplib2"
 sudo pip install httplib2
 
 echo "installing google library for python"
-sudo pip install --upgrade google-api-python-client
+sudo pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
 echo "install pushbullet library"
 sudo pip install pushbullet.py
