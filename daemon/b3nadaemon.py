@@ -50,8 +50,6 @@ sys.path.append(os.path.join(os.path.join(os.getcwd(),os.path.dirname(__file__))
 import utilities
 # import reporting
 
-masterSpeaker = utilities.Speaker()
-
 # set up daemon things
 os.system('sudo mkdir -p /var/run/b3nadaemon')
 #os.system('sudo chown alfr3d:alfr3d /var/run/alfr3ddaemon')
@@ -97,9 +95,7 @@ class MyDaemon(Daemon):
 				logger.warn("Warning message")
 				logger.error("Error message")
 			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-			# OK Take a break
-			time.sleep(10)
+			masterSpeaker = utilities.Speaker()
 
 			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 				Check online members
@@ -124,7 +120,7 @@ class MyDaemon(Daemon):
 				"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 				try:
 					logger.info("Is it time for a smartass quip?")
-					self.beSmart()
+					self.beSmart(masterSpeaker)
 				except Exception, e:
 					logger.error("Failed to complete the quip block")
 					masterSpeaker.speakError("I failed in being a smart arse")
@@ -133,13 +129,17 @@ class MyDaemon(Daemon):
 				# check emails
 				try:
 					logger.info("Checking Gmail")
-					self.checkGmail()
+					self.checkGmail(speaker)
 				except Exception, e:
 					logger.error("Failed to check Gmail")
 					masterSpeaker.speakError("I have been unable to check your mail")
 					logger.error("Traceback: "+str(e))
 
-	def checkGmail(self):
+			# OK Take a break
+			time.sleep(10)
+			masterSpeaker.close()
+
+	def checkGmail(self, speaker):
 		"""
 			Description:
 				Checks the unread count in gMail
@@ -159,12 +159,12 @@ class MyDaemon(Daemon):
 				"Pardon the interruption sir. Another email has arrived for you to ignore."]
 
 			tempint = randint(1,len(email_quips))
-			masterSpeaker.speakString(email_quips[tempint-1])
+			speaker.speakString(email_quips[tempint-1])
 
 		if (UNREAD_COUNT_NEW != 0):
 			logger.info("Unread count: "+str(UNREAD_COUNT_NEW))
 
-	def beSmart(self):
+	def beSmart(self, speaker):
 		"""
 			Description:
 				speak a quip
@@ -175,7 +175,7 @@ class MyDaemon(Daemon):
 		if time.time() - QUIP_START_TIME > QUIP_WAIT_TIME*60:
 			logger.info("It is time to be a smartass")
 
-			masterSpeaker.speakRandom()
+			speaker.speakRandom()
 
 			QUIP_START_TIME = time.time()
 			QUIP_WAIT_TIME = randint(10,50)
