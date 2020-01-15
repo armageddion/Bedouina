@@ -33,14 +33,14 @@
 # Imports
 import logging
 import time
-import os										# used to allow execution of system level commands
+import os						# used to allow execution of system level commands
 import sys
-import schedule									# 3rd party lib used for alarm clock managment.
+import schedule					# 3rd party lib used for alarm clock managment.
 import datetime
-import ConfigParser								# used to parse alfr3ddaemon.conf
+import ConfigParser				# used to parse alfr3ddaemon.conf
 from threading import Thread
 from daemon import Daemon
-from random import randint						# used for random number generator
+from random import randint		# used for random number generator
 
 # current path from which python is executed
 CURRENT_PATH = os.path.dirname(__file__)
@@ -217,7 +217,8 @@ def init_daemon():
 			initialize alfr3d services
 	"""
 	logger.info("Initializing systems check")
-	masterSpeaker.speakString("Initializing systems check")
+	initSpeaker = utilities.Speaker()
+	initSpeaker.speakString("Initializing systems check")
 
 	# check and create god user if it doesn't exist
 	user = utilities.User()
@@ -227,21 +228,21 @@ def init_daemon():
 
 	# initial geo check
 	try:
-		masterSpeaker.speakString("Running geo scan")
+		initSpeaker.speakString("Running geo scan")
 		logger.info("Running a geoscan")
-		ret = utilities.checkLocation("freegeoip", speaker=masterSpeaker)
+		ret = utilities.checkLocation("freegeoip", speaker=initSpeaker)
 		if not ret[0]:
 			raise Exception("Geo scan failed")
-		masterSpeaker.speakString("Geo scan complete")
+		initSpeaker.speakString("Geo scan complete")
 	except Exception, e:
-		masterSpeaker.speakString("Failed to complete geo scan")
+		initSpeaker.speakString("Failed to complete geo scan")
 		logger.error("Failed to complete geoscan scan")
 		logger.error("Traceback: "+str(e))
 		faults+=1
 
 	# set up some routine schedules
 	try:
-		masterSpeaker.speakString("Setting up scheduled routines")
+		initSpeaker.speakString("Setting up scheduled routines")
 		logger.info("Setting up scheduled routines")
 		utilities.createRoutines()
 		resetRoutines()
@@ -251,13 +252,20 @@ def init_daemon():
 		schedule.every().day.at("00:05").do(resetRoutines)
 		#schedule.every().day.at(str(bed_time.hour)+":"+str(bed_time.minute)).do(bedtimeRoutine)
 	except Exception, e:
-		masterSpeaker.speakString("Failed to set schedules")
+		initSpeaker.speakString("Failed to set schedules")
 		logger.error("Failed to set schedules")
 		logger.error("Traceback: "+str(e))
 		faults+=1												# bump up fault counter
 
-	masterSpeaker.speakString("Systems check complete")
-	return faults
+	initSpeaker.speakString("Systems check complete")
+	if faults != 0:
+		initSpeaker.speakString("Some faults were detected but system started successfully")
+		initSpeaker.speakString("Total number of faults is "+str(faults))
+	else:
+		initSpeaker.speakString("All systems are up and operational")
+
+	initSpeaker.close()
+	return
 
 if __name__ == "__main__":
 	#daemon = MyDaemon('/var/run/b3nadaemon/b3nadaemon.pid',stderr='/dev/null')
@@ -266,12 +274,6 @@ if __name__ == "__main__":
 		if 'start' == sys.argv[1]:
 			logger.info("B3na Daemon initializing")
 			faults = init_daemon()
-			if faults != 0:
-				masterSpeaker.speakString("Some faults were detected but system started successfully")
-				masterSpeaker.speakString("Total number of faults is "+str(faults))
-			else:
-				masterSpeaker.speakString("All systems are up and operational")
-			masterSpeaker.close() 	# does this work????
 			logger.info("B3na Daemon starting...")
 			daemon.start()
 		elif 'stop' == sys.argv[1]:
