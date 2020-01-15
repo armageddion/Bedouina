@@ -130,12 +130,39 @@ class MyDaemon(Daemon):
 					masterSpeaker.speakError("I failed in being a smart arse")
 					logger.error("Traceback: "+str(e))
 
+				# check emails
+				try:
+					logger.info("Checking Gmail")
+					self.checkGmail()
+				except Exception, e:
+					logger.error("Failed to check Gmail")
+					masterSpeaker.speakError("I have been unable to check your mail")
+					logger.error("Traceback: "+str(e))
+
 	def checkGmail(self):
 		"""
 			Description:
 				Checks the unread count in gMail
 		"""
 		logger.info("Checking email")
+		global UNREAD_COUNT
+		global UNREAD_COUNT_NEW
+
+		UNREAD_COUNT_NEW = utilities.getUnreadCount()
+
+		if (UNREAD_COUNT < UNREAD_COUNT_NEW):
+			logger.info("A new email has arrived...")
+
+			logger.info("Speaking email notification")
+			email_quips = [
+				"Yet another email",
+				"Pardon the interruption sir. Another email has arrived for you to ignore."]
+
+			tempint = randint(1,len(email_quips))
+			masterSpeaker.speakString(email_quips[tempint-1])
+
+		if (UNREAD_COUNT_NEW != 0):
+			logger.info("Unread count: "+str(UNREAD_COUNT_NEW))
 
 	def beSmart(self):
 		"""
