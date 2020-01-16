@@ -179,6 +179,11 @@ def checkRoutines(speaker=None):
 		routine_time = datetime.now().replace(hour=routine_time.seconds/3600, minute=((routine_time.seconds//60)%60))
 		routine_trigger = routine[5]
 		cur_time = datetime.now()
+
+		print ("    routine triggered check: " + str(routine_trigger)) #DEBUG
+		print ("    routine time: "+ str(routine_time)) #DEBUG
+		print ("    current time: "+ str(cur_time)) #DEBUG
+		print ("    routine time check: "+ str(routine_time > cur_time)) #DEBUG 
 		if routine_time > cur_time and not routine_trigger:
 			logger.info(routine[1] + " routine is being triggered")
 			# set triggered flag = True
