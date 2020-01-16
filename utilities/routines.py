@@ -123,7 +123,7 @@ def bedtimeRoutine(speaker=None):
 
 	return True
 
-def createRoutines():
+def createRoutines(speaker=None):
 	"""
 		Description:
 			check if native routines exist in the DB and create them if
@@ -156,13 +156,52 @@ def createRoutines():
 
 	return True
 
-def checkRoutines():
+def checkRoutines(speaker=None):
 	"""
 		Description:
 			Check if it is time to execute any routines and take action
 			if needed...
 	"""
 	logger.info("Checking routines")
+
+	# fetch available Routines
+	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
+	cursor = db.cursor()
+	cursor.execute("SELECT * from routines WHERE \
+					environment_id = "+str(env_id)+"\
+					and enabled = True;")
+	routines = cursor.fetchall()
+
+	for routine in routines:
+		logger.info("Checking "+routine[1]+" routine with time "+str(routine[2])+" and flag "+str(routine[5]))
+		# get routine trigger time and flag
+		routine_time = routine[2]
+		routine_time = datetime.now().replace(hour=routine_time.seconds/3600, minute=((routine_time.seconds//60)%60))
+		routine_trigger = routine[5]
+		cur_time = datetime.now()
+		if routine_time > cur_time and not routine_trigger:
+			logger.info(routine[1] + " routine is being triggered")
+			# set triggered flag = True
+			try:
+				logger.info("Resetting 'triggered' flag for "+routine[1]+" routine")
+				cursor.execute("UPDATE routines SET triggered = 1 WHERE id = \""+str(routine[0])+"\";")
+				db.commit()
+			except Exception, e:
+				logger.error("Failed to update the database")
+				logger.error("Traceback: "+str(e))
+				db.rollback()
+				db.close()
+				return False
+
+ 				# ["Sunrise","Morning","Sunset","Bedtime"]
+				if routine[1] == routine_list[0]: # Sunrise
+					sunriseRoutine(speaker)
+				elif routine[1] == routine_list[1]: # Morning
+					morningRoutine(speaker)
+				elif routine[1] == routine_list[2]: # Sunset
+					sunsetRoutine(speaker)
+				elif routine[1] == routine_list[3]: # Bedtime
+					bedtimeRoutine(speaker)
 
 def resetRoutines():
 	"""
@@ -218,6 +257,7 @@ def checkMute():
 	mor_time = datetime.now().replace(hour=morning_time.seconds/3600, minute=((morning_time.seconds//60)%60))
 	end_time = datetime.now().replace(hour=bed_time.seconds/3600, minute=((bed_time.seconds//60)%60))
 
+	# only speak between morning alarm and bedtime alarm...
 	if cur_time > mor_time and cur_time < end_time:
 		logger.info("B3na is free to speak during this time of day")
 	else:

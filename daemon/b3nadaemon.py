@@ -110,6 +110,17 @@ class MyDaemon(Daemon):
 				logger.error("Traceback: "+str(e))
 
 			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+				Check routines
+			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+			try:
+				logger.info("Checking routines")
+				utilities.checkRoutines(masterSpeaker)
+			except Exception, e:
+				logger.error("Failed to complete routines check")
+				masterSpeaker.speakError("I failed to complete the routines check")
+				logger.error("Traceback: "+str(e))
+
+			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 				Things to do only during waking hours and only when
 				god or owner is in tha house
 			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
