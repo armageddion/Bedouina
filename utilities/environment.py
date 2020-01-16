@@ -83,10 +83,10 @@ def checkLocation(method="freegeoip", speaker=None):
 
 		if data:
 			logger.info("Found environment configuration for this host:")
-			logger.info("country: "+str(data[4]))
-			logger.info("state: "+str(data[10]))
-			logger.info("city: "+str(data[3]))
-			logger.info("ip: "+str(data[2]))
+			logger.info("Country: "+str(data[4]))
+			logger.info("State: "+str(data[10]))
+			logger.info("City: "+str(data[3]))
+			logger.info("IP: "+str(data[2]))
 
 			country = data[4]
 			state = data[10]
@@ -185,7 +185,7 @@ def checkLocation(method="freegeoip", speaker=None):
 	elif method == "freegeoip":
 		# get API key for ipstack which was freegeoip.net
 		apikey = config.get("API KEY", "ipstack")
-		logger.info("Getting my location - freegeoip...") 		
+		logger.info("Getting my location - freegeoip...")
 
 		if myipv4:
 			#url4 = "http://freegeoip.net/json/"+myipv4
@@ -235,12 +235,12 @@ def checkLocation(method="freegeoip", speaker=None):
 			speaker.speakString("I trust you enjoyed your travels")
 
 		try:
-			cursor.execute("UPDATE environment SET country = \" "+country_new+"\" WHERE name = \""+socket.gethostname()+"\";")
-			cursor.execute("UPDATE environment SET state = \" "+state_new+"\" WHERE name = \""+socket.gethostname()+"\";")
-			cursor.execute("UPDATE environment SET city = \" "+city_new+"\" WHERE name = \""+socket.gethostname()+"\";")
-			cursor.execute("UPDATE environment SET IP = \" "+ip_new+"\" WHERE name = \""+socket.gethostname()+"\";")
-			cursor.execute("UPDATE environment SET latitude = \" "+str(lat_new)+"\" WHERE name = \""+socket.gethostname()+"\";")
-			cursor.execute("UPDATE environment SET longitude = \" "+str(long_new)+"\" WHERE name = \""+socket.gethostname()+"\";")
+			cursor.execute("UPDATE environment SET country = \""+country_new+"\" WHERE name = \""+socket.gethostname()+"\";")
+			cursor.execute("UPDATE environment SET state = \""+state_new+"\" WHERE name = \""+socket.gethostname()+"\";")
+			cursor.execute("UPDATE environment SET city = \""+city_new+"\" WHERE name = \""+socket.gethostname()+"\";")
+			cursor.execute("UPDATE environment SET IP = \""+ip_new+"\" WHERE name = \""+socket.gethostname()+"\";")
+			cursor.execute("UPDATE environment SET latitude = \""+str(lat_new)+"\" WHERE name = \""+socket.gethostname()+"\";")
+			cursor.execute("UPDATE environment SET longitude = \""+str(long_new)+"\" WHERE name = \""+socket.gethostname()+"\";")
 			db.commit()
 			logger.info("Environment updated")
 		except Exception, e:
