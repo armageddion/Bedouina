@@ -82,7 +82,12 @@ def checkLocation(method="freegeoip", speaker=None):
 		data = cursor.fetchone()
 
 		if data:
-			logger.info("Found environment configuration for this host")
+			logger.info("Found environment configuration for this host:")
+			logger.info("country: "+str(data[4]))
+			logger.info("state: "+str(data[10]))
+			logger.info("city: "+str(data[3]))
+			logger.info("ip: "+str(data[2]))
+
 			country = data[4]
 			state = data[10]
 			city = data[3]
@@ -140,6 +145,7 @@ def checkLocation(method="freegeoip", speaker=None):
 	if method == 'dbip':
 		# get API key for db-ip.com
 		apikey = config.get("API KEY", "dbip")
+		logger.info("Getting my location - dbip...")
 
 		# get my geo info
 		if myipv6:
@@ -147,7 +153,6 @@ def checkLocation(method="freegeoip", speaker=None):
 		elif myipv4:
 			url4 = "http://api.db-ip.com/addrinfo?addr="+myipv4+"&api_key="+apikey
 
-		logger.info("Getting my location")
 		try:
 			# try to get our info based on IPV4
 			info4 = json.loads(urllib.urlopen(url4).read().decode('utf-8'))
@@ -180,6 +185,7 @@ def checkLocation(method="freegeoip", speaker=None):
 	elif method == "freegeoip":
 		# get API key for ipstack which was freegeoip.net
 		apikey = config.get("API KEY", "ipstack")
+		logger.info("Getting my location - freegeoip...") 		
 
 		if myipv4:
 			#url4 = "http://freegeoip.net/json/"+myipv4
