@@ -183,8 +183,8 @@ def checkRoutines(speaker=None):
 		print ("    routine triggered check: " + str(routine_trigger)) #DEBUG
 		print ("    routine time: "+ str(routine_time)) #DEBUG
 		print ("    current time: "+ str(cur_time)) #DEBUG
-		print ("    routine time check: "+ str(routine_time > cur_time)) #DEBUG 
-		if routine_time > cur_time and not routine_trigger:
+		print ("    routine time check: "+ str(routine_time < cur_time)) #DEBUG 
+		if routine_time < cur_time and not routine_trigger:
 			logger.info(routine[1] + " routine is being triggered")
 			# set triggered flag = True
 			try:
