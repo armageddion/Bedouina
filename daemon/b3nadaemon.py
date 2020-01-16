@@ -135,7 +135,7 @@ class MyDaemon(Daemon):
 					masterSpeaker.speakError("I have been unable to check your mail")
 					logger.error("Traceback: "+str(e))
 
-			masterSpeaker.processQueue()
+			#masterSpeaker.processQueue()
 			# OK Take a break
 			time.sleep(10)
 
@@ -293,7 +293,7 @@ def init_daemon():
 	else:
 		initSpeaker.speakString("All systems are up and operational")
 
-	initSpeaker.processQueue()
+	#initSpeaker.processQueue()
 	del initSpeaker
 	return
 

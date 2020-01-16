@@ -89,11 +89,12 @@ class Speaker:
 	# whenever a request to speak is received,
 	# the new item is simply added to the queue
 	def speakString(self, stringToSpeak):
-		logger.info("Adding string to speak queue: "+stringToSpeak)
-		if self.stop:
-			self.stop = False
-		self.queue.append(stringToSpeak)
-		return
+		# logger.info("Adding string to speak queue: "+stringToSpeak)
+		# if self.stop:
+		# 	self.stop = False
+		# self.queue.append(stringToSpeak)
+		# return
+		self.speak(stringToSpeak)	# temporary. until i fix queue
 
 	# speaking happens heare
 	def speak(self,string):
@@ -170,6 +171,8 @@ class Speaker:
 				greeting += "Good afternoon. "
 			else:
 				greeting += "Good evening. "
+
+		self.speakString(greeting)
 
 	def speakWelcome(self, user, time_away=0):
 		"""
