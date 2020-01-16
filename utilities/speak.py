@@ -61,6 +61,11 @@ logger.addHandler(handler)
 config = ConfigParser.RawConfigParser()
 config.read(os.path.join(CURRENT_PATH,'../conf/apikeys.conf'))
 apikey = config.get("API KEY", "voicerss")
+# get main DB credentials
+DATABASE_URL 	= os.environ.get('DATABASE_URL') or config.get("Alfr3d DB","database_url")
+DATABASE_NAME 	= os.environ.get('DATABASE_NAME') or config.get("Alfr3d DB","database_name")
+DATABASE_USER 	= os.environ.get('DATABASE_USER') or config.get("Alfr3d DB","database_user")
+DATABASE_PSWD 	= os.environ.get('DATABASE_PSWD') or config.get("Alfr3d DB","database_pswd")
 
 class Speaker:
 	"""
@@ -260,8 +265,20 @@ class Speaker:
 		# until i convert this utility from time() to datetime()
 		time_away = time_away.seconds
 
+		db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
+		cursor = db.cursor()
+
+		cursor.execute("SELECT * from user_types;")
+		data = cursor.fetchall()
+
+		usr_type = "unknown"
+		for item in data:
+			if item[0] == user.userType:
+				usr_type = item[1]
+				break
+
 		#  special greeting for armageddion only
-		if user.userType == "god":
+		if usr_type == "god"":
 			logger.info("Speaking god greeting")
 			self.speakString("Welcome sir.")
 
@@ -269,9 +286,9 @@ class Speaker:
 			if (time_away > 2*60*60):
 				self.speakString("It's always a pleasure to see you.")
 
-		elif user.userType == "owner" or user.userType == "resident":
+		elif usr_type == "owner" or usr_type == "resident":
 			logger.info("Speaking owner greeting")
-			self.speakString("welcome home.")
+			self.speakString("welcome home "+str(user.name))
 
 			# 2 hours
 			if (time_away < 2*60*60):

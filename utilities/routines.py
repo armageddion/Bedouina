@@ -111,6 +111,11 @@ def sunsetRoutine(speaker=None):
 		logger.warning("speaker not supplied")
 		return False
 
+	speaker.speakGreeting()
+	speaker.speakString("Sun has just set on another beautiful day")
+
+	# operate some lights and switches... 
+
 	return True
 
 def bedtimeRoutine(speaker=None):
