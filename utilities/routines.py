@@ -287,7 +287,9 @@ def checkMute():
 		logger.info("B3na should be quiet when no worthy ears are around")
 		result = True
 	else:
-		logger.info("B3na has worthy listeners")
+		logger.info("B3na has worthy listeners:")
+		for user in data:
+			logger.info("    - "+user[1])
 
 	if result:
 		logger.info("B3na is to be quiet")
