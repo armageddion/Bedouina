@@ -183,7 +183,7 @@ def checkRoutines(speaker=None):
 		print ("    routine triggered check: " + str(routine_trigger)) #DEBUG
 		print ("    routine time: "+ str(routine_time)) #DEBUG
 		print ("    current time: "+ str(cur_time)) #DEBUG
-		print ("    routine time check: "+ str(routine_time < cur_time)) #DEBUG 
+		print ("    routine time check: "+ str(routine_time < cur_time)) #DEBUG
 		if routine_time < cur_time and not routine_trigger:
 			logger.info(routine[1] + " routine is being triggered")
 			# set triggered flag = True
@@ -198,15 +198,15 @@ def checkRoutines(speaker=None):
 				db.close()
 				return False
 
- 				# ["Sunrise","Morning","Sunset","Bedtime"]
-				if routine[1] == routine_list[0]: # Sunrise
-					sunriseRoutine(speaker)
-				elif routine[1] == routine_list[1]: # Morning
-					morningRoutine(speaker)
-				elif routine[1] == routine_list[2]: # Sunset
-					sunsetRoutine(speaker)
-				elif routine[1] == routine_list[3]: # Bedtime
-					bedtimeRoutine(speaker)
+			# ["Sunrise","Morning","Sunset","Bedtime"]
+			if routine[1] == routine_list[0]: # Sunrise
+				sunriseRoutine(speaker)
+			elif routine[1] == routine_list[1]: # Morning
+				morningRoutine(speaker)
+			elif routine[1] == routine_list[2]: # Sunset
+				sunsetRoutine(speaker)
+			elif routine[1] == routine_list[3]: # Bedtime
+				bedtimeRoutine(speaker)
 
 def resetRoutines():
 	"""
