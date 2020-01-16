@@ -71,12 +71,16 @@ class Speaker:
 
 	def __init__(self):
 		# create a thread which will constantly monitor the queue
-		logger.info("Starting speaker agent on another thread")
-		agent=Thread(target=self.processQueue)
-		try:
-			agent.start()
-		except:
-			logger.error("Failed to start speaker agent thread")
+		logger.info("Starting speaker agent")
+		# agent=Thread(target=self.processQueue)
+		# try:
+		# 	agent.start()
+		# except:
+		# 	logger.error("Failed to start speaker agent thread")
+
+	def __del__(self):
+		logger.info("Speaker object is being deleted")
+		self.stop = True
 
 	def close(self):
 		logger.info("Closing speaker agent")
@@ -137,12 +141,10 @@ class Speaker:
 				logger.info("Trying another one")
 
 	def processQueue(self):
-		while True:
-			while len(self.queue)>0:
-				self.speak(self.queue[0])	# speak the first item in the list
-				self.queue = self.queue[1:]		# delete the first item in the list
-			if self.stop:
-				return
+		#while not self.stop:
+		while len(self.queue)>0:
+			self.speak(self.queue[0])	# speak the first item in the list
+			self.queue = self.queue[1:]		# delete the first item in the list
 
 	def speakGreeting(self):
 		"""

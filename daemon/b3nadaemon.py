@@ -84,6 +84,7 @@ handler = logging.FileHandler(os.path.join(CURRENT_PATH,"../log/total.log"))
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
+masterSpeaker = utilities.Speaker()
 
 class MyDaemon(Daemon):
 	def run(self):
@@ -95,7 +96,7 @@ class MyDaemon(Daemon):
 				logger.warn("Warning message")
 				logger.error("Error message")
 			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-			masterSpeaker = utilities.Speaker()
+
 
 			"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 				Check online members
@@ -120,7 +121,7 @@ class MyDaemon(Daemon):
 				"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 				try:
 					logger.info("Is it time for a smartass quip?")
-					self.beSmart(masterSpeaker)
+					self.beSmart()
 				except Exception, e:
 					logger.error("Failed to complete the quip block")
 					masterSpeaker.speakError("I failed in being a smart arse")
@@ -129,17 +130,17 @@ class MyDaemon(Daemon):
 				# check emails
 				try:
 					logger.info("Checking Gmail")
-					self.checkGmail(speaker)
+					self.checkGmail()
 				except Exception, e:
 					logger.error("Failed to check Gmail")
 					masterSpeaker.speakError("I have been unable to check your mail")
 					logger.error("Traceback: "+str(e))
 
+			masterSpeaker.processQueue()
 			# OK Take a break
 			time.sleep(10)
-			masterSpeaker.close()
 
-	def checkGmail(self, speaker):
+	def checkGmail(self):
 		"""
 			Description:
 				Checks the unread count in gMail
@@ -159,12 +160,12 @@ class MyDaemon(Daemon):
 				"Pardon the interruption sir. Another email has arrived for you to ignore."]
 
 			tempint = randint(1,len(email_quips))
-			speaker.speakString(email_quips[tempint-1])
+			masterSpeaker.speakString(email_quips[tempint-1])
 
 		if (UNREAD_COUNT_NEW != 0):
 			logger.info("Unread count: "+str(UNREAD_COUNT_NEW))
 
-	def beSmart(self, speaker):
+	def beSmart(self):
 		"""
 			Description:
 				speak a quip
@@ -175,7 +176,7 @@ class MyDaemon(Daemon):
 		if time.time() - QUIP_START_TIME > QUIP_WAIT_TIME*60:
 			logger.info("It is time to be a smartass")
 
-			speaker.speakRandom()
+			masterSpeaker.speakRandom()
 
 			QUIP_START_TIME = time.time()
 			QUIP_WAIT_TIME = randint(10,50)
@@ -291,7 +292,8 @@ def init_daemon():
 	else:
 		initSpeaker.speakString("All systems are up and operational")
 
-	initSpeaker.close()
+	initSpeaker.processQueue()
+	del initSpeaker
 	return
 
 if __name__ == "__main__":
@@ -305,6 +307,7 @@ if __name__ == "__main__":
 			daemon.start()
 		elif 'stop' == sys.argv[1]:
 			logger.info("B3na Daemon stopping...")
+			del masterSpeaker
 			daemon.stop()
 			sys.exit(1)
 		elif 'restart' == sys.argv[1]:
