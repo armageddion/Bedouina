@@ -129,7 +129,6 @@ class MyDaemon(Daemon):
 
 				# check emails
 				try:
-					logger.info("Checking Gmail")
 					self.checkGmail()
 				except Exception, e:
 					logger.error("Failed to check Gmail")
@@ -145,7 +144,7 @@ class MyDaemon(Daemon):
 			Description:
 				Checks the unread count in gMail
 		"""
-		logger.info("Checking email")
+		logger.info("Checking gMail")
 		global UNREAD_COUNT
 		global UNREAD_COUNT_NEW
 
@@ -164,6 +163,8 @@ class MyDaemon(Daemon):
 
 		if (UNREAD_COUNT_NEW != 0):
 			logger.info("Unread count: "+str(UNREAD_COUNT_NEW))
+
+		UNREAD_COUNT = UNREAD_COUNT_NEW
 
 	def beSmart(self):
 		"""
