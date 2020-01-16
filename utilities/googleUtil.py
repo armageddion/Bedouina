@@ -211,8 +211,9 @@ def calendarTomorrow():
 
 	if not events:
 		print('No upcoming events found.')
+		return False, None
 	else:
-		return events[0]
+		return True, events[0]
 
 	# for event in events:
 	# 	start = event['start'].get('dateTime', event['start'].get('date'))
@@ -239,13 +240,13 @@ def calendarToday():
 
 	if not events:
 		print('No upcoming events found.')
-		return None
+		return False, None
 
 	# for event in events:
 	# 	start = event['start'].get('dateTime', event['start'].get('date'))
 	# 	print(start, event['summary'])
 
-	return events
+	return True, events
 
 # Main
 if __name__ == '__main__':

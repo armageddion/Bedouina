@@ -147,6 +147,75 @@ class Speaker:
 			self.speak(self.queue[0])	# speak the first item in the list
 			self.queue = self.queue[1:]		# delete the first item in the list
 
+	def speakDate(self):
+		"""
+			Description:
+				function speask the date
+		"""
+		logger.info("Speaking date")
+
+		greeting = "It is "
+
+		day_of_week = strftime('%A',localtime())
+		day = strftime('%e',localtime())
+		month = strftime('%B',localtime())
+
+		greeting += day_of_week + ' ' + month + ' ' +day
+
+		dom = day[-1]
+		if dom == '1':
+			greeting += 'st'
+		elif dom == '2':
+			greeting += 'nd'
+		elif dom == '3':
+			greeting += 'rd'
+		else:
+			greeting += 'th'
+
+		self.speakString(greeting)
+
+	def speakTime(self):
+		"""
+			Description:
+				function speaks time
+		"""
+		logger.info("Speaking time")
+
+		greeting = ''
+
+		# Time variables
+		hour=strftime("%I", localtime())
+		minute=strftime("%M", localtime())
+		ampm=strftime("%p",localtime())
+
+		if (int(minute) == 0):
+			greeting = "It is " + str(int(hour)) + ". "
+		else:
+			greeting = "It is "  + str(int(hour)) + " " + minute + ". "
+
+		self.speakString(greeting)
+
+	def speakError(self, msg):
+		"""
+			Description:
+				speak out error message
+		"""
+		logger.info("Speaking error message")
+
+		strToSpeak = ""
+
+		quips = [
+			"Er, there has been a problem sir. ",
+			"I ran into an issue sir. ",
+			"Forgive me, but."]
+
+		tempint = randint(1, len(quips))
+
+		strToSpeak += quips[tempint-1]
+
+		self.speakString(strToSpeak)
+		self.speakString(msg)
+
 	def speakGreeting(self):
 		"""
 			Description:
@@ -302,74 +371,45 @@ class Speaker:
 
 		self.speakString(greeting)
 
-	def speakDate(self):
+	def speakSunrise(self):
 		"""
 			Description:
-				function speask the date
+				Pre-sunrise alarm giving users a chance to get up in time to see sunrise
 		"""
-		logger.info("Speaking date")
+		logger.info("Speaking sunrise greeting")
 
-		greeting = "It is "
-
-		day_of_week = strftime('%A',localtime())
-		day = strftime('%e',localtime())
-		month = strftime('%B',localtime())
-
-		greeting += day_of_week + ' ' + month + ' ' +day
-
-		dom = day[-1]
-		if dom == '1':
-			greeting += 'st'
-		elif dom == '2':
-			greeting += 'nd'
-		elif dom == '3':
-			greeting += 'rd'
-		else:
-			greeting += 'th'
-
-		self.speakString(greeting)
-
-	def speakTime(self):
-		"""
-			Description:
-				function speaks time
-		"""
-		logger.info("Speaking time")
-
-		greeting = ''
-
-		# Time variables
-		hour=strftime("%I", localtime())
-		minute=strftime("%M", localtime())
-		ampm=strftime("%p",localtime())
-
-		if (int(minute) == 0):
-			greeting = "It is " + str(int(hour)) + ". "
-		else:
-			greeting = "It is "  + str(int(hour)) + " " + minute + ". "
-
-		self.speakString(greeting)
-
-	def speakError(self, msg):
-		"""
-			Description:
-				speak out error message
-		"""
-		logger.info("Speaking error message")
-
-		strToSpeak = ""
+		self.speakGreeting()
+		greeting = "In case you are awake, "
 
 		quips = [
-			"Er, there has been a problem sir. ",
-			"I ran into an issue sir. ",
-			"Forgive me, but."]
+			"consider going out to watch sunrise.",
+			"sun will rise soon. I thought you might be interested to know"]
 
-		tempint = randint(1, len(quips))
+		tempint = randint(1,len(quips))
+		greeting += quips[tempint-1]
+		self.speakString(greeting)
 
-		strToSpeak += quips[tempint-1]
+	def speakBedtime(self):
+		"""
+			Description:
+				Bedtime reminder
+		"""
+		logger.info("Speaking bedtime reminder")
 
-		self.speakString(strToSpeak)
-		self.speakString(msg)
+		self.speakGreeting()
+		self.speakTime()
+
+		quips = [
+			"Unless we are burning the midnight oil, ",
+			"If you are going to invent something new tomorrow, ",
+			"If you intend on being charming tomorrow, "]
+
+		tempint = randint(1,len(quips))
+
+		greeting = quips[tempint-1]
+		greeting += "perhaps you should consider getting some rest."
+
+		self.speakString(greeting)
 
 # Main - only really used for testing
 if __name__ == '__main__':

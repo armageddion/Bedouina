@@ -36,7 +36,8 @@ import socket
 import MySQLdb
 from datetime import datetime, timedelta
 
-from deviceClass import Device
+from userClass import User
+import googleUtil
 
 # current path from which python is executed
 CURRENT_PATH = os.path.dirname(__file__)
@@ -76,11 +77,13 @@ def sunriseRoutine(speaker=None):
 			giving the users time to go see sunrise
 			### TO DO - figure out scheduling
 	"""
-	logger.info("Pre-sunrise routine:")
+	logger.info("Time for pre-sunrise routine")
 
 	if speaker == None:
 		logger.warning("speaker not supplied")
 		return False
+
+	speaker.speakSunrise()
 
 	return True
 
@@ -115,11 +118,48 @@ def bedtimeRoutine(speaker=None):
 		Description:
 			routine to perform at bedtime - turn on ambient lights
 	"""
-	logger.info("Bedtime")
+	logger.info("Time for bedtime routine")
 
 	if speaker == None:
 		logger.warning("speaker not supplied")
 		return False
+
+	# need to check if god/owner is online
+	# check_mute end time corresponds to the same trigger that
+	# triggers this routine, so it can't be used to perform this
+	# check...
+
+	# get state id of status "online"
+	cursor.execute("SELECT * from states WHERE state = \"online\";")
+	data = cursor.fetchone()
+	state = data[0]
+
+	# get all user types which are god or owner type
+	cursor.execute("SELECT * from user_types WHERE type = \"owner\" or \
+												   type = \"god\";")
+	data = cursor.fetchall()
+	types = []
+	for item in data:
+		types.append(item[0])
+
+	# see if any users worth speaking to are online
+	cursor.execute("SELECT * from user WHERE (state_id = \""+str(state)+"\" and \
+											  user_type_id = \""+str(types[0])+"\") or \
+											 (state_id = \""+str(state)+"\" and \
+										 	  user_type_id = \""+str(types[1])+"\");")
+	data = cursor.fetchall()
+
+	if not data:
+		logger.info("B3na has no one around to send to bed...")
+		return
+	else:
+		speaker.Bedtime()
+		event_tomorrow, event = googleUtil.calendarTomorrow()
+		if event_tomorrow:
+			event_title = event['summary']
+			event_time = datetime.strptime(event['start'].get('dateTime').split("T")[1][:-6][:5], '%H:%M')
+
+			speak.speakString("Your first event tomorrow is "+event_tomorrow_title+" at "+str(event_tomottow_time.hour))
 
 	return True
 
@@ -180,10 +220,6 @@ def checkRoutines(speaker=None):
 		routine_trigger = routine[5]
 		cur_time = datetime.now()
 
-		print ("    routine triggered check: " + str(routine_trigger)) #DEBUG
-		print ("    routine time: "+ str(routine_time)) #DEBUG
-		print ("    current time: "+ str(cur_time)) #DEBUG
-		print ("    routine time check: "+ str(routine_time < cur_time)) #DEBUG
 		if routine_time < cur_time and not routine_trigger:
 			logger.info(routine[1] + " routine is being triggered")
 			# set triggered flag = True
@@ -283,9 +319,10 @@ def checkMute():
 		types.append(item[0])
 
 	# see if any users worth speaking to are online
-	cursor.execute("SELECT * from user WHERE state_id = \""+str(state)+"\" and \
-											 user_type_id = \""+str(types[0])+"\" or \
-										 	 user_type_id = \""+str(types[1])+"\";")
+	cursor.execute("SELECT * from user WHERE (state_id = \""+str(state)+"\" and \
+											  user_type_id = \""+str(types[0])+"\") or \
+											 (state_id = \""+str(state)+"\" and \
+										 	  user_type_id = \""+str(types[1])+"\");")
 	data = cursor.fetchall()
 
 	if not data:
