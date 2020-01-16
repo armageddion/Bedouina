@@ -278,7 +278,7 @@ class Speaker:
 				break
 
 		#  special greeting for armageddion only
-		if usr_type == "god"":
+		if usr_type == "god":
 			logger.info("Speaking god greeting")
 			self.speakString("Welcome sir.")
 
