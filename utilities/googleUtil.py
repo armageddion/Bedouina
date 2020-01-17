@@ -48,6 +48,9 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
+# current path from which python is executed
+CURRENT_PATH = os.path.dirname(__file__)
+
 # set up logging
 logger = logging.getLogger("GoogleLog")
 logger.setLevel(logging.DEBUG)
