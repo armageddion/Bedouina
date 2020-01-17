@@ -132,6 +132,7 @@ class Speaker:
 		except Exception, e:
 			logger.error("Failed to write sound file to temporary directory")
 			logger.error("Traceback: "+str(e))
+			logger.error("Voice response: "+str(voice['response']))
 
 		try:
 			os.system('mplayer -really-quiet -noconsolecontrols '+os.path.join(CURRENT_PATH,'../tmp/audio.mp3')) 	# old alfr3d on RPI2
