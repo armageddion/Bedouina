@@ -164,7 +164,7 @@ def bedtimeRoutine(speaker=None):
 		return
 	else:
 		logger.info("Time to speak the bedtime routine")
-		speaker.Bedtime()
+		speaker.speakBedtime()
 		event_tomorrow, event = googleUtil.calendarTomorrow()
 		if event_tomorrow:
 			event_title = event['summary']
