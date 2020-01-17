@@ -98,6 +98,8 @@ def morningRoutine(speaker=None):
 		logger.warning("speaker not supplied")
 		return False
 
+
+
 	return True
 
 def sunsetRoutine(speaker=None):
@@ -114,7 +116,7 @@ def sunsetRoutine(speaker=None):
 	speaker.speakGreeting()
 	speaker.speakString("Sun has just set on another beautiful day")
 
-	# operate some lights and switches... 
+	# operate some lights and switches...
 
 	return True
 
@@ -134,6 +136,8 @@ def bedtimeRoutine(speaker=None):
 	# triggers this routine, so it can't be used to perform this
 	# check...
 
+	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
+	cursor = db.cursor()
 	# get state id of status "online"
 	cursor.execute("SELECT * from states WHERE state = \"online\";")
 	data = cursor.fetchone()
@@ -153,11 +157,13 @@ def bedtimeRoutine(speaker=None):
 											 (state_id = \""+str(state)+"\" and \
 										 	  user_type_id = \""+str(types[1])+"\");")
 	data = cursor.fetchall()
+	db.close()
 
 	if not data:
 		logger.info("B3na has no one around to send to bed...")
 		return
 	else:
+		logger.info("Time to speak the bedtime routine")
 		speaker.Bedtime()
 		event_tomorrow, event = googleUtil.calendarTomorrow()
 		if event_tomorrow:
@@ -199,6 +205,7 @@ def createRoutines(speaker=None):
 		else:
 			logger.info("Routine for "+routine+" already exists..")
 
+	db.close()
 	return True
 
 def checkRoutines(speaker=None):
@@ -248,6 +255,9 @@ def checkRoutines(speaker=None):
 				sunsetRoutine(speaker)
 			elif routine[1] == routine_list[3]: # Bedtime
 				bedtimeRoutine(speaker)
+
+	db.close()
+	return True
 
 def resetRoutines():
 	"""
