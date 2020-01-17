@@ -127,6 +127,7 @@ class Speaker:
 
 		if not voice['response']:
 			logger.warning("we got no response from voicerss")
+			logger.warning("Response error: "+str(response['error']))
 			return
 
 		try:
@@ -137,6 +138,7 @@ class Speaker:
 			logger.error("Failed to write sound file to temporary directory")
 			logger.error("Traceback: "+str(e))
 			logger.error("Voice response: "+str(voice['response']))
+			logger.error("Response error: "+str(response['error']))			
 
 		try:
 			os.system('mplayer -really-quiet -noconsolecontrols '+os.path.join(CURRENT_PATH,'../tmp/audio.mp3')) 	# old alfr3d on RPI2
