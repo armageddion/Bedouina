@@ -192,7 +192,7 @@ def getWeather(city="Toronto",country="CA", speaker=None):
 			elif badDay[1][i] == weatherData['main']['temp_max']:
 				greeting += "it is too hot for my gentle circuits"
 			elif badDay[1][i] == weatherData['main']['temp_min']:
-				greeting += "it is catalysmically cold"
+				greeting += "it is cataclysmically cold"
 			elif badDay[1][i] == weatherData['wind']['speed']:
 				greeting += "the wind will seriously ruin your hair"
 
