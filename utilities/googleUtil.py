@@ -47,6 +47,14 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
+# set up logging
+logger = logging.getLogger("GoogleLog")
+logger.setLevel(logging.DEBUG)
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+handler = logging.FileHandler(os.path.join(CURRENT_PATH,"../log/total.log"))
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/gmail-python-quickstart.json
 SCOPES_GMAIL = 'https://www.googleapis.com/auth/gmail.readonly'
@@ -187,7 +195,8 @@ def getUnreadCount():
 	# Build the Gmail service from discovery
 	gmail_service = build('gmail', 'v1', credentials=credentials)
 
-	print ("getting gmail data...")
+	#print ("getting gmail data...")
+	logger.info("    getting gmail data...")
 	messages = gmail_service.users().messages().list(userId='me', q='label:inbox is:unread').execute()
 	unread_msgs = messages[u'resultSizeEstimate']
 
@@ -203,14 +212,16 @@ def calendarTomorrow():
 	tomorrow = tomorrow.isoformat()+timezone_offset
 	tomorrow_night = tomorrow_night.isoformat()+timezone_offset
 
-	print('Getting the first event of tomorrow')
+	#print('Getting the first event of tomorrow')
+	logger.info('    getting the first event of tomorrow')
 	eventsResult = calendar_service.events().list(
 		calendarId='primary', timeMin=tomorrow, maxResults=1, timeMax=tomorrow_night, singleEvents=True,
 		orderBy='startTime').execute()
 	events = eventsResult.get('items', [])
 
 	if not events:
-		print('No upcoming events found.')
+		#print('No upcoming events found.')
+		logger.info('    No upcoming events found.')
 		return False, None
 	else:
 		return True, events[0]
@@ -232,14 +243,15 @@ def calendarToday():
 	today = today.isoformat()+timezone_offset
 	tonight = tonight.isoformat()+timezone_offset
 
-	print('Getting todays events')
+	#print('Getting todays events')
+	logger.info('    getting todays events')
 	eventsResult = calendar_service.events().list(
 		calendarId='primary', timeMin=today, maxResults=10, timeMax=tonight, singleEvents=True,
 		orderBy='startTime').execute()
 	events = eventsResult.get('items', [])
 
 	if not events:
-		print('No upcoming events found.')
+		logger.info('    No upcoming events found.')
 		return False, None
 
 	# for event in events:
@@ -250,7 +262,8 @@ def calendarToday():
 
 # Main
 if __name__ == '__main__':
-	print("this is alfr3ds google utility")
+	#print("this is alfr3ds google utility")
+	logger.info("    this is alfr3ds google utility")
 	#get_credentials_google()
 	getUnreadCount()
 	calendarToday()
