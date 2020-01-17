@@ -125,6 +125,10 @@ class Speaker:
 			logger.error("Failed to get TTS sound file")
 			logger.error("Traceback: "+str(e))
 
+		if not voice['response']:
+			logger.warning("we got no response from voicerss")
+			return
+
 		try:
 			outfile = open(os.path.join(CURRENT_PATH,'../tmp/audio.mp3'),"w")
 			outfile.write(voice['response'])
