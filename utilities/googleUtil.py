@@ -35,6 +35,7 @@ import os
 import time
 import datetime
 import httplib2
+import logging
 
 # used for older version of the utility
 # from apiclient.discovery import build
