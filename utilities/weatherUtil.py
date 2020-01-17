@@ -156,13 +156,13 @@ def getWeather(city="Toronto",country="CA", speaker=None):
 	if weatherData['weather'][0]['main'] in ['Thunderstorm','Drizzle','Rain','Snow','Atmosphere','Exreeme']:
 		badDay[0] = True
 		badDay[1].append(weatherData['weather'][0]['description'])
-	elif weatherData['main']['humidity'] > 80:
-		badDay[0] = True
-		badDay[1].append(weatherData['main']['humidity'])
 	if KtoC(weatherData['main']['temp_max']) > 27:
 		badDay[0] = True
 		badDay[1].append(weatherData['main']['temp_max'])
-	elif KtoC(weatherData['main']['temp_min']) < -5:
+		if weatherData['main']['humidity'] > 80:
+			badDay[0] = True
+			badDay[1].append(weatherData['main']['humidity'])
+	elif KtoC(weatherData['main']['temp_min']) < 0:
 		badDay[0] = True
 		badDay[1].append(weatherData['main']['temp_min'])
 	if weatherData['wind']['speed'] > 10:
