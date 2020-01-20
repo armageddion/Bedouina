@@ -245,8 +245,9 @@ class User:
 				 	# speak welcome
 					try:
 				 		speaker.speakWelcome(self, datetime.utcnow() - self.last_online)
-					except:
+					except Exception, e:
 						logger.error("Failed to speak welcome")
+						logger.error("Traceback: "+str(e))
 			else:
 				logger.info("User is offline")	#DEBUG
 				if self.state == stat["online"]:
