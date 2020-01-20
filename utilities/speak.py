@@ -39,6 +39,7 @@ from random import randint						# used for random number generator
 from threading import Thread
 from time import strftime, localtime, time, sleep
 import datetime
+import MySQLdb
 
 
 # import my own utilities
@@ -138,7 +139,7 @@ class Speaker:
 			logger.error("Failed to write sound file to temporary directory")
 			logger.error("Traceback: "+str(e))
 			logger.error("Voice response: "+str(voice['response']))
-			logger.error("Response error: "+str(voice['error']))			
+			logger.error("Response error: "+str(voice['error']))
 
 		try:
 			os.system('mplayer -really-quiet -noconsolecontrols '+os.path.join(CURRENT_PATH,'../tmp/audio.mp3')) 	# old alfr3d on RPI2
