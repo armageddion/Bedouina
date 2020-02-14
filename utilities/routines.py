@@ -170,7 +170,7 @@ def bedtimeRoutine(speaker=None):
 			event_title = event['summary']
 			event_time = datetime.strptime(event['start'].get('dateTime').split("T")[1][:-6][:5], '%H:%M')
 
-			speak.speakString("Your first event tomorrow is "+event_tomorrow_title+" at "+str(event_tomottow_time.hour))
+			speaker.speakString("Your first event tomorrow is "+event_tomorrow_title+" at "+str(event_tomottow_time.hour))
 
 	return True
 
