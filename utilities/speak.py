@@ -167,7 +167,7 @@ class Speaker:
 		"""
 		logger.info("Speaking date")
 
-		greeting = "It is "
+		greeting = "Today is "
 
 		day_of_week = strftime('%A',localtime())
 		day = strftime('%e',localtime())

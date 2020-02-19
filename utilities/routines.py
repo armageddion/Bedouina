@@ -38,6 +38,8 @@ from datetime import datetime, timedelta
 
 from userClass import User
 import googleUtil
+from environment import checkLocation
+from weatherUtil import getWeather
 
 # current path from which python is executed
 CURRENT_PATH = os.path.dirname(__file__)
@@ -98,7 +100,35 @@ def morningRoutine(speaker=None):
 		logger.warning("speaker not supplied")
 		return False
 
+	# get sunset data and reschedule sunset routine
+	# --> this is already done as part of weather utility
+	db = MySQLdb.connect(DATABASE_URL,DATABASE_USER,DATABASE_PSWD,DATABASE_NAME)
+	cursor = db.cursor()
 
+	speaker.speakGreeting()		# "... good morning..."
+	speaker.speakTime()			# "... it is 8am..."
+	speaker.speakDate()			# "... on april 1..."
+
+	# get weather information
+	try:
+		logger.info("Weather check")
+		loc = checkLocation()
+		getWeather(loc[1],loc[2])
+	except Exception, e:
+		logger.error("Failed to get weather info")
+		logger.error("Traceback: "+str(e))
+
+	# gmail check
+	try:
+		logger.info("Gmail check")
+		unread_count = googleUtil.getUnreadCount()
+		if unread_count > 1:
+			speaker.speakString("While you were sleeping "+str(unread_count)+" emails flooded your inbox")
+	except Exception, e:
+		logger.error("Failed to check email in the morning")
+		logger.error("Traceback: "+str(e))
+
+	# check calendar
 
 	return True
 
