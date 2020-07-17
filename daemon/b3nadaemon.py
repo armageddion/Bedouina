@@ -37,7 +37,7 @@ import os						# used to allow execution of system level commands
 import sys
 import schedule					# 3rd party lib used for alarm clock managment.
 import datetime
-import ConfigParser				# used to parse alfr3ddaemon.conf
+import configparser				# used to parse alfr3ddaemon.conf
 from threading import Thread
 from daemon import Daemon
 from random import randint		# used for random number generator
@@ -55,7 +55,7 @@ os.system('sudo mkdir -p /var/run/b3nadaemon')
 #os.system('sudo chown alfr3d:alfr3d /var/run/alfr3ddaemon')
 
 # load up all the configs
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read(os.path.join(CURRENT_PATH,'../conf/apikeys.conf'))
 # get main DB credentials
 DATABASE_URL 	= os.environ.get('DATABASE_URL') or config.get("Alfr3d DB","database_url")

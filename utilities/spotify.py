@@ -41,7 +41,7 @@ import urllib2
 import requests
 import spotipy
 import spotipy.util as sp_util
-import ConfigParser
+import configparser
 
 # current path from which python is executed
 CURRENT_PATH = os.path.dirname(__file__)
@@ -57,7 +57,7 @@ logger.addHandler(handler)
 
 # load up all the configs
 configfile = os.path.join(os.path.dirname(__file__),'../conf/apikeys.conf')
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read(configfile)
 
 #=====================================

@@ -38,7 +38,7 @@ import sys
 import socket
 import requests
 import json
-import ConfigParser
+import configparser
 import bottle
 from bottle import route, run, template, request, response
 from pymongo import MongoClient
@@ -60,7 +60,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 # load up all the configs
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read(os.path.join(os.path.dirname(__file__),'../conf/apikeys.conf'))
 # get main DB credentials
 db_user = config.get("Alfr3d DB", "user")

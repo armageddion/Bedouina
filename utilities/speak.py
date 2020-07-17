@@ -30,7 +30,7 @@
 #	  software/component specified under (i).
 #
 
-import ConfigParser
+import configparser
 import os
 import sys
 import logging
@@ -59,7 +59,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 # get API key for db-ip.com
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read(os.path.join(CURRENT_PATH,'../conf/apikeys.conf'))
 apikey = config.get("API KEY", "voicerss")
 # get main DB credentials

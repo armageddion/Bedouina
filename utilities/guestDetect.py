@@ -33,7 +33,7 @@
 
 import os
 import sys
-import ConfigParser
+import configparser
 import time
 import socket
 import logging

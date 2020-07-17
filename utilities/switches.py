@@ -35,7 +35,7 @@ import urllib										# used to make calls to www
 import os											# used to allow execution of system level commands
 import logging										# needed for useful logs
 import socket
-import ConfigParser
+import configparser
 import MySQLdb
 from datetime import datetime
 from time import gmtime, strftime, localtime		# needed to obtain time
@@ -52,7 +52,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 # load up all the configs
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read(os.path.join(os.path.dirname(__file__),'../conf/apikeys.conf'))
 # get main DB credentials
 DATABASE_URL 	= os.environ.get('DATABASE_URL') or config.get("Alfr3d DB","database_url")

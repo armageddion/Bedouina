@@ -1,9 +1,9 @@
 import os
-import ConfigParser
+import configparser
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 # load up all the configs
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read(basedir,'../conf/apikeys.conf')
 
 class Config(object):

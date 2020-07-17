@@ -32,7 +32,7 @@
 import os
 import logging
 import socket
-import ConfigParser
+import configparser
 import MySQLdb
 from datetime import datetime, timedelta
 
@@ -49,7 +49,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 # load up all the configs
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read(os.path.join(os.path.dirname(__file__),'../conf/apikeys.conf'))
 # get main DB credentials
 DATABASE_URL 	= os.environ.get('DATABASE_URL') or config.get("Alfr3d DB","database_url")
