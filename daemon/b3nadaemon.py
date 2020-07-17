@@ -192,7 +192,7 @@ class MyDaemon(Daemon):
 
 			QUIP_START_TIME = time.time()
 			QUIP_WAIT_TIME = randint(10,50)
-			print ("Time until next quip: ", QUIP_WAIT_TIME 	#DEBUG)
+			print ("Time until next quip: ", QUIP_WAIT_TIME) 	#DEBUG
 
 			logger.info("QUIP_START_TIME and QUIP_WAIT_TIME have been reset")
 			logger.info("Next quip will be shouted in "+str(QUIP_WAIT_TIME)+" minutes.")
