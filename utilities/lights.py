@@ -78,12 +78,12 @@ def lightingOn(lights="all"):
 		cursor.execute("SELECT * FROM device WHERE device_type_id = "+str(dev_type)+" AND environment_id = "+str(env_id)+";")
 		devices = cursor.fetchall()
 		for device in devices:
-			print "switching device"+ device[1] + " on"
+			print ("switching device"+ device[1] + " on")
 			#TODO
 	else:
 		cursor.execute("SELECT * FROM device WHERE device_type_id = "+str(dev_type)+" AND environment_id = "+str(env_id)+" AND name = \""+lights+"\";")
 		device = cursor.fetchone()
-		print "switching device"+ device[1] + " on"
+		print ("switching device"+ device[1] + " on")
 		#TODO
 
 	return True
@@ -106,16 +106,16 @@ def lightingOff(lights="all"):
 		cursor.execute("SELECT * FROM device WHERE device_type_id = "+str(dev_type)+" AND environment_id = "+str(env_id)+";")
 		devices = cursor.fetchall()
 		for device in devices:
-			print "switching device"+ device[1] + " off"
+			print ("switching device"+ device[1] + " off")
 			#TODO
 	else:
 		cursor.execute("SELECT * FROM device WHERE device_type_id = "+str(dev_type)+" AND environment_id = "+str(env_id)+" AND name = \""+lights+"\";")
 		device = cursor.fetchone()
-		print "switching device"+ device[1] + " off"
+		print ("switching device"+ device[1] + " off")
 		#TODO
 
 	return True
 
 # purely for testing purposes
 if __name__ == "__main__":
-	print "testing the lights"
+	print ("testing the lights")

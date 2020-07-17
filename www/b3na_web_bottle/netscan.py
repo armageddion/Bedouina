@@ -27,10 +27,10 @@ for i in range(len(netClientsMACs)):
 			   IP=netClientsIPs[i],
 			   MAC=netClientsMACs[i])
 
-	print "\nAdding device:"
-	print "================"
-	print "  IP = ",netClientsIPs[i]
-	print "  MAC = ", netClientsMACs[i]
+	print ("\nAdding device:")
+	print ("================")
+	print ("  IP = ",netClientsIPs[i])
+	print ("  MAC = ", netClientsMACs[i])
 
 	db.session.add(d)
 	db.session.commit()

@@ -162,7 +162,7 @@ def refresh_token():
 		the_page = response.read()	
 		ret_data = json.loads(the_page)
 		# print ret_data		# DEBUG
-		# print "new access_token", ret_data['access_token']		# DEBUG
+		# print ("new access_token", ret_data['access_token'])		# DEBUG
 		logger.info("Got new Spotify access token")
 
 		global ACCESS_TOKEN

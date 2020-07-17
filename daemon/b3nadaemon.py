@@ -192,7 +192,7 @@ class MyDaemon(Daemon):
 
 			QUIP_START_TIME = time.time()
 			QUIP_WAIT_TIME = randint(10,50)
-			print "Time until next quip: ", QUIP_WAIT_TIME 	#DEBUG
+			print ("Time until next quip: ", QUIP_WAIT_TIME 	#DEBUG)
 
 			logger.info("QUIP_START_TIME and QUIP_WAIT_TIME have been reset")
 			logger.info("Next quip will be shouted in "+str(QUIP_WAIT_TIME)+" minutes.")
@@ -325,9 +325,9 @@ if __name__ == "__main__":
 		elif 'restart' == sys.argv[1]:
 			daemon.restart()
 		else:
-			print "Unknown command"
+			print ("Unknown command")
 			sys.exit(2)
 		sys.exit(0)
 	else:
-		print "usage: %s start|stop|restart" % sys.argv[0]
+		print ("usage: %s start|stop|restart" % sys.argv[0])
 		sys.exit(2)
