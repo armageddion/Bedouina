@@ -1,4 +1,5 @@
-import httplib, urllib
+import http.client as httplib
+import urllib.parse as urllib
 
 def speech(settings):
 	__validate(settings)
