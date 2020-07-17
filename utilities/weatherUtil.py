@@ -111,7 +111,7 @@ def getWeather(city="Toronto",country="CA", speaker=None):
 		cursor.execute("UPDATE environment SET sunset = \""+datetime.fromtimestamp(weatherData['sys']['sunset']).strftime("%Y-%m-%d %H:%M:%S")+"\" WHERE name = \""+socket.gethostname()+"\";")
 		db.commit()
 		logger.info("Environment weather info updated")
-	except Exception, e:
+	except Exception as  e:
 		logger.error("Failed to update Environment database with weather info")
 		logger.error("Traceback "+str(e))
 		db.rollback()
@@ -137,7 +137,7 @@ def getWeather(city="Toronto",country="CA", speaker=None):
 						WHERE name = \"Sunset\" \
 						and environment_id = \""+str(env_id)+"\";")
 		db.commit()
-	except Exception, e:
+	except Exception as  e:
 		logger.error("Failed to update Routines database with daytime info")
 		logger.error("Traceback "+str(e))
 		db.rollback()

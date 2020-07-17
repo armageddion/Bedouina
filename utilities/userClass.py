@@ -103,7 +103,7 @@ class User:
 			cursor.execute("INSERT INTO user(username, last_online, state_id, user_type_id) \
 							VALUES (\""+self.name+"\", \""+self.last_online+"\",\""+str(state_id)+"\",\""+str(state_id)+"\");")
 			db.commit()
-		except Exception, e:
+		except Exception as  e:
 			logger.error("Failed to update the database")
 			logger.error("Traceback: "+str(e))
 			db.rollback()
@@ -159,7 +159,7 @@ class User:
 					cursor.execute("UPDATE user SET state_id = "+str(state[0])+" WHERE username = \""+self.name+"\";")
 					break
 			db.commit()
-		except Exception, e:
+		except Exception as  e:
 			logger.error("Failed to update the database")
 			logger.error("Traceback: "+str(e))
 			db.rollback()
@@ -220,7 +220,7 @@ class User:
 							cursor.execute("UPDATE user set environment_id = \""+str(env_id)+"\" WHERE username = \""+user[1]+"\";")
 						db.commit()
 						last_online = device[4]
-			except Exception, e:
+			except Exception as  e:
 				logger.error("Failed to update the database")
 				logger.error("Traceback: "+str(e))
 				db.rollback()
@@ -231,7 +231,7 @@ class User:
 			try:
 				time_now = datetime.utcnow()
 				delta = time_now-last_online
-			except Exception, e:
+			except Exception as  e:
 				logger.error("Failed to figure out the timedelta")
 				delta = timedelta(minutes=60)
 
@@ -245,7 +245,7 @@ class User:
 				 	# speak welcome
 					try:
 				 		speaker.speakWelcome(self, datetime.utcnow() - self.last_online)
-					except Exception, e:
+					except Exception as  e:
 						logger.error("Failed to speak welcome")
 						logger.error("Traceback: "+str(e))
 			else:
@@ -257,7 +257,7 @@ class User:
 
 			try:
 				db.commit()
-			except Exception, e:
+			except Exception as  e:
 				logger.error("Failed to update the database")
 				logger.error("Traceback: "+str(e))
 				db.rollback()

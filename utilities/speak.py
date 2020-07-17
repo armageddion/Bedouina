@@ -122,7 +122,7 @@ class Speaker:
 				'ssml': 'false',
 				'b64': 'false'
 			})
-		except Exception, e:
+		except Exception as  e:
 			logger.error("Failed to get TTS sound file")
 			logger.error("Traceback: "+str(e))
 
@@ -135,7 +135,7 @@ class Speaker:
 			outfile = open(os.path.join(CURRENT_PATH,'../tmp/audio.mp3'),"w")
 			outfile.write(voice['response'])
 			outfile.close()
-		except Exception, e:
+		except Exception as  e:
 			logger.error("Failed to write sound file to temporary directory")
 			logger.error("Traceback: "+str(e))
 			logger.error("Voice response: "+str(voice['response']))
@@ -143,13 +143,13 @@ class Speaker:
 
 		try:
 			os.system('mplayer -really-quiet -noconsolecontrols '+os.path.join(CURRENT_PATH,'../tmp/audio.mp3')) 	# old alfr3d on RPI2
-		except Exception, e:
+		except Exception as  e:
 			logger.error("Failed to play the sound file using mplayer")
 			logger.error("Traceback: "+str(e))
 			logger.info("Trying another one")
 			try:
 				os.system('omxplayer -o local '+os.path.join(CURRENT_PATH,'../tmp/audio.mp3'))			# RPI3
-			except Exception, e:
+			except Exception as  e:
 				logger.error("Failed to play the sound file using omxplayer")
 				logger.error("Traceback: "+str(e))
 				logger.info("Trying another one")
@@ -311,7 +311,7 @@ class Speaker:
 						unread_count = getUnreadCount()
 						if unread_count > 1:
 							self.speakString("While you were gone "+str(unread_count)+" emails flooded your inbox")
-					except Exception, e:
+					except Exception as  e:
 						logger.error("Gmail is not configured for this user")
 			else:
 				self.speakString("I haven't seen you in a while.")
@@ -320,7 +320,7 @@ class Speaker:
 					unread_count = getUnreadCount()
 					if unread_count > 1:
 						self.speakString("While you were gone "+str(unread_count)+" emails flooded your inbox")
-				except Exception, e:
+				except Exception as  e:
 					logger.error("Gmail is not configured for this user")
 		else:
 			logger.info("Speaking guest greeting")

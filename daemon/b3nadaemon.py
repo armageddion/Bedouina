@@ -104,7 +104,7 @@ class MyDaemon(Daemon):
 			try:
 				logger.info("Scanning network")
 				utilities.checkLANMembers(masterSpeaker)
-			except Exception, e:
+			except Exception as  e:
 				logger.error("Failed to complete network scan")
 				masterSpeaker.speakError("I failed to complete the network scan")
 				logger.error("Traceback: "+str(e))
@@ -115,7 +115,7 @@ class MyDaemon(Daemon):
 			try:
 				logger.info("Checking routines")
 				utilities.checkRoutines(masterSpeaker)
-			except Exception, e:
+			except Exception as  e:
 				logger.error("Failed to complete routines check")
 				masterSpeaker.speakError("I failed to complete the routines check")
 				logger.error("Traceback: "+str(e))
@@ -133,7 +133,7 @@ class MyDaemon(Daemon):
 				try:
 					logger.info("Is it time for a smartass quip?")
 					self.beSmart()
-				except Exception, e:
+				except Exception as  e:
 					logger.error("Failed to complete the quip block")
 					masterSpeaker.speakError("I failed in being a smart arse")
 					logger.error("Traceback: "+str(e))
@@ -141,7 +141,7 @@ class MyDaemon(Daemon):
 				# check emails
 				try:
 					self.checkGmail()
-				except Exception, e:
+				except Exception as  e:
 					logger.error("Failed to check Gmail")
 					masterSpeaker.speakError("I have been unable to check your mail")
 					logger.error("Traceback: "+str(e))
@@ -274,7 +274,7 @@ def init_daemon():
 		if not ret[0]:
 			raise Exception("Geo scan failed")
 		initSpeaker.speakString("Geo scan complete")
-	except Exception, e:
+	except Exception as  e:
 		initSpeaker.speakString("Failed to complete geo scan")
 		logger.error("Failed to complete geoscan scan")
 		logger.error("Traceback: "+str(e))
@@ -291,7 +291,7 @@ def init_daemon():
 		# until i deploy a more configurable alarm clock
 		schedule.every().day.at("00:05").do(resetRoutines)
 		#schedule.every().day.at(str(bed_time.hour)+":"+str(bed_time.minute)).do(bedtimeRoutine)
-	except Exception, e:
+	except Exception as  e:
 		initSpeaker.speakString("Failed to set schedules")
 		logger.error("Failed to set schedules")
 		logger.error("Traceback: "+str(e))

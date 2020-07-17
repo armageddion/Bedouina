@@ -100,13 +100,13 @@ def checkLocation(method="freegeoip", speaker=None):
 				VALUES (\""+socket.gethostname()+"\");")
 				db.commit()
 				logger.info("New environment created")
-			except Exception, e:
+			except Exception as  e:
 				logger.error("Failed to add new environment to DB")
 				logger.error("Traceback "+str(e))
 				db.rollback()
 				db.close()
 				return [False, 0, 0]
-	except Exception, e:
+	except Exception as  e:
 		logger.error("Environment check failed")
 		logger.error("Traceback "+str(e))
 
@@ -118,14 +118,14 @@ def checkLocation(method="freegeoip", speaker=None):
 	logger.info("Getting my IP")
 	try:
 		myipv4 = urllib.urlopen("http://ipv4bot.whatismyipaddress.com").read()
-	except Exception, e:
+	except Exception as  e:
 		logger.error("Error getting my IPV4")
 		myipv4 = None
 		logger.error("Traceback "+str(e))
 		logger.info("Trying to get our IPV6")
 		try:
 			myipv6 = urllib.urlopen("http://ipv6bot.whatismyipaddress.com").read()
-		except Exception, e:
+		except Exception as  e:
 			logger.error("Error getting my IPV6")
 			logger.error("Traceback "+str(e))
 	finally:
@@ -178,7 +178,7 @@ def checkLocation(method="freegeoip", speaker=None):
 				else:
 					raise Exception("Unable to get geo info based on IP")
 
-		except Exception, e:
+		except Exception as  e:
 				logger.error("Error getting my location:"+e)
 				return [False, 0, 0]
 
@@ -206,7 +206,7 @@ def checkLocation(method="freegeoip", speaker=None):
 				else:
 					raise Exception("Unable to get geo info based on IP")
 
-			except Exception, e:
+			except Exception as  e:
 				logger.error("Error getting my location:"+str(e))
 				return [False, 0, 0]
 
@@ -243,7 +243,7 @@ def checkLocation(method="freegeoip", speaker=None):
 			cursor.execute("UPDATE environment SET longitude = \""+str(long_new)+"\" WHERE name = \""+socket.gethostname()+"\";")
 			db.commit()
 			logger.info("Environment updated")
-		except Exception, e:
+		except Exception as  e:
 			logger.error("Failed to update Environment database")
 			logger.error("Traceback "+str(e))
 			db.rollback()
@@ -256,7 +256,7 @@ def checkLocation(method="freegeoip", speaker=None):
 	try:
 		logger.info("Getting latest weather")
 		weatherUtil.getWeather(city_new, country_new, speaker)
-	except Exception, e:
+	except Exception as  e:
 		logger.error("Failed to get weather")
 		logger.error("Traceback "+str(e))
 	return [True, city_new, country_new]

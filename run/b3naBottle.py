@@ -73,7 +73,7 @@ try:
 	my_ip = s.getsockname()[0]
 	s.close()
 	logger.info("Obtained host IP")
-except Exception, e:
+except Exception as  e:
 	log.write(strftime("%H:%M:%S: ")+"Error: Failed to get my IP")
 	logger.error("Failed to get host IP")
 	logger.error("Traceback "+str(e))

@@ -120,21 +120,21 @@ def main():
 
 	try:
 		refresh_token()
-	except Exception, e:
+	except Exception as  e:
 		logger.error("Failed to refresh Spotify token")
 		logger.error("Traceback: "+str(e))
 		return		
 
 	try:
 		device = find_device()
-	except Exception, e:
+	except Exception as  e:
 		logger.error("Failed to find Alfr3d device")
 		logger.error("Traceback: "+str(e))
 		return				
 
 	try:
 		b3na_play(device=device)
-	except Exception, e:
+	except Exception as  e:
 		logger.error("Failed to start Spotify playback on device")
 		logger.error("Traceback: "+str(e))
 		return		
@@ -168,7 +168,7 @@ def refresh_token():
 		global ACCESS_TOKEN
 		ACCESS_TOKEN = ret_data['access_token']
 
-	except Exception, e:
+	except Exception as  e:
 		logger.error("ERROR getting access token. Giving up")
 		logger.error("Traceback: "+str(e))
 		return
@@ -178,7 +178,7 @@ def refresh_token():
 		cfgfile = open(configfile,'w')
 		config.set('Spotify','access_token',ret_data['access_token'])
 		config.write(cfgfile)
-	except Exception, e:
+	except Exception as  e:
 		logger.error("ERROR updating conf files")
 		logger.error("Traceback: "+str(e))
 		return

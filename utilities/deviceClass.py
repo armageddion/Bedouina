@@ -87,7 +87,7 @@ class Device:
 			cursor.execute("INSERT INTO device(name, IP, MAC, last_online) \
 							VALUES (\""+self.name+"\", \""+self.IP+"\", \""+self.MAC+"\",  \""+self.last_online+"\")")
 			db.commit()
-		except Exception, e:
+		except Exception as  e:
 			logger.error("Failed to update the database")
 			logger.error("Traceback: "+str(e))
 			db.rollback()
@@ -151,7 +151,7 @@ class Device:
 					cursor.execute("UPDATE device SET state_id = "+str(state[0])+" WHERE MAC = \""+self.MAC+"\";")
 					break
 			db.commit()
-		except Exception, e:
+		except Exception as  e:
 			logger.error("Failed to update the database")
 			logger.error("Traceback: "+str(e))
 			db.rollback()
@@ -192,7 +192,7 @@ class Device:
 				last_online = device[4]
 				time_now = datetime.utcnow()
 				delta = time_now-last_online
-			except Exception, e:
+			except Exception as  e:
 				logger.error("Failed to figure out the timedelta")
 				delta = timedelta(minutes=60)
 
@@ -209,7 +209,7 @@ class Device:
 				else:
 					cursor.execute("UPDATE device SET state_id = "+str(stat['offline'])+" WHERE MAC = \""+device[3]+"\";")
 				db.commit()
-			except Exception, e:
+			except Exception as  e:
 				logger.error("Failed to update the database")
 				logger.error("Traceback: "+str(e))
 				db.rollback()

@@ -114,7 +114,7 @@ def morningRoutine(speaker=None):
 		logger.info("Weather check")
 		loc = checkLocation()
 		getWeather(loc[1],loc[2])
-	except Exception, e:
+	except Exception as  e:
 		logger.error("Failed to get weather info")
 		logger.error("Traceback: "+str(e))
 
@@ -124,7 +124,7 @@ def morningRoutine(speaker=None):
 		unread_count = googleUtil.getUnreadCount()
 		if unread_count > 1:
 			speaker.speakString("While you were sleeping "+str(unread_count)+" emails flooded your inbox")
-	except Exception, e:
+	except Exception as  e:
 		logger.error("Failed to check email in the morning")
 		logger.error("Traceback: "+str(e))
 
@@ -225,7 +225,7 @@ def createRoutines(speaker=None):
 				VALUES (\""+routine+"\","+str(env_id)+");")
 				db.commit()
 				logger.info("New routine created")
-			except Exception, e:
+			except Exception as  e:
 				logger.error("Failed to add new routine to DB")
 				logger.error("Traceback "+str(e))
 				db.rollback()
@@ -269,7 +269,7 @@ def checkRoutines(speaker=None):
 				logger.info("Resetting 'triggered' flag for "+routine[1]+" routine")
 				cursor.execute("UPDATE routines SET triggered = 1 WHERE id = \""+str(routine[0])+"\";")
 				db.commit()
-			except Exception, e:
+			except Exception as  e:
 				logger.error("Failed to update the database")
 				logger.error("Traceback: "+str(e))
 				db.rollback()
@@ -308,7 +308,7 @@ def resetRoutines():
 			logger.info("Resetting 'triggered' flag for "+routine[1]+" routine")
 			cursor.execute("UPDATE routines SET triggered = 0 WHERE id = \""+str(routine[0])+"\";")
 			db.commit()
-		except Exception, e:
+		except Exception as  e:
 			logger.error("Failed to update the database")
 			logger.error("Traceback: "+str(e))
 			db.rollback()

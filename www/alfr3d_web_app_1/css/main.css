@@ -90,15 +90,16 @@ body{
 
 .window2_title {
 	font-size: 12px;
-	position: absolute.;
+	position: absolute;
 	padding-left: 85px;
 	padding-top: 8px;
 }
 
 .window2_data {
 	position: absolute;
-	margin-top: 10px;
-	padding-left: 40px;
+	margin-top: 50px;
+	margin-left: 45px;	
+	padding-left: 5px;
 	padding-top: 5px;
 	width: 150px;
 	height: 110px;
