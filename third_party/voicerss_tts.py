@@ -29,7 +29,7 @@ def __request(settings):
 	
 	if response.status != 200:
 		result['error'] = response.reason
-	elif content.find('ERROR') == 0:
+	elif content.find(b'ERROR') == 0:
 		result['error'] = content
 	else:
 		result['response'] = content
