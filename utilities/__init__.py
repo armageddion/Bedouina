@@ -7,14 +7,15 @@
 #
 #############################################################################
 
-from speak import *
-from guestDetect import *
-from deviceClass import Device
-from userClass import User
-from environment import *
-from weatherUtil import *
-from googleUtil import *
-from spotify import *
-from lights import *
-from switches import *
-from routines import *
+# removing explicit imports for Py3 compliance
+# from speak import *
+# from guestDetect import *
+# from deviceClass import Device
+# from userClass import User
+# from environment import *
+# from weatherUtil import *
+# from googleUtil import *
+# from spotify import *
+# from lights import *
+# from switches import *
+# from routines import *
