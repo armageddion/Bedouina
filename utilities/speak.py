@@ -110,6 +110,7 @@ class Speaker:
 				and then plays it back
 		"""
 		logger.info("Speaking "+str(string))
+		voice = None
 
 		try:
 			voice = third_party.voicerss_tts.speech({
