@@ -8,4 +8,4 @@
 #############################################################################
 
 
-from voicerss_tts import *
+from third_party.voicerss_tts import *
