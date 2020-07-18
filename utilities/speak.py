@@ -112,7 +112,7 @@ class Speaker:
 		logger.info("Speaking "+str(string))
 
 		try:
-			voice = third_party.speech({
+			voice = third_party.voicerss_tts.speech({
 				'key': apikey,
 				'hl': 'en-gb',
 				'src': string,
