@@ -133,8 +133,8 @@ class Speaker:
 			return
 
 		try:
-			outfile = open(os.path.join(CURRENT_PATH,'../tmp/audio.mp3'),"w")
-			outfile.write(str(voice['response']))
+			outfile = open(os.path.join(CURRENT_PATH,'../tmp/audio.mp3'),"wb")
+			outfile.write(voice['response'])
 			outfile.close()
 		except Exception as  e:
 			logger.error("Failed to write sound file to temporary directory")
