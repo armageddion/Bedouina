@@ -44,7 +44,7 @@ import MySQLdb
 
 # import my own utilities
 sys.path.append(os.path.join(os.path.join(os.getcwd(),os.path.dirname(__file__)),"../"))
-import third_party
+import third_party.voicerss_tts
 
 # current path from which python is executed
 CURRENT_PATH = os.path.dirname(__file__)
