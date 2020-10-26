@@ -8,7 +8,7 @@
 #############################################################################
 
 # removing explicit imports for Py3 compliance
-# from speak import *
+# from speak import Speaker
 # from guestDetect import *
 # from deviceClass import Device
 # from userClass import User

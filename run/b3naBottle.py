@@ -33,7 +33,7 @@
 # Imports
 import logging
 import time
-import os										# used to allow execution of system level commands
+import os  # used to allow execution of system level commands
 import sys
 import socket
 import requests
@@ -47,7 +47,7 @@ from pymongo import MongoClient
 CURRENT_PATH = os.path.dirname(__file__)
 
 # Import my own utilities
-sys.path.append(os.path.join(os.path.join(os.getcwd(),os.path.dirname(__file__)),"../"))
+sys.path.append(os.path.join(os.path.join(os.getcwd(), os.path.dirname(__file__)), "../"))
 # import utilities
 import utilities
 
@@ -55,28 +55,27 @@ import utilities
 logger = logging.getLogger("BottleLog")
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-handler = logging.FileHandler(os.path.join(CURRENT_PATH,"../log/total.log"))
+handler = logging.FileHandler(os.path.join(CURRENT_PATH, "../log/total.log"))
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 # load up all the configs
 config = configparser.RawConfigParser()
-config.read(os.path.join(os.path.dirname(__file__),'../conf/apikeys.conf'))
+config.read(os.path.join(os.path.dirname(__file__), '../conf/apikeys.conf'))
 # get main DB credentials
 db_user = config.get("Alfr3d DB", "user")
 db_pass = config.get("Alfr3d DB", "password")
 
 # get our own IP
 try:
-	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	s.connect(("gmail.com",80))
-	my_ip = s.getsockname()[0]
-	s.close()
-	logger.info("Obtained host IP")
-except Exception as  e:
-	log.write(strftime("%H:%M:%S: ")+"Error: Failed to get my IP")
-	logger.error("Failed to get host IP")
-	logger.error("Traceback "+str(e))
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("gmail.com", 80))
+    my_ip = s.getsockname()[0]
+    s.close()
+    logger.info("Obtained host IP")
+except Exception as e:
+    logger.error("Failed to get host IP")
+    logger.error("Traceback " + str(e))
 
 class EnableCors(object):
     name = 'enable_cors'
@@ -87,7 +86,8 @@ class EnableCors(object):
             # set CORS headers
             response.headers['Access-Control-Allow-Origin'] = '*'
             response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS'
-            response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+            response.headers[
+                'Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
 
             if bottle.request.method != 'OPTIONS':
                 # actual request; reply with the actual response
@@ -95,188 +95,195 @@ class EnableCors(object):
 
         return _enable_cors
 
+
 app = bottle.app()
 
 @app.route('/')
 @app.route('/hello/<name>')
 def index(name):
-	logger.info("Received request:/hello/"+name)
-	return template('<b>Hello {{name}}</b>!', name=name)
+    logger.info("Received request:/hello/" + name)
+    return template('<b>Hello {{name}}</b>!', name=name)
 
-@app.route('/whosthere', method=['OPTIONS','GET'])
+
+@app.route('/whosthere', method=['OPTIONS', 'GET'])
 def whosthere():
-	logger.info("Received a 'whosthere' request")
+    logger.info("Received a 'whosthere' request")
 
-	client = MongoClient('mongodb://ec2-52-89-213-104.us-west-2.compute.amazonaws.com:27017/')
-	client.Alfr3d_DB.authenticate(db_user,db_pass)
-	db = client['Alfr3d_DB']
-	usersCollection = db['users']
+    client = MongoClient('mongodb://ec2-52-89-213-104.us-west-2.compute.amazonaws.com:27017/')
+    client.Alfr3d_DB.authenticate(db_user, db_pass)
+    db = client['Alfr3d_DB']
+    usersCollection = db['users']
 
-	count = 0
-	users = []
+    count = 0
+    users = []
 
-	# cycle through all users
-	#for user in usersCollection.find():
-	for user in usersCollection.find({"$and":[
-											{"state":'online'},
-											{"location.name":socket.gethostname()}
-										]}):
-			count +=1
-			users.append(user['name'])
+    # cycle through all users
+    # for user in usersCollection.find():
+    for user in usersCollection.find({"$and": [
+        {"state": 'online'},
+        {"location.name": socket.gethostname()}
+    ]}):
+        count += 1
+        users.append(user['name'])
 
-	response.headers['Content-type'] = 'application/json'
-	result = {}
-	result['location'] = socket.gethostname()
-	if count > 0:
-		result['users']=[]
-		for i in range(len(users)):
-			result['users'].append(users[i])
-	else:
-		result['users']=0
+    response.headers['Content-type'] = 'application/json'
+    result = {}
+    result['location'] = socket.gethostname()
+    if count > 0:
+        result['users'] = []
+        for i in range(len(users)):
+            result['users'].append(users[i])
+    else:
+        result['users'] = 0
 
-	return json.dumps(result)
+    return json.dumps(result)
+
 
 @app.route('/make_coffee')
 def make_coffee():
-	# IFTTT https://maker.ifttt.com/use/cKPaEEmi5bh7AY_H16g3Ff
-	# https://maker.ifttt.com/trigger/make_coffee/with/key/cKPaEEmi5bh7AY_H16g3Ff
+    # IFTTT https://maker.ifttt.com/use/cKPaEEmi5bh7AY_H16g3Ff
+    # https://maker.ifttt.com/trigger/make_coffee/with/key/cKPaEEmi5bh7AY_H16g3Ff
 
-	logger.info("Received a request to make coffee")
+    logger.info("Received a request to make coffee")
 
-	result = {}
+    result = {}
 
-	secret = config.get("API KEY", "ifttt_hook")
+    secret = config.get("API KEY", "ifttt_hook")
 
-	coffe_request = requests.post("https://maker.ifttt.com/trigger/make_coffee/with/key/"+str(secret))
-	if coffe_request.status_code == 200:
-		logger.info("coffee is being made")
-		result['status']="OK"
-	else:
-		logger.error("something went wrong... cannot make coffee")
-		result['status']="ERROR"
-		result['error code']=str(coffe_request.status_code)
+    coffe_request = requests.post("https://maker.ifttt.com/trigger/make_coffee/with/key/" + str(secret))
+    if coffe_request.status_code == 200:
+        logger.info("coffee is being made")
+        result['status'] = "OK"
+    else:
+        logger.error("something went wrong... cannot make coffee")
+        result['status'] = "ERROR"
+        result['error code'] = str(coffe_request.status_code)
 
-	return json.dumps(result)
+    return json.dumps(result)
+
 
 # http://b3na.littl31.com:8080/water_flowers
 # http://b3na.littl31.com:8080/water_flowers?timeout=200
 @app.route('/water_flowers')
 def water_flowers():
-	logger.info("Received request to water the flowers")
-	secret = config.get("API KEY", "ifttt_hook")
+    logger.info("Received request to water the flowers")
+    secret = config.get("API KEY", "ifttt_hook")
 
-	timeout = 30
+    timeout = 30
 
-	try:
-		timeout=int(request.query.timeout)
-	except:
-		logger.warn("Timeout not provided")
+    try:
+        timeout = int(request.query.timeout)
+    except:
+        logger.warn("Timeout not provided")
 
-	result = {}
+    result = {}
 
-	flower_on_request = requests.post("https://maker.ifttt.com/trigger/water_flowers/with/key/"+str(secret))
-	if flower_on_request.status_code == 200:
-		logger.info("Successfully turned on the irrigation system")
-		result['status pump on']="OK"
+    flower_on_request = requests.post("https://maker.ifttt.com/trigger/water_flowers/with/key/" + str(secret))
+    if flower_on_request.status_code == 200:
+        logger.info("Successfully turned on the irrigation system")
+        result['status pump on'] = "OK"
 
-		time.sleep(timeout)
+        time.sleep(timeout)
 
-		flower_off_request = requests.post("https://maker.ifttt.com/trigger/water_flowers_end/with/key/"+str(secret))
-		if flower_off_request.status_code == 200:
-			logger.info("Successfully turned off the irrigation system")
-			result['status pump off']="OK"
-		else:
-			logger.error("Something went wrong. unable to turn off the irrigation system")
-			result['status pump off']="OK"
-			result['comment']="something went wrong... no bueno"
-	else:
-		logger.error("Something went wrong. unable to turn off the irrigation system")
-		result['status']="ERROR"
-		result['error code']=str(coffe_request.status_code)
+        flower_off_request = requests.post("https://maker.ifttt.com/trigger/water_flowers_end/with/key/" + str(secret))
+        if flower_off_request.status_code == 200:
+            logger.info("Successfully turned off the irrigation system")
+            result['status pump off'] = "OK"
+        else:
+            logger.error("Something went wrong. unable to turn off the irrigation system")
+            result['status pump off'] = "OK"
+            result['comment'] = "something went wrong... no bueno"
+    else:
+        logger.error("Something went wrong. unable to turn off the irrigation system")
+        result['status'] = "ERROR"
+        result['error code'] = str(coffe_request.status_code)
 
-	return json.dumps(result)
+    return json.dumps(result)
+
 
 # http://b3na.littl31.com:8080/lights?light=all&state=on
 @app.route('/lights')
 def lights():
-	logger.info("Received request to command the lights: "+str(request.query_string))
+    logger.info("Received request to command the lights: " + str(request.query_string))
 
-	result = {}
+    result = {}
 
-	if len(request.query)==0:
-		result['status']="ERROR"
-		result['details']="you didn't provide any args... "
-	else:
-		if request.query.light == "all":
-			if request.query.state == "on":
-				logger.info("Processing command")
-				utilities.lightingOn()				# TODO: need to return a value for proper processing
-				result['status']="OK"
-				result['details']='processing request to turn the lights on'
-			elif request.query.state == "off":
-				logger.info("Processing command")
-				utilities.lightingOff()				# TODO: need to return a value for proper processing
-				result['status']="OK"
-				result['details']='processing request to turn the lights off'
-		elif request.query.light:	# not all, but some light needs to be toggled
-			if request.query.state == "on":
-				logger.info("Processing command")
-				utilities.lightingOn(request.query.light)				# TODO: need to return a value for proper processing
-				result['status']="OK"
-				result['details']='processing request to turn '+request.query.light+' on'
-			elif request.query.state == "off":
-				logger.info("Processing command")
-				utilities.lightingOff(request.query.light)				# TODO: need to return a value for proper processing
-				result['status']="OK"
-				result['details']='processing request to turn '+request.query.light+' off'
-		else:
-			logger.warn("Received request to command the lights: "+str(request.query_string))
-			logger.warn("But I dont know how to process it yet")
-			result['status']="ERROR"
-			result['details']='i dont know how to process that request yet'
+    if len(request.query) == 0:
+        result['status'] = "ERROR"
+        result['details'] = "you didn't provide any args... "
+    else:
+        if request.query.light == "all":
+            if request.query.state == "on":
+                logger.info("Processing command")
+                utilities.lightingOn()  # TODO: need to return a value for proper processing
+                result['status'] = "OK"
+                result['details'] = 'processing request to turn the lights on'
+            elif request.query.state == "off":
+                logger.info("Processing command")
+                utilities.lightingOff()  # TODO: need to return a value for proper processing
+                result['status'] = "OK"
+                result['details'] = 'processing request to turn the lights off'
+        elif request.query.light:  # not all, but some light needs to be toggled
+            if request.query.state == "on":
+                logger.info("Processing command")
+                utilities.lightingOn(request.query.light)  # TODO: need to return a value for proper processing
+                result['status'] = "OK"
+                result['details'] = 'processing request to turn ' + request.query.light + ' on'
+            elif request.query.state == "off":
+                logger.info("Processing command")
+                utilities.lightingOff(request.query.light)  # TODO: need to return a value for proper processing
+                result['status'] = "OK"
+                result['details'] = 'processing request to turn ' + request.query.light + ' off'
+        else:
+            logger.warn("Received request to command the lights: " + str(request.query_string))
+            logger.warn("But I dont know how to process it yet")
+            result['status'] = "ERROR"
+            result['details'] = 'i dont know how to process that request yet'
 
-	return json.dumps(result)
+    return json.dumps(result)
+
 
 # http://b3na.littl31.com:8080/lights?light=all&state=on
 @app.route('/switches')
 def switches():
-	logger.info("Received request to command the switch: "+str(request.query_string))
+    logger.info("Received request to command the switch: " + str(request.query_string))
 
-	result = {}
+    result = {}
 
-	if len(request.query)==0:
-		result['status']="ERROR"
-		result['details']="you didn't provide any args... "
-	else:
-		if request.query.switch == "all":
-			if request.query.state == "on":
-				logger.info("Processing command")
-				utilities.switchesOn()				# TODO: need to return a value for proper processing
-				result['status']="OK"
-				result['details']='processing request to turn the switches on'
-			elif request.query.state == "off":
-				logger.info("Processing command")
-				utilities.switchesOff()				# TODO: need to return a value for proper processing
-				result['status']="OK"
-				result['details']='processing request to turn the switches off'
-		elif request.query.switch:	# not all, but some light needs to be toggled
-			if request.query.state == "on":
-				logger.info("Processing command")
-				utilities.switchesOn(request.query.switch)				# TODO: need to return a value for proper processing
-				result['status']="OK"
-				result['details']='processing request to turn '+request.query.switch+' on'
-			elif request.query.state == "off":
-				logger.info("Processing command")
-				utilities.switchesOff(request.query.switch)				# TODO: need to return a value for proper processing
-				result['status']="OK"
-				result['details']='processing request to turn '+request.query.switch+' off'
-		else:
-			logger.warn("Received request to command the switches: "+str(request.query_string))
-			logger.warn("But I dont know how to process it yet")
-			result['status']="ERROR"
-			result['details']='i dont know how to process that request yet'
+    if len(request.query) == 0:
+        result['status'] = "ERROR"
+        result['details'] = "you didn't provide any args... "
+    else:
+        if request.query.switch == "all":
+            if request.query.state == "on":
+                logger.info("Processing command")
+                utilities.switchesOn()  # TODO: need to return a value for proper processing
+                result['status'] = "OK"
+                result['details'] = 'processing request to turn the switches on'
+            elif request.query.state == "off":
+                logger.info("Processing command")
+                utilities.switchesOff()  # TODO: need to return a value for proper processing
+                result['status'] = "OK"
+                result['details'] = 'processing request to turn the switches off'
+        elif request.query.switch:  # not all, but some light needs to be toggled
+            if request.query.state == "on":
+                logger.info("Processing command")
+                utilities.switchesOn(request.query.switch)  # TODO: need to return a value for proper processing
+                result['status'] = "OK"
+                result['details'] = 'processing request to turn ' + request.query.switch + ' on'
+            elif request.query.state == "off":
+                logger.info("Processing command")
+                utilities.switchesOff(request.query.switch)  # TODO: need to return a value for proper processing
+                result['status'] = "OK"
+                result['details'] = 'processing request to turn ' + request.query.switch + ' off'
+        else:
+            logger.warn("Received request to command the switches: " + str(request.query_string))
+            logger.warn("But I dont know how to process it yet")
+            result['status'] = "ERROR"
+            result['details'] = 'i dont know how to process that request yet'
 
-	return json.dumps(result)	
+    return json.dumps(result)
+
 
 app.install(EnableCors())
-app.run(host='127.0.0.1',port=8080)
+app.run(host='127.0.0.1', port=8080)
